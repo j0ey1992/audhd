@@ -49,7 +49,7 @@ const phases = [
 
 function Roadmap() {
     return (
-        <section className="relative py-24 bg-background overflow-hidden" id="roadmap">
+        <section className="relative py-24 bg-gradient-to-b from-background via-surface/50 to-background overflow-hidden" id="roadmap">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-16">

@@ -308,33 +308,55 @@ function MemeTestPopup({ onClose }) {
             </div>
           </div>
         ) : (
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-primary mb-4">
-              Neurodivergence Test
-            </h2>
-            <p className="text-text-secondary mb-6">
-              Answer these totally scientific questions to find out your neurotype!
-            </p>
-            
-            <div className="mb-8">
-              <p className="text-xl font-medium text-primary mb-4">
-                {questions[currentQuestion].text}
-              </p>
-              <div className="space-y-4">
-                {questions[currentQuestion].options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswer(index)}
-                    className="hero-button w-full text-left"
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
+          <div className="text-center relative">
+            {/* Neural Network Background Animation */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none overflow-hidden">
+              <div className="absolute inset-0" style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23000000' stroke-width='1.5' stroke-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                backgroundSize: '30px 30px',
+                animation: 'moveBackground 30s linear infinite'
+              }}></div>
             </div>
 
-            <div className="text-sm text-text-secondary">
-              Question {currentQuestion + 1} of {questions.length}
+            <div className="relative z-10">
+              <h2 className="text-3xl font-bold text-primary mb-4 inline-flex items-center gap-3">
+                <span className="text-4xl">🧠</span>
+                Neurodivergence Test
+              </h2>
+              <p className="text-text-secondary mb-8 bg-surface/50 p-3 rounded-lg inline-block">
+                Answer these totally scientific questions to find out your neurotype!
+              </p>
+
+              {/* Progress Bar */}
+              <div className="w-full h-2 bg-surface/50 rounded-full mb-8 overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary to-accent transition-all duration-500 ease-out"
+                  style={{ width: `${(currentQuestion / questions.length) * 100}%` }}
+                ></div>
+              </div>
+              
+              <div className="mb-8 max-w-2xl mx-auto">
+                <p className="text-xl font-medium text-primary mb-6 bg-surface/50 p-4 rounded-lg">
+                  {questions[currentQuestion].text}
+                </p>
+                <div className="space-y-4">
+                  {questions[currentQuestion].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswer(index)}
+                      className="w-full text-left p-4 rounded-lg bg-surface/50 hover:bg-surface border border-primary/20 hover:border-primary/40 transition-all duration-300 group relative overflow-hidden"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                      <span className="relative z-10">{option}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="text-sm text-text-secondary bg-surface/50 px-4 py-2 rounded-full inline-flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                Question {currentQuestion + 1} of {questions.length}
+              </div>
             </div>
           </div>
         )}

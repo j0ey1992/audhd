@@ -29,71 +29,67 @@ const features = [
 
 const hyperfixations = [
     {
-        title: 'Unpublished Websites',
-        description: 'Building 47 crypto analysis sites that will never see the light of day.',
-        emoji: '🌐',
+        title: 'AI Smart Contract Analyzer',
+        description: 'Building advanced AI systems to detect vulnerabilities and optimize smart contract code.',
+        emoji: '🤖',
         intensity: 'Maximum'
     },
     {
-        title: 'Meme Coin Ideas',
-        description: 'Creating 30+ meme coin concepts but never actually launching any.',
-        emoji: '💡',
+        title: 'AI Wallet Analysis',
+        description: 'Using machine learning to analyze wallet behaviors and predict market movements.',
+        emoji: '👛',
+        intensity: 'Extreme'
+    },
+    {
+        title: 'Risk-Reward AI',
+        description: 'Developing AI models to calculate optimal risk-reward ratios for trading positions.',
+        emoji: '⚖️',
         intensity: 'Obsessive'
     },
     {
-        title: 'Lost Vape Hunt',
-        description: 'Spending hours searching for my vape instead of trading.',
-        emoji: '🔍',
-        intensity: 'Frequent'
-    },
-    {
-        title: 'AI Crypto Analysis',
-        description: 'Training AI models to predict crypto prices with 0.0001% accuracy.',
-        emoji: '🤖',
+        title: 'AI Chart Analysis',
+        description: 'Training neural networks to identify complex patterns in crypto price charts.',
+        emoji: '📊',
         intensity: 'Extreme'
-    },
-    {
-        title: 'Crypto Meme Analysis',
-        description: 'Spending 12 hours analyzing the hidden meanings behind doge memes from 2014.',
-        emoji: '🐶',
-        intensity: 'Extreme'
-    },
-    {
-        title: 'Whitepaper Deep Dives',
-        description: 'Reading every whitepaper ever written, even for dead coins.',
-        emoji: '📜',
-        intensity: 'High'
     }
 ];
 
 function Features() {
     return (
-        <section className="relative py-24 bg-background">
-            <div className="container mx-auto px-4">
+        <section className="relative py-24 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
+            {/* Modern grid background */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+            
+            {/* Radial gradient */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_70%)]"></div>
+
+            <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16">
-                    <h2 className="text-5xl font-bold text-primary mb-4 inline-flex items-center gap-4 bg-surface px-8 py-4 rounded-2xl border border-primary/20 shadow-sm">
+                <div className="text-center mb-20">
+                    <h2 className="font-heading text-5xl lg:text-6xl font-bold text-primary mb-6">
                         Why Choose Autistic Investor?
-                        <span>🧠</span>
+                        <span className="ml-4">🧠</span>
                     </h2>
-                    <p className="text-xl text-text-secondary bg-surface px-6 py-3 rounded-xl border border-accent/20 shadow-sm inline-block">
+                    <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto">
                         Because nobody analyzes charts like we do!
                     </p>
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
                     {features.map((feature) => (
-                        <div 
+                        <div
                             key={feature.title}
-                            className="bg-surface p-8 rounded-2xl border border-primary/20 shadow-sm"
+                            className="group bg-white/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-white"
                         >
-                            <div className="w-16 h-16 flex items-center justify-center bg-surface rounded-2xl border border-primary/20 mb-6 relative overflow-hidden">
-                                <span className="text-3xl relative z-10">{feature.emoji}</span>
-                                <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-50`}></div>
+                            <div className="flex items-center gap-4 mb-6">
+                                <div className="w-14 h-14 flex items-center justify-center bg-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                                    <span className="text-3xl">{feature.emoji}</span>
+                                </div>
+                                <h3 className="text-xl font-heading font-bold text-primary">{feature.title}</h3>
                             </div>
-                            <h3 className="text-xl font-bold text-primary mb-4">{feature.title}</h3>
-                            <p className="text-lg text-text-secondary leading-relaxed">{feature.description}</p>
+                            <p className="text-gray-600 leading-relaxed font-heading">{feature.description}</p>
+                            <div className="h-1 w-0 group-hover:w-full bg-primary/10 transition-all duration-500 mt-6"></div>
                         </div>
                     ))}
                 </div>
@@ -101,41 +97,49 @@ function Features() {
                 {/* Pattern Analysis */}
                 {/* Current Hyperfocuses */}
                 {/* Current Hyperfocuses */}
-                <div className="mt-24">
-                    <h3 className="text-4xl font-bold text-primary mb-12 text-center bg-gradient-to-r from-primary/10 to-accent/10 px-8 py-6 rounded-2xl border border-primary/20 shadow-lg inline-block">
-                        🧠 Current Hyperfocuses
-                        <span className="block text-lg font-normal mt-2 text-text-secondary">What we're obsessing over right now!</span>
-                    </h3>
+                <div className="mt-32">
+                    <div className="text-center mb-16">
+                        <h3 className="font-heading text-4xl lg:text-5xl font-bold text-primary mb-4">
+                            🧠 Current Hyperfocuses
+                        </h3>
+                        <p className="text-xl text-gray-600 font-heading">
+                            What we're obsessing over right now!
+                        </p>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {hyperfixations.map((fixation) => (
                             <div
                                 key={fixation.title}
-                                className="group bg-surface p-8 rounded-3xl border border-primary/20 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                                className="group bg-white/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-white relative overflow-hidden"
                             >
-                                <div className="flex items-center gap-6 mb-6">
-                                    <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-r from-primary/20 to-accent/20 rounded-2xl border border-primary/20">
-                                        <span className="text-4xl">{fixation.emoji}</span>
+
+                                <div className="flex items-center gap-4 mb-6">
+                                    <div className="w-12 h-12 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                                        <span className="text-2xl">{fixation.emoji}</span>
                                     </div>
-                                    <h4 className="text-2xl font-bold text-primary">{fixation.title}</h4>
+                                    <h4 className="text-xl font-heading font-bold text-primary">{fixation.title}</h4>
                                 </div>
-                                <p className="text-text-secondary mb-6 text-lg leading-relaxed">{fixation.description}</p>
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium" style={{
-                                    backgroundColor:
-                                        fixation.intensity === 'Maximum' ? '#fecaca' :
-                                        fixation.intensity === 'Extreme' ? '#fed7aa' :
-                                        fixation.intensity === 'Obsessive' ? '#fde68a' :
-                                        fixation.intensity === 'High' ? '#bbf7d0' :
-                                        '#bfdbfe'
-                                }}>
-                                    <span className="w-2 h-2 rounded-full animate-pulse" style={{
-                                        backgroundColor:
-                                            fixation.intensity === 'Maximum' ? '#dc2626' :
-                                            fixation.intensity === 'Extreme' ? '#ea580c' :
-                                            fixation.intensity === 'Obsessive' ? '#d97706' :
-                                            fixation.intensity === 'High' ? '#16a34a' :
-                                            '#2563eb'
-                                    }}></span>
-                                    Intensity: <span className="font-bold">{fixation.intensity}</span>
+                                <p className="text-gray-600 font-heading mb-6">{fixation.description}</p>
+                                
+                                {/* Simplified Intensity Meter */}
+                                <div className="mt-auto">
+                                    <div className="flex justify-between items-center mb-2">
+                                        <span className="text-sm font-heading text-gray-600">Intensity:</span>
+                                        <span className="text-sm font-heading font-bold text-primary">{fixation.intensity}</span>
+                                    </div>
+                                    <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">
+                                        <div
+                                            className="h-full bg-primary/20 transition-all duration-500"
+                                            style={{
+                                                width:
+                                                    fixation.intensity === 'Maximum' ? '100%' :
+                                                    fixation.intensity === 'Extreme' ? '85%' :
+                                                    fixation.intensity === 'Obsessive' ? '70%' :
+                                                    fixation.intensity === 'High' ? '55%' :
+                                                    '40%'
+                                            }}
+                                        ></div>
+                                    </div>
                                 </div>
                             </div>
                         ))}

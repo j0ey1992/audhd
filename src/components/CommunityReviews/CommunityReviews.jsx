@@ -47,7 +47,14 @@ const traits = [
 
 function CommunityReviews() {
     return (
-        <section className="relative py-24 bg-surface overflow-hidden" id="community-reviews">
+        <section className="relative py-24 bg-gradient-to-b from-background via-surface to-background overflow-hidden" id="community-reviews">
+            {/* Background Effects */}
+            <div className="absolute inset-0 -z-10 pointer-events-none">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(138,43,226,0.05)_0%,transparent_70%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,127,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,127,0.05)_1px,transparent_1px)] bg-[length:20px_20px] opacity-20"></div>
+                <div className="absolute w-72 h-72 bg-meme/10 rounded-full blur-[60px] top-1/4 -left-1/4 animate-float"></div>
+                <div className="absolute w-64 h-64 bg-degen/10 rounded-full blur-[60px] bottom-1/4 -right-1/4 animate-float-reverse"></div>
+            </div>
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-16">
