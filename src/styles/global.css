@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --primary: 26 26 26;
+        --secondary: 64 64 64;
+        --accent: 255 107 107;
+        --background: 250 250 250;
+        --surface: 255 255 255;
+        --text: 26 26 26;
+        --text-secondary: 112 112 112;
+        --highlight: 255 215 0;
+    }
+
+    body {
+        @apply font-body bg-background text-text;
+    }
+
+    h1 {
+        @apply text-display font-heading;
+    }
+
+    h2 {
+        @apply text-heading-1 font-heading;
+    }
+
+    h3 {
+        @apply text-heading-2 font-heading;
+    }
+
+    h4 {
+        @apply text-heading-3 font-heading;
+    }
+
+    .degen {
+        @apply font-degen;
+    }
+}
+
+/* Component-specific styles */
+@layer components {
+    /* Hero component */
+    .hero-card {
+        @apply rounded-[2rem] border-2 border-primary/10 hover:border-primary/20;
+        @apply shadow-[0_4px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)];
+        @apply transition-all duration-300;
+    }
+
+    .hero-button {
+        @apply rounded-[1.5rem] border-2 border-primary/20 hover:border-primary/40;
+        @apply px-8 py-3 font-medium transition-all duration-300;
+    }
+
+    /* Header component */  
+    .header-nav {
+        @apply rounded-xl border border-primary/10 hover:border-primary/20;
+        @apply shadow-sm hover:shadow-md;
+        @apply transition-all duration-300;
+    }
+
+    .header-button {
+        @apply rounded-lg border border-primary/20 hover:border-primary/40;
+        @apply px-6 py-2.5 font-medium transition-all duration-300;
+    }
+
+    /* Features component */
+    .feature-card {
+        @apply rounded-[2.5rem] border-2 border-primary/10 hover:border-primary/30;
+        @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.15)];
+        @apply transition-all duration-300 hover:-translate-y-2;
+    }
+
+    .feature-button {
+        @apply rounded-[1.75rem] border-2 border-primary/20 hover:border-primary/40;
+        @apply px-8 py-3 font-medium transition-all duration-300 hover:-translate-y-1;
+    }
+
+    /* General component styles */
+    .component-card {
+        @apply bg-surface/95 backdrop-blur-md;
+        @apply border border-primary/10 hover:border-primary/20;
+        @apply transition-all duration-300;
+    }
+}
+
+/* Grid background */
+body::before {
+    content: '';
+    @apply fixed inset-0 pointer-events-none -z-10;
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+    @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-secondary/50 rounded hover:bg-secondary/70;
+}
+
+/* Animations */
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes subtle-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes pulse-accent {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* Utility classes */
+.wojak-border {
+    @apply border-2 border-primary/10 hover:border-primary/20 transition-colors duration-300;
+}
+
+.wojak-shadow {
+    @apply shadow-sm hover:shadow-md transition-shadow duration-300;
+}
+
+.wojak-hover {
+    @apply transition-all duration-300 hover:-translate-y-0.5;
+}
