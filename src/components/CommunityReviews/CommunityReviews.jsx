@@ -173,7 +173,7 @@ function CommunityReviews() {
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-bold text-white">Autistic Investors</h3>
+                                    <h3 className="text-xl font-bold text-white">Autistic Intelligences</h3>
                                     <div className="flex items-center gap-2 text-sm text-[#B9BBBE]">
                                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                                         <span>1,234 online</span>

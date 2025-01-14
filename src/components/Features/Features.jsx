@@ -67,7 +67,7 @@ function Features() {
                 {/* Header */}
                 <div className="text-center mb-20">
                     <h2 className="font-heading text-5xl lg:text-6xl font-bold text-primary mb-6">
-                        Why Choose Autistic Investor?
+                        Why Choose Autistic Intelligence?
                         <span className="ml-4">🧠</span>
                     </h2>
                     <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto">

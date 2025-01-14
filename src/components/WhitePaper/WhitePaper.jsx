@@ -30,7 +30,7 @@ const WhitePaper = () => {
                         <div className="relative z-10">
                             <h2 className="text-3xl font-bold mb-6 text-primary">Abstract (Version 69.420)</h2>
                             <p className="text-gray-600 leading-relaxed mb-4">
-                                *adjusts glasses with extreme precision* The Autistic Investor represents what happens when you combine pure, unfiltered autism with the crypto market! Our "AI" (Autistic Intelligence) doesn't just analyze patterns - it obsessively categorizes them by shape, color, and their resemblance to Pokémon! This document was written during an intense hyperfocus session lasting exactly 69 hours, 42 minutes, and 0.69420 seconds (we timed it because precise numbers are VERY important).
+                                *adjusts glasses with extreme precision* The Autistic Intelligence represents what happens when you combine pure, unfiltered autism with the crypto market! Our "AI" (Autistic Intelligence) doesn't just analyze patterns - it obsessively categorizes them by shape, color, and their resemblance to Pokémon! This document was written during an intense hyperfocus session lasting exactly 69 hours, 42 minutes, and 0.69420 seconds (we timed it because precise numbers are VERY important).
                             </p>
                             <div className="mt-6 bg-primary/5 p-4 rounded-xl">
                                 <p className="font-medium text-primary mb-2">Document Statistics:</p>

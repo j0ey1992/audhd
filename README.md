@@ -1,4 +1,4 @@
-# Autistic Investor - Modern UI Implementation Tasks
+# Autistic Intelligence - Modern UI Implementation Tasks
 
 ## Overview
 A step-by-step guide to implementing a modern, Wojak-inspired UI design with clean monochromatic colors and high-end aesthetics.
@@ -16,7 +16,7 @@ Text Secondary: #606060 (Muted Grey)
 ## Task Prompts
 
 ### Task 1: Setup Modern Development Environment ✅
-"Install and configure the necessary modern UI libraries for Autistic Investor. We need Three.js for 3D effects, GSAP for animations, react-spring for physics-based animations, and Tailwind CSS for styling. Update the configuration files to support our monochromatic color scheme and modern design system."
+"Install and configure the necessary modern UI libraries for Autistic Intelligence. We need Three.js for 3D effects, GSAP for animations, react-spring for physics-based animations, and Tailwind CSS for styling. Update the configuration files to support our monochromatic color scheme and modern design system."
 
 ### Task 2: Create Background3D Component
 "Implement a subtle 3D background component using Three.js that adds depth to our website. Create floating geometric shapes with a parallax effect that responds to mouse movement. Use our monochromatic color scheme and ensure smooth performance."

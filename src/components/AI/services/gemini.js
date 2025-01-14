@@ -1,6 +1,12 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const API_KEY = 'AIzaSyDjqgg6uXIy6bhb3iNCEXbAM7zwwSpP-ZU';
+// Get API key from environment variable
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!API_KEY) {
+    throw new Error('Gemini API key not found. Please set VITE_GEMINI_API_KEY in your environment variables.');
+}
+
 const genAI = new GoogleGenerativeAI(API_KEY);
 
 // Initialize the model
@@ -25,9 +31,26 @@ Format your responses with markdown-style headers and sections:
 - Keep your enthusiastic but factual tone
 - Format numbers with appropriate precision`;
 
+// Function to validate market data
+const validateMarketData = (data) => {
+    const requiredFields = ['price', 'market', 'metadata'];
+    const missingFields = requiredFields.filter(field => !data[field]);
+    
+    if (missingFields.length > 0) {
+        throw new Error(`Missing required market data fields: ${missingFields.join(', ')}`);
+    }
+    
+    if (typeof data.price.current !== 'number' || isNaN(data.price.current)) {
+        throw new Error('Invalid price data');
+    }
+};
+
 // Function to analyze chart patterns
 export const analyzeChartPatterns = async (data) => {
     try {
+        // Validate input data
+        validateMarketData(data);
+
         const prompt = `${ANALYSIS_CONTEXT}
 
 Analyze this cryptocurrency market data with your pattern recognition abilities:
@@ -54,16 +77,25 @@ Remember to maintain your autistic analyst personality with intense pattern reco
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
+        
+        if (!response || !response.text()) {
+            throw new Error('Empty response from Gemini API');
+        }
+        
         return response.text();
     } catch (error) {
         console.error('Gemini API Error:', error);
-        throw new Error('Failed to analyze chart patterns');
+        throw new Error(`Failed to analyze chart patterns: ${error.message}`);
     }
 };
 
 // Function to analyze market sentiment
 export const analyzeMarketSentiment = async (tokenId, data) => {
     try {
+        if (!data || !data.price_data || !data.market_data) {
+            throw new Error('Invalid market data provided');
+        }
+
         const prompt = `${ANALYSIS_CONTEXT}
 
 Analyze the market sentiment for this token with your special interest in market behavior:
@@ -88,16 +120,25 @@ Provide your unique perspective with your pattern recognition abilities and atte
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
+        
+        if (!response || !response.text()) {
+            throw new Error('Empty response from Gemini API');
+        }
+        
         return response.text();
     } catch (error) {
         console.error('Gemini API Error:', error);
-        throw new Error('Failed to analyze market sentiment');
+        throw new Error(`Failed to analyze market sentiment: ${error.message}`);
     }
 };
 
 // Function to get specific insights
 export const getSpecificInsights = async (aspect, data) => {
     try {
+        if (!aspect || !data) {
+            throw new Error('Missing required parameters');
+        }
+
         const prompt = `${ANALYSIS_CONTEXT}
 
 Analyze this specific aspect of ${aspect} for the cryptocurrency:
@@ -116,10 +157,15 @@ Provide detailed insights with your unique perspective and pattern recognition a
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
+        
+        if (!response || !response.text()) {
+            throw new Error('Empty response from Gemini API');
+        }
+        
         return response.text();
     } catch (error) {
         console.error('Gemini API Error:', error);
-        throw new Error('Failed to get specific insights');
+        throw new Error(`Failed to get specific insights: ${error.message}`);
     }
 };
 
@@ -129,31 +175,44 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Function to get cached analysis or perform new analysis
 export const getCachedAnalysis = async (type, data) => {
-    const cacheKey = `${type}-${JSON.stringify(data)}`;
-    const cachedResult = analysisCache.get(cacheKey);
-    
-    if (cachedResult && Date.now() - cachedResult.timestamp < CACHE_DURATION) {
-        return cachedResult.data;
+    try {
+        if (!type || !data) {
+            throw new Error('Missing required parameters for analysis');
+        }
+
+        const cacheKey = `${type}-${JSON.stringify(data)}`;
+        const cachedResult = analysisCache.get(cacheKey);
+        
+        if (cachedResult && Date.now() - cachedResult.timestamp < CACHE_DURATION) {
+            return cachedResult.data;
+        }
+
+        let result;
+        switch (type) {
+            case 'patterns':
+                result = await analyzeChartPatterns(data);
+                break;
+            case 'sentiment':
+                result = await analyzeMarketSentiment(data.tokenId, data.marketData);
+                break;
+            default:
+                result = await getSpecificInsights(type, data);
+        }
+
+        if (!result) {
+            throw new Error('Failed to generate analysis');
+        }
+
+        analysisCache.set(cacheKey, {
+            data: result,
+            timestamp: Date.now()
+        });
+
+        return result;
+    } catch (error) {
+        console.error('Analysis Error:', error);
+        throw new Error(`Failed to get analysis: ${error.message}`);
     }
-
-    let result;
-    switch (type) {
-        case 'patterns':
-            result = await analyzeChartPatterns(data);
-            break;
-        case 'sentiment':
-            result = await analyzeMarketSentiment(data.tokenId, data.marketData);
-            break;
-        default:
-            result = await getSpecificInsights(type, data);
-    }
-
-    analysisCache.set(cacheKey, {
-        data: result,
-        timestamp: Date.now()
-    });
-
-    return result;
 };
 
 export default {

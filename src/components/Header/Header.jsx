@@ -41,7 +41,7 @@ function Header() {
           <div className="flex items-center gap-3 group">
             <span className="text-3xl animate-float transition-transform duration-300 group-hover:scale-110">🧠</span>
             <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Autistic Investor
+              Autistic Intelligence
             </h1>
           </div>
 

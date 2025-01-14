@@ -86,9 +86,13 @@ export const getTokenAnalysis = async (contractAddress) => {
         const priceHistory = await getPriceHistory(contractAddress);
 
         return {
-            ...tokenData,
-            chart: {
-                prices: priceHistory
+            tokenData: {
+                ...tokenData,
+                chart: {
+                    prices: priceHistory,
+                    support: tokenData.price.current * 0.95,
+                    resistance: tokenData.price.current * 1.05
+                }
             }
         };
     } catch (error) {

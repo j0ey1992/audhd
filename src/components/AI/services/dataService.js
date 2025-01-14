@@ -1,11 +1,56 @@
 import { getTokenAnalysis as getDexTokenAnalysis } from './dexService';
-import { analyzeChartPatterns, analyzeMarketSentiment } from './gemini';
+import { analyzeChartPatterns, analyzeMarketSentiment, getSpecificInsights } from './gemini';
 
-// Cache implementation
+// Cache implementation with shorter duration and proper cleanup
 const cache = new Map();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 30 * 1000; // 30 seconds cache duration
+
+// Clean expired cache entries
+const cleanCache = () => {
+    const now = Date.now();
+    for (const [key, { timestamp }] of cache.entries()) {
+        if (now - timestamp > CACHE_DURATION) {
+            cache.delete(key);
+        }
+    }
+};
+
+// Function to analyze user questions
+export const analyzeUserQuestion = async (question, data) => {
+    try {
+        // Determine the type of analysis needed
+        const questionLower = question.toLowerCase();
+        let analysisType = 'general';
+        
+        if (questionLower.includes('price')) {
+            analysisType = 'price';
+        } else if (questionLower.includes('volume')) {
+            analysisType = 'volume';
+        } else if (questionLower.includes('liquidity')) {
+            analysisType = 'liquidity';
+        } else if (questionLower.includes('pattern')) {
+            analysisType = 'pattern';
+        }
+
+        // Get AI analysis based on the question type
+        const aiResponse = await getSpecificInsights(analysisType, {
+            question: question,
+            price_data: data.price,
+            market_data: data.market,
+            metadata: data.metadata,
+            chart_data: data.chart
+        });
+
+        return aiResponse;
+    } catch (error) {
+        console.error('Question Analysis Error:', error);
+        throw new Error('Failed to analyze question');
+    }
+};
 
 export const getTokenAnalysis = async (contractAddress) => {
+    cleanCache(); // Clean expired entries first
+
     const cacheKey = `analysis-${contractAddress}`;
     if (cache.has(cacheKey)) {
         const { data, timestamp } = cache.get(cacheKey);
@@ -19,25 +64,22 @@ export const getTokenAnalysis = async (contractAddress) => {
         // Fetch data from DexScreener
         const tokenData = await getDexTokenAnalysis(contractAddress);
         
-        // Prepare data for Gemini analysis
-        const analysisData = {
-            price: tokenData.price,
-            market: tokenData.market,
-            metadata: tokenData.metadata,
-            chart: tokenData.chart
-        };
-
         // Get AI analysis from Gemini
         const [chartAnalysis, sentimentAnalysis] = await Promise.all([
-            analyzeChartPatterns(analysisData),
+            analyzeChartPatterns({
+                price: tokenData.tokenData.price,
+                market: tokenData.tokenData.market,
+                metadata: tokenData.tokenData.metadata,
+                chart: tokenData.tokenData.chart
+            }),
             analyzeMarketSentiment(contractAddress, {
-                price_data: tokenData.price,
-                market_data: tokenData.market
+                price_data: tokenData.tokenData.price,
+                market_data: tokenData.tokenData.market
             })
         ]);
 
         const result = {
-            tokenData: analysisData,
+            tokenData: tokenData.tokenData,
             chartAnalysis,
             sentimentAnalysis,
             timestamp: Date.now()
@@ -84,6 +126,7 @@ export const isValidContractAddress = (address) => {
 
 export default {
     getTokenAnalysis,
+    analyzeUserQuestion,
     formatNumber,
     formatPercentage,
     isValidContractAddress

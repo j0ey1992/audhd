@@ -167,12 +167,10 @@ function NeurodiversityAwareness() {
 
                                 <div className="space-y-4">
                                     <p className="text-white/70 text-sm scroll-reveal opacity-0 translate-y-6 transition-all duration-500 ease-out delay-100 [&.reveal]:opacity-100 [&.reveal]:translate-y-0">
-                                        Just like blockchain has different protocols, human brains work in unique ways.
-                                        Neurodiversity refers to the natural variation in how human brains function, process information, and interact with the world.
+                                        Think of neurodiversity like different blockchain protocols - each with its own unique features and strengths. Different brains process information in different ways, each bringing valuable perspectives and abilities to the table. It's not about being broken or wrong; it's about running on different protocols that excel at different things.
                                     </p>
                                     <p className="text-white/70 text-sm scroll-reveal opacity-0 translate-y-6 transition-all duration-500 ease-out delay-200 [&.reveal]:opacity-100 [&.reveal]:translate-y-0">
-                                        Studies suggest that up to 15-20% of the global population is neurodivergent. In tech and crypto communities,
-                                        this percentage can be even higher, with many innovative founders and developers leveraging their unique cognitive styles.
+                                        Around 15-20% of people are neurodivergent, and in tech and crypto communities, this percentage is even higher. It makes perfect sense - the intense focus, pattern recognition, and analytical thinking that come with neurodivergent minds are perfectly suited for blockchain technology and trading.
                                     </p>
                                 </div>
                             </div>
@@ -196,19 +194,19 @@ function NeurodiversityAwareness() {
                                         <ul className="space-y-2">
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Deep focus on blockchain tech</span>
+                                                <span className="text-white/70 text-sm">Extraordinary ability to analyze blockchain tech for hours</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Exceptional pattern recognition in charts</span>
+                                                <span className="text-white/70 text-sm">Exceptional talent for spotting patterns in market chaos</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Strong analytical abilities</span>
+                                                <span className="text-white/70 text-sm">Natural affinity for logic and deep analysis</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Attention to technical details</span>
+                                                <span className="text-white/70 text-sm">Remarkable attention to technical precision</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -216,8 +214,9 @@ function NeurodiversityAwareness() {
                                     <div className="pt-3 border-t border-white/10">
                                         <h4 className="text-white/80 text-sm font-medium mb-2">Challenges:</h4>
                                         <p className="text-white/60 text-sm">
-                                            May need breaks during high social interaction or sensory-heavy environments.
-                                            Clear communication and structured approaches help maximize strengths.
+                                            While crypto conferences and high-sensory environments can be challenging,
+                                            with proper accommodations like quiet spaces and clear communication protocols,
+                                            autistic individuals often excel beyond expectations in analytical tasks.
                                         </p>
                                     </div>
                                 </div>
@@ -239,19 +238,19 @@ function NeurodiversityAwareness() {
                                         <ul className="space-y-2">
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Intense hyperfocus during trades</span>
+                                                <span className="text-white/70 text-sm">You think you're focused? Watch an ADHD trader in the zone!</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Quick creative problem-solving</span>
+                                                <span className="text-white/70 text-sm">Problem? Solution! Solution! Solution! (We think fast)</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Thrives in dynamic markets</span>
+                                                <span className="text-white/70 text-sm">Market chaos? That's where we shine brightest</span>
                                             </li>
                                             <li className="flex items-center gap-2">
                                                 <div className="w-1 h-1 bg-[#2A2A2A]"></div>
-                                                <span className="text-white/70 text-sm">Excellent at multitasking</span>
+                                                <span className="text-white/70 text-sm">Trading while researching while chatting? Easy mode!</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -259,8 +258,9 @@ function NeurodiversityAwareness() {
                                     <div className="pt-3 border-t border-white/10">
                                         <h4 className="text-white/80 text-sm font-medium mb-2">Challenges:</h4>
                                         <p className="text-white/60 text-sm">
-                                            May need help with long-term planning and organization.
-                                            Tools and reminders can help maintain focus on important tasks.
+                                            Sure, we might need some help staying organized (thank you, trading bots and calendar alerts!).
+                                            And yeah, sometimes we forget to take profits because we're too excited about the next trade.
+                                            But our ability to think fast and adapt? Priceless in crypto!
                                         </p>
                                     </div>
                                 </div>
@@ -378,20 +378,21 @@ function NeurodiversityAwareness() {
                             </h3>
                             <div className="w-24 h-1 bg-gradient-to-r from-indigo-400 to-purple-500 mx-auto rounded-full mb-6"></div>
                             <p className="text-white/70 text-sm text-center mb-6">
-                                Neurodiversity isn't just about challenges - it's about unique abilities and perspectives
-                                that drive innovation in blockchain technology and crypto markets.
+                                Neurodiversity in crypto isn't just about challenges - it's about unique strengths and abilities.
+                                From the hyperfocus of ADHD to the pattern recognition of autism, these traits aren't bugs,
+                                they're features that drive innovation in trading and development.
                             </p>
                             <div className="flex flex-wrap justify-center gap-3">
                                 <button className="px-6 py-2 bg-[#2A2A2A] text-white text-sm font-medium hover:bg-[#333] transition-colors duration-300">
-                                    Join Our Community
+                                    Connect & Learn
                                 </button>
                                 <button className="px-6 py-2 bg-white/10 text-white text-sm font-medium hover:bg-white/20 transition-colors duration-300">
-                                    Learn About Neurodiversity
+                                    Discover Strengths
                                 </button>
                             </div>
                             <p className="text-white/50 text-xs text-center mt-6">
-                                Together, we're building a more inclusive and innovative Web3 ecosystem
-                                that celebrates cognitive diversity.
+                                The future of Web3 is being shaped by diverse minds, each bringing unique
+                                perspectives and abilities to drive innovation forward.
                             </p>
                         </div>
                     </div>

@@ -14,7 +14,7 @@ function Hero() {
           {/* Text Content */}
           <div className="flex-1 max-w-3xl mx-auto text-center lg:text-left space-y-8">
             <h1 className="font-heading text-6xl lg:text-7xl font-bold text-primary">
-              Autistic Investor
+              Autistic Intelligence
             </h1>
 
             <div className="space-y-4">
