@@ -22,12 +22,12 @@ const ChartWindow = ({ data, onClose }) => {
         width: containerWidth,
         height: containerHeight,
         layout: {
-          background: { color: '#ffffff' },
-          textColor: '#333333',
+          background: { color: `rgb(var(--surface))` },
+          textColor: getComputedStyle(document.documentElement).getPropertyValue('--text').trim(),
         },
         grid: {
-          vertLines: { color: 'rgba(0, 0, 0, 0.1)' },
-          horzLines: { color: 'rgba(0, 0, 0, 0.1)' },
+          vertLines: { color: `rgb(var(--text)/0.1)` },
+          horzLines: { color: `rgb(var(--text)/0.1)` },
         },
         handleScroll: {
           mouseWheel: true,
@@ -40,7 +40,7 @@ const ChartWindow = ({ data, onClose }) => {
       });
 
       const lineSeries = chart.addLineSeries({
-        color: 'rgb(0, 120, 255)',
+        color: `rgb(var(--primary))`,
         lineWidth: 2,
       });
 

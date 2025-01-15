@@ -250,13 +250,13 @@ const AI = () => {
       {!isFullscreen && (
         <>
           <div
-            className={`absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:24px_24px] ${styles['animate-grid-flow']}`}
+            className={`absolute inset-0 bg-[linear-gradient(to_right,rgb(var(--text)/0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgb(var(--text)/0.05)_1px,transparent_1px)] bg-[size:24px_24px] ${styles['animate-grid-flow']}`}
           />
           <div
-            className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.9),transparent_70%)] ${styles['animate-pulse-slow']}`}
+            className={`absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgb(var(--surface)/0.9),transparent_70%)] ${styles['animate-pulse-slow']}`}
           />
           <div
-            className={`absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(var(--color-primary-rgb),0.1),transparent_40%)] ${styles['animate-pulse-slow-delay']}`}
+            className={`absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgb(var(--primary)/0.1),transparent_40%)] ${styles['animate-pulse-slow-delay']}`}
           />
         </>
       )}
@@ -273,7 +273,7 @@ const AI = () => {
               Autistic Intelligence Analysis
               <span className={`ml-4 ${styles['animate-float']}`}>🧠</span>
             </h2>
-            <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto mb-4">
+            <p className="text-xl text-text-secondary font-heading max-w-2xl mx-auto mb-4">
               When "slightly obsessed with charts" is actually a superpower!
               <br />
               We'll analyze every single detail.
@@ -326,7 +326,7 @@ const AI = () => {
             {/* Contract input */}
             {showContractInput && (
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-text-secondary mb-2">
                   Enter Contract Address
                 </label>
                 <div className={styles['input-group']}>
@@ -406,17 +406,8 @@ const AI = () => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };
 
 export default AI;
-
-/* 
-   NOTE:
-   1. You must have a valid `generateMiniChart()` function 
-      imported or declared somewhere to create `miniChart`.
-   2. This code references sub-components like PersonalitySelector, Message, etc. 
-      Make sure those are present in your codebase.
-*/

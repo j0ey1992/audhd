@@ -5,8 +5,8 @@ function Footer() {
         <footer className="relative bg-gradient-to-b from-background via-surface to-background overflow-hidden">
             {/* Modern Pattern Background */}
             <div className="absolute inset-0">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,127,0.1)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(138,43,226,0.1)_1px,transparent_1px)] bg-[size:36px_36px]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(var(--primary)/0.1)_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgb(var(--secondary)/0.1)_1px,transparent_1px)] bg-[size:36px_36px]"></div>
             </div>
 
             <div className="container mx-auto px-4 py-20 relative">
@@ -14,7 +14,7 @@ function Footer() {
                 <div className="grid grid-cols-12 gap-8 mb-16">
                     {/* Brand Section - Large */}
                     <div className="col-span-12 lg:col-span-6 xl:col-span-5">
-                        <div className="bg-white rounded-3xl shadow-xl p-8 transform hover:-translate-y-1 transition-all duration-300">
+                        <div className="bg-surface rounded-3xl shadow-xl p-8 transform hover:-translate-y-1 transition-all duration-300">
                             <div className="flex items-start gap-6">
                                 <svg className="w-12 h-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
@@ -75,7 +75,7 @@ function Footer() {
                                 <a 
                                     key={social.name}
                                     href="#" 
-                                    className={`bg-white rounded-2xl p-4 shadow-lg border border-primary/5 transform ${social.delay} transition-all duration-300 hover:shadow-xl`}
+                                    className={`bg-surface rounded-2xl p-4 shadow-lg border border-primary/5 transform ${social.delay} transition-all duration-300 hover:shadow-xl`}
                                 >
                                     <div className="flex items-center gap-3">
                                         <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">

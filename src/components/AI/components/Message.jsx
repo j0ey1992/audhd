@@ -27,7 +27,7 @@ const Message = ({ message, onActionClick }) => (
         message.type === 'bot' ? 'bg-primary/5' : 'bg-secondary/5'
       } rounded-xl p-4`}
     >
-      <p className="text-gray-700 whitespace-pre-wrap">
+      <p className="text-text whitespace-pre-wrap">
         {formatMessage(message.content)}
         {message.loading && <span className={styles['loading-dots']} />}
       </p>

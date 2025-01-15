@@ -58,10 +58,10 @@ function Features() {
     return (
         <section className="relative py-24 bg-gradient-to-b from-background via-surface to-background overflow-hidden">
             {/* Modern grid background */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgb(var(--text)/0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgb(var(--text)/0.03)_1px,transparent_1px)] bg-[size:32px_32px]"></div>
             
             {/* Radial gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.8),transparent_70%)]"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgb(var(--surface)/0.8),transparent_70%)]"></div>
 
             <div className="container mx-auto px-6 relative z-10">
                 {/* Header */}
@@ -70,7 +70,7 @@ function Features() {
                         Neurodivergent Trading Powers!
                         <span className="ml-4">🧠✨</span>
                     </h2>
-                    <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto">
+                    <p className="text-xl text-text-secondary font-heading max-w-2xl mx-auto">
                         When your brain works differently, you see opportunities others miss! 
                         (And yes, I've categorized these opportunities into 7 different spreadsheets!)
                     </p>
@@ -81,7 +81,7 @@ function Features() {
                     {features.map((feature) => (
                         <div
                             key={feature.title}
-                            className="group bg-white/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-white"
+                            className="group bg-surface/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-surface"
                         >
                             <div className="flex items-center gap-4 mb-6">
                                 <div className="w-14 h-14 flex items-center justify-center bg-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-300">
@@ -89,7 +89,7 @@ function Features() {
                                 </div>
                                 <h3 className="text-xl font-heading font-bold text-primary">{feature.title}</h3>
                             </div>
-                            <p className="text-gray-600 leading-relaxed font-heading">{feature.description}</p>
+                            <p className="text-text-secondary leading-relaxed font-heading">{feature.description}</p>
                             <div className="h-1 w-0 group-hover:w-full bg-primary/10 transition-all duration-500 mt-6"></div>
                         </div>
                     ))}
@@ -101,7 +101,7 @@ function Features() {
                         <h3 className="font-heading text-4xl lg:text-5xl font-bold text-primary mb-4">
                             Current Hyperfixations! 🎯
                         </h3>
-                        <p className="text-xl text-gray-600 font-heading">
+                        <p className="text-xl text-text-secondary font-heading">
                             When we say "deep dive," we mean "forgot to sleep for 3 days because THIS IS SO INTERESTING!"
                             <br/>
                             <span className="text-sm">(Don't worry, we eventually remembered to eat... usually! 😅)</span>
@@ -111,7 +111,7 @@ function Features() {
                         {hyperfixations.map((fixation) => (
                             <div
                                 key={fixation.title}
-                                className="group bg-white/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-white relative overflow-hidden"
+                                className="group bg-surface/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-surface relative overflow-hidden"
                             >
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="w-12 h-12 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
@@ -119,12 +119,12 @@ function Features() {
                                     </div>
                                     <h4 className="text-xl font-heading font-bold text-primary">{fixation.title}</h4>
                                 </div>
-                                <p className="text-gray-600 font-heading mb-6">{fixation.description}</p>
+                                <p className="text-text-secondary font-heading mb-6">{fixation.description}</p>
                                 
                                 {/* Simplified Intensity Meter */}
                                 <div className="mt-auto">
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-heading text-gray-600">Focus Level:</span>
+                                        <span className="text-sm font-heading text-text-secondary">Focus Level:</span>
                                         <span className="text-sm font-heading font-bold text-primary">{fixation.intensity}</span>
                                     </div>
                                     <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">

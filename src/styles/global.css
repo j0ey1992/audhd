@@ -11,19 +11,51 @@
 
 /* Base layer for custom properties and root-level defaults */
 @layer base {
-  :root {
-    --primary: 26 26 26;
-    --secondary: 64 64 64;
-    --accent: 255 107 107;
-    --background: 250 250 250;
-    --surface: 255 255 255;
-    --text: 26 26 26;
-    --text-secondary: 112 112 112;
-    --highlight: 255 215 0;
+  /* Theme transitions */
+  * {
+    @apply transition-colors duration-200;
   }
 
   body {
     @apply font-body bg-background text-text;
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
+    font-weight: var(--font-weight);
+  }
+
+  /* Theme-specific styles */
+  [data-theme="dyslexia"] {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  [data-theme="dyslexia"] * {
+    line-height: var(--line-height) !important;
+    letter-spacing: var(--letter-spacing) !important;
+    font-weight: var(--font-weight) !important;
+  }
+
+  [data-theme="adhd"] * {
+    @apply transition-none;
+    line-height: var(--line-height) !important;
+    letter-spacing: var(--letter-spacing) !important;
+  }
+
+  [data-theme="autism"] * {
+    @apply transition-all duration-300;
+    line-height: var(--line-height) !important;
+  }
+
+  /* Ensure theme transitions are smooth */
+  html {
+    @apply transition-colors duration-200;
+  }
+
+  body {
+    @apply transition-colors duration-200;
+  }
+
+  * {
+    @apply transition-colors duration-200;
   }
 
   h1 {
@@ -49,7 +81,13 @@
 
 /* Component-specific styles */
 @layer components {
-  /* Hero component */
+  .component-card {
+    background-color: rgb(var(--surface) / 0.95);
+    backdrop-filter: blur(8px);
+    @apply border border-primary/10 hover:border-primary/20;
+    @apply transition-all duration-300;
+  }
+
   .hero-card {
     @apply rounded-[2rem] border-2 border-primary/10 hover:border-primary/20;
     @apply shadow-[0_4px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)];
@@ -61,7 +99,6 @@
     @apply px-8 py-3 font-medium transition-all duration-300;
   }
 
-  /* Header component */
   .header-nav {
     @apply rounded-xl border border-primary/10 hover:border-primary/20;
     @apply shadow-sm hover:shadow-md;
@@ -73,7 +110,6 @@
     @apply px-6 py-2.5 font-medium transition-all duration-300;
   }
 
-  /* Features component */
   .feature-card {
     @apply rounded-[2.5rem] border-2 border-primary/10 hover:border-primary/30;
     @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.15)];
@@ -85,16 +121,10 @@
     @apply px-8 py-3 font-medium transition-all duration-300 hover:-translate-y-1;
   }
 
-  /* General component styles */
-  .component-card {
-    @apply bg-surface/95 backdrop-blur-md;
-    @apply border border-primary/10 hover:border-primary/20;
-    @apply transition-all duration-300;
-  }
-
-  /* Chat component styles */
   .chat-container {
-    @apply bg-white/95 backdrop-blur-md rounded-2xl;
+    background-color: rgb(var(--surface) / 0.95);
+    backdrop-filter: blur(12px);
+    @apply rounded-2xl;
     @apply border border-primary/10 hover:border-primary/20;
     @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.15)];
     @apply transition-all duration-300;
@@ -121,36 +151,24 @@
     @apply border border-primary/10 hover:border-primary/20;
     @apply rounded-xl p-4;
     @apply transition-all duration-300;
+    line-height: var(--line-height);
+    letter-spacing: var(--letter-spacing);
     scrollbar-width: thin;
     scrollbar-color: rgba(var(--primary), 0.2) rgba(var(--primary), 0.05);
   }
-
-  .chat-messages::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  .chat-messages::-webkit-scrollbar-track {
-    @apply bg-primary/5 rounded-full;
-  }
-
-  .chat-messages::-webkit-scrollbar-thumb {
-    @apply bg-primary/20 rounded-full;
-    @apply hover:bg-primary/30;
-    @apply transition-colors duration-300;
-  }
 }
 
-/* Grid background on <body>::before */
+/* Grid background */
 body::before {
   content: '';
   @apply fixed inset-0 pointer-events-none -z-10;
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(var(--text), 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--text), 0.03) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Scrollbar styles for overall page */
+/* Scrollbar styles */
 ::-webkit-scrollbar {
   @apply w-2;
 }
@@ -163,86 +181,33 @@ body::before {
   @apply bg-secondary/50 rounded hover:bg-secondary/70;
 }
 
-/* Animations */
-@keyframes fade-in {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* Theme-specific overrides */
+[data-theme="dark"] .bg-grid-pattern {
+  opacity: 0.4;
 }
 
-@keyframes subtle-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+[data-theme="dark"] .bg-surface-80,
+[data-theme="dark"] .bg-surface-90,
+[data-theme="dark"] .bg-surface-95 {
+  backdrop-filter: blur(12px);
 }
 
-@keyframes pulse-accent {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-@keyframes grid-flow {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(24px); }
-}
-
-@keyframes pulse-slow {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 0.4; }
-}
-
-@keyframes pulse-slow-delay {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 0.2; }
-}
-
-@keyframes loading-dots {
-  0%, 100% { content: '.'; }
-  33%      { content: '..'; }
-  66%      { content: '...'; }
-}
-
-/* Animation utility classes */
-.animate-grid-flow {
-  animation: grid-flow 20s linear infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse-slow 4s ease-in-out infinite;
-}
-
-.animate-pulse-slow-delay {
-  animation: pulse-slow-delay 4s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-.loading-dots::after {
-  content: '';
-  animation: loading-dots 1.5s steps(1) infinite;
+[data-theme="dark"] .component-card,
+[data-theme="dark"] .chat-container {
+  backdrop-filter: blur(12px);
 }
 
 /* Utility classes */
-.wojak-border {
-  @apply border-2 border-primary/10 hover:border-primary/20 transition-colors duration-300;
-}
-
-.wojak-shadow {
-  @apply shadow-sm hover:shadow-md transition-shadow duration-300;
-}
-
-.wojak-hover {
-  @apply transition-all duration-300 hover:-translate-y-0.5;
-}
-
-/* Additional backgrounds, hovers, etc. */
 .bg-grid-pattern {
   background-image:
     linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.03) 1px,
+      rgb(var(--text) / 0.03) 1px,
       transparent 1px
     ),
     linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.03) 1px,
+      rgb(var(--text) / 0.03) 1px,
       transparent 1px
     );
   background-size: 32px 32px;
@@ -252,13 +217,13 @@ body::before {
 .bg-radial-highlight {
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(255, 255, 255, 0.9),
+    rgb(var(--surface) / 0.9),
     transparent 80%
   );
 }
 
 .card-hover-border {
-  @apply border border-white/10 hover:border-white/20;
+  @apply border border-primary/10 hover:border-primary/20;
   @apply transition-all duration-300;
 }
 
@@ -267,6 +232,7 @@ body::before {
   transform: translateY(20px);
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
+
 .scroll-reveal.reveal {
   opacity: 1;
   transform: translateY(0);
@@ -285,13 +251,9 @@ body::before {
 }
 
 .text-subheading {
-  @apply text-base md:text-lg text-white/70;
+  @apply text-base md:text-lg text-text-secondary;
 }
 
-.text-white-muted {
-  @apply text-white/70;
-}
-
-.text-white-contrast {
-  @apply text-white/50;
+.text-muted {
+  @apply text-text-secondary;
 }

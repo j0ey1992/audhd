@@ -16,11 +16,11 @@ function Hero() {
             </h1>
 
             <div className="space-y-4">
-              <p className="text-lg md:text-xl lg:text-2xl text-gray-600 font-heading">
+              <p className="text-lg md:text-xl lg:text-2xl text-text-secondary font-heading">
                 Where <span className="font-bold text-primary">hyperfocus</span> meets
                 <span className="font-bold text-primary/90 ml-2">crypto</span>
               </p>
-              <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 font-heading">
+              <p className="text-xl md:text-2xl lg:text-3xl text-text-secondary font-heading">
                 Turning <span className="font-bold text-primary">pattern recognition</span> into
                 <span className="font-bold text-primary/90 ml-2">profits</span>
               </p>
@@ -30,7 +30,7 @@ function Hero() {
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
               {/* Discord Button */}
               <button
-                className="px-8 py-3 rounded-lg bg-[#5865F2] text-white
+                className="px-8 py-3 rounded-lg bg-[#5865F2] text-surface
                            hover:bg-[#4752C4] transition-transform duration-300
                            hover:-translate-y-[2px] hover:shadow-lg flex items-center gap-2"
               >
@@ -42,7 +42,7 @@ function Hero() {
 
               {/* Buy Token Button */}
               <button
-                className="px-8 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-white
+                className="px-8 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-surface
                            hover:from-secondary hover:to-primary transition-all duration-300
                            hover:-translate-y-[2px] hover:shadow-lg flex items-center gap-2"
               >
@@ -55,10 +55,10 @@ function Hero() {
 
             {/* Launching Platforms */}
             <div className="mt-8 flex flex-col items-center lg:items-start">
-              <p className="text-gray-600 font-heading mb-4">Launching on</p>
-              <div className="flex flex-wrap items-center gap-6 bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-primary/10">
+              <p className="text-text-secondary font-heading mb-4">Launching on</p>
+              <div className="flex flex-wrap items-center gap-6 bg-surface/80 backdrop-blur-sm p-4 rounded-xl border border-primary/10">
                 {/* Cronos Logo */}
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface shadow-sm hover:shadow-md transition-shadow">
                   <svg width="24" height="24" viewBox="0 0 500 500" className="w-8 h-8">
                     <path d="M250 500C388.071 500 500 388.071 500 250C500 111.929 388.071 0 250 0C111.929 0 0 111.929 0 250C0 388.071 111.929 500 250 500Z" fill="#002D74"/>
                     <path d="M326.958 125.786L275.338 177.406C268.917 183.827 258.564 183.827 252.143 177.406L200.523 125.786C194.102 119.365 194.102 109.012 200.523 102.591L252.143 50.9707C258.564 44.5497 268.917 44.5497 275.338 50.9707L326.958 102.591C333.379 109.012 333.379 119.365 326.958 125.786Z" fill="#1199FA"/>
@@ -66,11 +66,11 @@ function Hero() {
                     <path d="M326.958 321.018L275.338 372.638C268.917 379.059 258.564 379.059 252.143 372.638L200.523 321.018C194.102 314.597 194.102 304.244 200.523 297.823L252.143 246.203C258.564 239.782 268.917 239.782 275.338 246.203L326.958 297.823C333.379 304.244 333.379 314.597 326.958 321.018Z" fill="#1199FA"/>
                     <path d="M229.342 223.402L177.722 275.022C171.301 281.443 160.948 281.443 154.527 275.022L102.907 223.402C96.4861 216.981 96.4861 206.628 102.907 200.207L154.527 148.587C160.948 142.166 171.301 142.166 177.722 148.587L229.342 200.207C235.763 206.628 235.763 216.981 229.342 223.402Z" fill="#1199FA"/>
                   </svg>
-                  <span className="font-heading font-bold text-[#002D74]">Cronos</span>
+                  <span className="font-heading font-bold text-primary">Cronos</span>
                 </div>
 
                 {/* Solana Logo */}
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface shadow-sm hover:shadow-md transition-shadow">
                   <svg width="24" height="24" viewBox="0 0 397 311" className="w-8 h-8">
                     <path d="M64.6 237.9c2.4-2.4 5.7-3.8 9.2-3.8h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1l62.7-62.7z" fill="#9945FF"/>
                     <path d="M64.6 3.8C67.1 1.4 70.4 0 73.8 0h317.4c5.8 0 8.7 7 4.6 11.1l-62.7 62.7c-2.4 2.4-5.7 3.8-9.2 3.8H6.5c-5.8 0-8.7-7-4.6-11.1L64.6 3.8z" fill="#19FB9B"/>
@@ -89,7 +89,7 @@ function Hero() {
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl
                               transform group-hover:scale-105 transition-transform duration-500"></div>
-              <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8
+              <div className="bg-surface/90 backdrop-blur-sm rounded-2xl border border-primary/10 p-8
                               transform group-hover:scale-[1.02] transition-all duration-500">
                 <img
                   src="/wojak_studio.png"
@@ -111,7 +111,7 @@ function Hero() {
         >
           <path
             d="M1200 0L0 0 0 120 1200 120 1200 0z"
-            fill="rgba(26, 26, 26, 0.05)"
+            fill="rgb(var(--text)/0.05)"
           />
         </svg>
       </div>

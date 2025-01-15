@@ -80,15 +80,15 @@ function FAQ() {
             {/* Enhanced Background Pattern */}
             <div className="absolute inset-0 -z-10 pointer-events-none">
                 {/* Diagonal stripes pattern */}
-                <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgba(0,255,127,0.03)_0px,rgba(0,255,127,0.03)_2px,transparent_2px,transparent_12px)] opacity-70"></div>
-                <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,rgba(138,43,226,0.03)_0px,rgba(138,43,226,0.03)_2px,transparent_2px,transparent_12px)] opacity-70"></div>
+                <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,rgb(var(--text)/0.03)_0px,rgb(var(--text)/0.03)_2px,transparent_2px,transparent_12px)] opacity-70"></div>
+                <div className="absolute inset-0 bg-[repeating-linear-gradient(-45deg,rgb(var(--text)/0.03)_0px,rgb(var(--text)/0.03)_2px,transparent_2px,transparent_12px)] opacity-70"></div>
                 
                 {/* Dots overlay */}
-                <div className="absolute inset-0 bg-[radial-gradient(rgba(0,255,127,0.2)_1px,transparent_1px)] bg-[size:20px_20px] [background-position:0_0]"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(rgba(138,43,226,0.2)_1px,transparent_1px)] bg-[size:20px_20px] [background-position:10px_10px]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(rgb(var(--text)/0.05)_1px,transparent_1px)] bg-[size:20px_20px] [background-position:0_0]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(rgb(var(--text)/0.05)_1px,transparent_1px)] bg-[size:20px_20px] [background-position:10px_10px]"></div>
 
                 {/* Radial fade */}
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,white_70%)]"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_20%,rgb(var(--background))_70%)]"></div>
             </div>
 
             <div className="container mx-auto px-4 relative">
@@ -110,7 +110,7 @@ function FAQ() {
                     {faqs.map((faq, index) => (
                         <div
                             key={index}
-                            className={`bg-white/80 backdrop-blur-sm rounded-3xl border border-primary/10 hover:border-primary/20 transition-all duration-300 cursor-pointer ${
+                            className={`bg-surface/80 backdrop-blur-sm rounded-3xl border border-primary/10 hover:border-primary/20 transition-all duration-300 cursor-pointer ${
                                 activeIndex === index ? 'shadow-lg shadow-primary/5' : 'hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5'
                             }`}
                             onClick={() => toggleFAQ(index)}
@@ -142,7 +142,7 @@ function FAQ() {
 
                 {/* Disclaimer */}
                 <div className="max-w-3xl mx-auto mt-16">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border-2 border-dashed border-meme/20 flex items-center gap-4 shadow-lg shadow-primary/5">
+                <div className="bg-surface/80 backdrop-blur-sm rounded-2xl p-6 border-2 border-dashed border-meme/20 flex items-center gap-4 shadow-lg shadow-primary/5">
                     <span className="text-2xl animate-shake">⚠️</span>
                     <p className="text-lg text-text-secondary italic">
                         Warning: Side effects may include excessive pattern recognition, 

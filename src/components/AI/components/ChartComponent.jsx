@@ -12,16 +12,16 @@ const ChartComponent = ({ data }) => {
       height: 280,
       layout: {
         background: { color: 'transparent' },
-        textColor: '#333',
+        textColor: getComputedStyle(document.documentElement).getPropertyValue('--text').trim(),
       },
       grid: {
-        vertLines: { color: 'rgba(0, 0, 0, 0.1)' },
-        horzLines: { color: 'rgba(0, 0, 0, 0.1)' },
+        vertLines: { color: `rgb(var(--text)/0.1)` },
+        horzLines: { color: `rgb(var(--text)/0.1)` },
       },
     });
 
     const lineSeries = chart.addLineSeries({
-      color: 'rgb(255, 99, 132)',
+      color: `rgb(var(--primary))`,
       lineWidth: 2,
     });
 

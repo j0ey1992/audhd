@@ -82,7 +82,7 @@ function Roadmap() {
                             </div>
 
                             {/* Phase Card */}
-                            <div className="relative bg-surface/95 rounded-3xl p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 shadow-lg group">
+                            <div className="relative bg-surface/95 backdrop-blur-sm rounded-3xl p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 shadow-lg group">
                                 {/* Progress Indicator */}
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface px-4 py-2 rounded-full border border-primary/20 text-sm font-medium text-primary">
                                     {index === 0 && 'In Progress (42.7% complete - yes, exactly 42.7%!)'}
@@ -121,7 +121,7 @@ function Roadmap() {
                                 <div className="mt-6">
                                     <div className="h-2 bg-primary/10 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-gradient-to-r from-primary to-secondary"
+                                            className="h-full bg-gradient-to-r from-primary/50 to-secondary/50"
                                             style={{ width: index === 0 ? '42.7%' : '0%' }}
                                         ></div>
                                     </div>
@@ -136,14 +136,14 @@ function Roadmap() {
                     {/* Progress Bar Container */}
                     <div className="h-4 bg-surface rounded-full overflow-hidden border border-primary/20 relative">
                         {/* Glowing Progress */}
-                        <div className="h-full w-[42.7%] bg-gradient-to-r from-lime-400 to-emerald-500 rounded-full relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-r from-lime-400/50 to-emerald-500/50 animate-progress-glow"></div>
-                            <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-emerald-500/20 animate-progress-pulse"></div>
+                        <div className="h-full w-[42.7%] bg-gradient-to-r from-accent to-secondary rounded-full relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-r from-accent/50 to-secondary/50 animate-progress-glow"></div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-accent/20 to-secondary/20 animate-progress-pulse"></div>
                         </div>
                         
                         {/* Percentage Indicator */}
                         <div className="absolute inset-0 flex items-center justify-end pr-4">
-                            <span className="text-xs font-bold text-surface bg-lime-400/90 px-2 py-1 rounded-full shadow-sm">
+                            <span className="text-xs font-bold text-surface bg-accent/90 px-2 py-1 rounded-full shadow-sm">
                                 42.7%
                             </span>
                         </div>
@@ -152,8 +152,8 @@ function Roadmap() {
                     {/* Status Indicator */}
                     <div className="flex justify-center">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-primary/20">
-                            <span className="w-2 h-2 bg-lime-400 rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium text-lime-400">
+                            <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                            <span className="text-sm font-medium text-accent">
                                 Combining ADHD hyperfocus, autistic pattern recognition, and dyslexic visual thinking...
                             </span>
                             <span className="animate-spin">🧠</span>
@@ -164,8 +164,8 @@ function Roadmap() {
 
             {/* Background Effects */}
             <div className="absolute inset-0 -z-10 pointer-events-none">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(26,26,26,0.03)_0%,transparent_70%)]"></div>
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(0,200,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,200,255,0.1)_1px,transparent_1px)] bg-[length:20px_20px] opacity-10"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgb(var(--text)/0.03)_0%,transparent_70%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(rgb(var(--text)/0.03)_1px,transparent_1px),linear-gradient(90deg,rgb(var(--text)/0.03)_1px,transparent_1px)] bg-[length:20px_20px]"></div>
                 <div className="absolute w-72 h-72 bg-primary/10 rounded-full blur-[60px] top-1/4 -left-1/4 animate-float"></div>
                 <div className="absolute w-64 h-64 bg-secondary/10 rounded-full blur-[60px] bottom-1/4 -right-1/4 animate-float-reverse"></div>
             </div>

@@ -13,8 +13,8 @@ const TokenStats = ({ data, isFullscreen }) => {
     // Show all stats in desktop or non-fullscreen mode
     return (
         <div className={`grid grid-cols-4 ${isFullscreen ? 'gap-0.5 mb-0.5' : 'gap-4 mb-6'}`}>
-            <div className={`bg-white/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
-                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-gray-600`}>Price</div>
+            <div className={`bg-surface/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
+                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-text-secondary`}>Price</div>
                 <div className={`${isFullscreen ? 'text-xs leading-tight' : 'text-xl'} font-bold`}>${formatNumber(price.current)}</div>
                 <div
                     className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} ${
@@ -24,18 +24,18 @@ const TokenStats = ({ data, isFullscreen }) => {
                     {formatPercentage(price.change_24h)}
                 </div>
             </div>
-            <div className={`bg-white/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
-                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-gray-600`}>Liquidity</div>
+            <div className={`bg-surface/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
+                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-text-secondary`}>Liquidity</div>
                 <div className={`${isFullscreen ? 'text-xs leading-tight' : 'text-xl'} font-bold`}>${formatNumber(market.liquidity)}</div>
             </div>
-            <div className={`bg-white/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
-                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-gray-600`}>24h Volume</div>
+            <div className={`bg-surface/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
+                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-text-secondary`}>24h Volume</div>
                 <div className={`${isFullscreen ? 'text-xs leading-tight' : 'text-xl'} font-bold`}>${formatNumber(market.volume_24h)}</div>
             </div>
-            <div className={`bg-white/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
-                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-gray-600`}>Chain</div>
+            <div className={`bg-surface/90 rounded ${isFullscreen ? 'py-0.5 px-1' : 'p-4'} border border-primary/20`}>
+                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-text-secondary`}>Chain</div>
                 <div className={`${isFullscreen ? 'text-xs leading-tight' : 'text-xl'} font-bold`}>{metadata.chain}</div>
-                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-gray-600`}>{metadata.dex}</div>
+                <div className={`${isFullscreen ? 'text-[10px] leading-tight' : 'text-sm'} text-text-secondary`}>{metadata.dex}</div>
             </div>
         </div>
     );

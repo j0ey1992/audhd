@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
 import NeurodiversityAwareness from './components/NeurodiversityAwareness/NeurodiversityAwareness';
@@ -52,8 +53,10 @@ function App() {
   const [showMemeTest, setShowMemeTest] = useState(false);
 
   return (
-    <Router>
-      <div className="min-h-screen bg-background text-primary">
+    <ThemeProvider>
+      <Router>
+        <div className="min-h-screen bg-background text-text transition-all duration-200">
+          <div className="fixed inset-0 bg-background -z-10"></div>
         <Header />
         <main className="container mx-auto px-4">
           <Routes>
@@ -63,8 +66,9 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </div>
-    </Router>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
 

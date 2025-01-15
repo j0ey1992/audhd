@@ -9,16 +9,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#1A1A1A', // Dark gray for text
-        secondary: '#404040', // Medium gray
-        accent: '#FF6B6B', // Vibrant accent color
-        background: '#FAFAFA', // Very light background
-        surface: '#FFFFFF', // White for cards/sections
-        text: '#1A1A1A', // Dark gray for body text
-        'text-secondary': '#707070', // Muted gray
-        highlight: '#FFD700', // Gold for emphasis
-        meme: '#8A2BE2', // Meme purple (used sparingly)
-        degen: '#00FF7F', // Crypto green (used sparingly)
+        primary: 'rgb(var(--primary) / <alpha-value>)',
+        secondary: 'rgb(var(--secondary) / <alpha-value>)',
+        accent: 'rgb(var(--accent) / <alpha-value>)',
+        background: 'rgb(var(--background) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        text: 'rgb(var(--text) / <alpha-value>)',
+        'text-secondary': 'rgb(var(--text-secondary) / <alpha-value>)',
+        highlight: 'rgb(var(--highlight) / <alpha-value>)',
+        meme: '#8A2BE2',
+        degen: '#00FF7F',
       },
       fontFamily: {
         heading: ['Poppins', 'sans-serif'],
@@ -73,6 +73,7 @@ export default {
   plugins: [
     function({ addBase, addComponents, addUtilities }) {
       addBase({
+        // White Mode (Default)
         ':root': {
           '--primary': '26 26 26',
           '--secondary': '64 64 64',
@@ -82,6 +83,62 @@ export default {
           '--text': '26 26 26',
           '--text-secondary': '112 112 112',
           '--highlight': '255 215 0',
+          '--line-height': '1.5',
+          '--letter-spacing': '0',
+          '--font-weight': '400',
+        },
+        // Dark Mode
+        '[data-theme="dark"]': {
+          '--primary': '255 255 255',
+          '--secondary': '200 200 200',
+          '--accent': '255 107 107',
+          '--background': '13 17 23',
+          '--surface': '30 35 42',
+          '--text': '255 255 255',
+          '--text-secondary': '200 200 200',
+          '--highlight': '255 215 0',
+          '--line-height': '1.5',
+          '--letter-spacing': '0',
+          '--font-weight': '400',
+        },
+        // ADHD Mode
+        '[data-theme="adhd"]': {
+          '--primary': '26 26 26',
+          '--secondary': '64 64 64',
+          '--accent': '255 107 107',
+          '--background': '245 245 220', // Beige background for reduced visual stress
+          '--surface': '252 252 252',
+          '--text': '26 26 26',
+          '--text-secondary': '112 112 112',
+          '--highlight': '255 215 0',
+          '--line-height': '2', // Increased line height for better readability
+          '--letter-spacing': '0.05em', // Slightly increased letter spacing
+        },
+        // Autism Mode
+        '[data-theme="autism"]': {
+          '--primary': '26 26 26',
+          '--secondary': '64 64 64',
+          '--accent': '100 149 237', // Cornflower blue - calming color
+          '--background': '240 248 255', // Alice blue - soft, calming background
+          '--surface': '255 255 255',
+          '--text': '26 26 26',
+          '--text-secondary': '112 112 112',
+          '--highlight': '173 216 230', // Light blue - gentle highlight
+          '--line-height': '1.8',
+        },
+        // Dyslexia Mode
+        '[data-theme="dyslexia"]': {
+          '--primary': '44 62 80', // Dark blue-gray
+          '--secondary': '64 64 64',
+          '--accent': '52 152 219', // Bright blue
+          '--background': '253 246 227', // Warm cream background
+          '--surface': '255 255 255',
+          '--text': '44 62 80',
+          '--text-secondary': '112 112 112',
+          '--highlight': '241 196 15',
+          '--line-height': '1.8',
+          '--letter-spacing': '0.1em', // Increased letter spacing for dyslexia
+          '--font-weight': '500', // Slightly bolder text
         },
       });
 
