@@ -46,16 +46,21 @@ function Footer() {
                         <div className="bg-gradient-to-br from-degen/5 to-meme/5 rounded-3xl p-8 border border-primary/5 h-full">
                             <h3 className="text-xl font-bold text-primary mb-6">Quick Links</h3>
                             <ul className="space-y-4">
-                                {['Features', 'Roadmap', 'FAQ'].map((link, index) => (
-                                    <li key={link}>
+                                {[
+                                    { name: 'Features', href: '#features' },
+                                    { name: 'Roadmap', href: '#roadmap' },
+                                    { name: 'FAQ', href: '#faq' },
+                                    { name: 'Whitepaper', href: '/whitepaper' }
+                                ].map((link) => (
+                                    <li key={link.name}>
                                         <a 
-                                            href={`#${link.toLowerCase()}`} 
+                                            href={link.href}
                                             className="group flex items-center gap-3 text-text-secondary hover:text-primary transition-colors"
                                         >
                                             <div className="relative w-8 h-[2px] bg-primary/20 overflow-hidden">
                                                 <div className="absolute inset-0 bg-gradient-to-r from-degen to-meme transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
                                             </div>
-                                            {link}
+                                            {link.name}
                                         </a>
                                     </li>
                                 ))}
@@ -73,8 +78,8 @@ function Footer() {
                                 { icon: '📘', name: 'Whitepaper', delay: 'hover:-translate-y-1' }
                             ].map((social) => (
                                 <a 
-                                    key={social.name}
-                                    href="#" 
+                                key={social.name}
+                                    href={social.name === 'Whitepaper' ? '/whitepaper' : '#'} 
                                     className={`bg-surface rounded-2xl p-4 shadow-lg border border-primary/5 transform ${social.delay} transition-all duration-300 hover:shadow-xl`}
                                 >
                                     <div className="flex items-center gap-3">
@@ -117,7 +122,7 @@ function Footer() {
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        &copy; 2024 Autistic Intelligence | Made by autists, for autists
+                        &copy; 2025 Autistic Intelligence | Made by Neuro people for neuros
                     </p>
                 </div>
             </div>

@@ -19,13 +19,7 @@ function Header() {
   const isHomePage = location.pathname === '/';
 
   const navLinks = [
-    ...(isHomePage ? [
-      { name: 'Features', href: '#features' },
-      { name: 'Analysis', href: '#pattern-scanner' },
-      { name: 'Roadmap', href: '#roadmap' },
-      { name: 'Calculator', href: '#trading-calculator' },
-      { name: 'Reviews', href: '#community-reviews' }
-    ] : []),
+    { name: 'Home', to: '/', isPage: true },
     { name: 'Whitepaper', to: '/whitepaper', isPage: true },
     { name: 'AI', to: '/ai', isPage: true }
   ];
@@ -98,11 +92,6 @@ function Header() {
             
             {/* Theme Selector */}
             <ThemeSelector />
-            
-            {/* CTA Button */}
-            <button className="relative px-6 py-2.5 rounded-full bg-accent text-surface font-medium overflow-hidden group ml-2 hover:opacity-90 transition-opacity duration-200">
-              <span className="relative z-10">Buy on Cronos</span>
-            </button>
           </div>
         </nav>
       </div>
