@@ -1,271 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { createChart } from 'lightweight-charts';
 import styles from './AI.module.css';
 import {
   getTokenAnalysis,
-  formatNumber,
-  formatPercentage,
   isValidContractAddress,
   analyzeUserQuestion,
 } from './services/dataService';
-import {
-  personalities,
-  getPersonalityResponse,
-  generateMiniChart,
-} from './services/personalities';
+import { getTokenByContract } from './services/dexService';
+import { personalities, getPersonalityResponse } from './services/personalities';
 
-// Format text with markdown-style bold
-const formatMessage = (text) => {
-  if (!text) return '';
-  return text.split(/(\*\*[^*]+\*\*)/).map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      return (
-        <span key={index} className="font-bold text-primary">
-          {part.slice(2, -2)}
-        </span>
-      );
-    }
-    return part;
-  });
+// Helper function to generate mini chart data
+const generateMiniChart = ({ price, previousPrice, support, resistance }) => {
+  const currentPrice = price || 0;
+  const prevPrice = previousPrice || price || 0;
+  const supportLevel = support || (price ? price * 0.95 : 0);
+  const resistanceLevel = resistance || (price ? price * 1.05 : 0);
+  const change = prevPrice ? ((currentPrice - prevPrice) / prevPrice) * 100 : 0;
+
+  return `📊 Chart Data
+Current Price: $${currentPrice.toFixed(8)}
+24h Change: ${change.toFixed(2)}%
+Support Level: $${supportLevel.toFixed(8)}
+Resistance Level: $${resistanceLevel.toFixed(8)}`;
 };
 
-const PersonalitySelector = ({ currentPersonality, onSelect }) => (
-  <div className={styles['personality-selector']}>
-    {Object.entries(personalities).map(([key, p]) => (
-      <button
-        key={key}
-        onClick={() => onSelect(key)}
-        className={`${styles['personality-button']} ${
-          currentPersonality === key ? styles['active'] : ''
-        }`}
-      >
-        {p.emoji} {p.name}
-      </button>
-    ))}
-  </div>
-);
-
-const QuickActions = ({
-  onActionClick,
-  showPriceAction,
-  showVolumeAction,
-  showLiquidityAction,
-  showPatternAction,
-}) => (
-  <div className={styles['quick-actions']}>
-    {showPriceAction && (
-      <button onClick={() => onActionClick('price')} className={styles['quick-action-button']}>
-        📊 Price Analysis
-      </button>
-    )}
-    {showVolumeAction && (
-      <button onClick={() => onActionClick('volume')} className={styles['quick-action-button']}>
-        📈 Volume Trends
-      </button>
-    )}
-    {showLiquidityAction && (
-      <button onClick={() => onActionClick('liquidity')} className={styles['quick-action-button']}>
-        💧 Liquidity Check
-      </button>
-    )}
-    {showPatternAction && (
-      <button onClick={() => onActionClick('pattern')} className={styles['quick-action-button']}>
-        🔍 Pattern Detection
-      </button>
-    )}
-  </div>
-);
-
-const Message = ({ message, onActionClick }) => (
-  <div className={`flex gap-4 ${styles['animate-fade-in']}`}>
-    <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center flex-shrink-0">
-      {message.type === 'bot' ? personalities[message.personality].emoji : '👤'}
-    </div>
-    <div
-      className={`flex-1 ${
-        message.type === 'bot' ? 'bg-primary/5' : 'bg-secondary/5'
-      } rounded-xl p-4`}
-    >
-      <p className="text-gray-700 whitespace-pre-wrap">
-        {formatMessage(message.content)}
-        {message.loading && <span className={styles['loading-dots']} />}
-      </p>
-      {message.miniChart && (
-        <pre className={styles['mini-chart']}>{message.miniChart}</pre>
-      )}
-      {message.type === 'bot' && !message.loading && (
-        <QuickActions
-          onActionClick={onActionClick}
-          showPriceAction={message.content.toLowerCase().includes('price')}
-          showVolumeAction={message.content.toLowerCase().includes('volume')}
-          showLiquidityAction={message.content.toLowerCase().includes('liquidity')}
-          showPatternAction={message.content.toLowerCase().includes('pattern')}
-        />
-      )}
-    </div>
-  </div>
-);
-
-/**
- * Draggable chart window. 
- * 
- * 1) We reduce size so it doesn't overshadow the chat.
- * 2) In mobile, it transitions to bottom-sheet style at ~40vh.
- */
-const ChartWindow = ({ data, onClose, onMinimize }) => {
-  const chartContainerRef = useRef(null);
-  const chartRef = useRef(null);
-  const [position, setPosition] = useState({ x: 20, y: 80 }); // start a bit down & right
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartPos = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (!chartContainerRef.current || !data) return;
-
-    const chart = createChart(chartContainerRef.current, {
-      width: chartContainerRef.current.clientWidth,
-      height: chartContainerRef.current.clientHeight - 40, // subtract header
-      layout: {
-        background: { color: 'transparent' },
-        textColor: '#333',
-      },
-      grid: {
-        vertLines: { color: 'rgba(0, 0, 0, 0.1)' },
-        horzLines: { color: 'rgba(0, 0, 0, 0.1)' },
-      },
-    });
-
-    const lineSeries = chart.addLineSeries({
-      color: 'rgb(0, 120, 255)',
-      lineWidth: 2,
-    });
-
-    lineSeries.setData(
-      data.map((point) => ({
-        time: point.time / 1000,
-        value: point.value,
-      }))
-    );
-
-    chartRef.current = chart;
-
-    const handleResize = () => {
-      if (chartContainerRef.current) {
-        chart.applyOptions({
-          width: chartContainerRef.current.clientWidth,
-          height: chartContainerRef.current.clientHeight - 40,
-        });
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chart.remove();
-    };
-  }, [data]);
-
-  const handleMouseDown = (e) => {
-    // Don’t drag if user clicked a button
-    if (e.target.closest(`.${styles['chart-window-button']}`)) return;
-    setIsDragging(true);
-    dragStartPos.current = {
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    };
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    const newX = e.clientX - dragStartPos.current.x;
-    const newY = e.clientY - dragStartPos.current.y;
-
-    // Keep window within viewport bounds 
-    const windowWidth = 400; // UPDATED SIZING
-    const windowHeight = 300; // UPDATED SIZING
-    const maxX = window.innerWidth - windowWidth;
-    const maxY = window.innerHeight - windowHeight;
-
-    setPosition({
-      x: Math.max(0, Math.min(newX, maxX)),
-      y: Math.max(0, Math.min(newY, maxY)),
-    });
-  };
-
-  const handleMouseUp = () => setIsDragging(false);
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging]);
-
-  return (
-    <div
-      className={styles['chart-window']}
-      style={{
-        transform: `translate(${position.x}px, ${position.y}px)`,
-        cursor: isDragging ? 'grabbing' : 'grab',
-      }}
-    >
-      <div className={styles['chart-window-header']} onMouseDown={handleMouseDown}>
-        <div className={styles['chart-window-title']}>Price Chart</div>
-        <div className={styles['chart-window-controls']}>
-          <button className={styles['chart-window-button']} onClick={onMinimize}>
-            ⎯
-          </button>
-          <button className={styles['chart-window-button']} onClick={onClose}>
-            ✕
-          </button>
-        </div>
-      </div>
-      <div
-        ref={chartContainerRef}
-        className={`${styles['chart-container']} ${styles['windowed']}`}
-      />
-    </div>
-  );
-};
-
-const TokenStats = ({ data }) => {
-  if (!data) return null;
-  const { price, market, metadata } = data;
-
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div className="bg-white/90 rounded-xl p-4 border border-primary/20">
-        <div className="text-sm text-gray-600">Price</div>
-        <div className="text-xl font-bold">${formatNumber(price.current)}</div>
-        <div
-          className={`text-sm ${
-            price.change_24h >= 0 ? 'text-green-500' : 'text-red-500'
-          }`}
-        >
-          {formatPercentage(price.change_24h)}
-        </div>
-      </div>
-      <div className="bg-white/90 rounded-xl p-4 border border-primary/20">
-        <div className="text-sm text-gray-600">Liquidity</div>
-        <div className="text-xl font-bold">${formatNumber(market.liquidity)}</div>
-      </div>
-      <div className="bg-white/90 rounded-xl p-4 border border-primary/20">
-        <div className="text-sm text-gray-600">24h Volume</div>
-        <div className="text-xl font-bold">${formatNumber(market.volume_24h)}</div>
-      </div>
-      <div className="bg-white/90 rounded-xl p-4 border border-primary/20">
-        <div className="text-sm text-gray-600">Chain</div>
-        <div className="text-xl font-bold">{metadata.chain}</div>
-        <div className="text-sm text-gray-600">{metadata.dex}</div>
-      </div>
-    </div>
-  );
-};
+// Import modular components
+import PersonalitySelector from './components/PersonalitySelector';
+import Message from './components/Message';
+import TokenStats from './components/TokenStats';
+import ChartComponent from './components/ChartComponent';
 
 const AI = () => {
   const [contractAddress, setContractAddress] = useState('');
@@ -281,7 +43,7 @@ const AI = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisData, setAnalysisData] = useState(null);
-  const [showChart, setShowChart] = useState(false); // default hidden
+  const [showContractInput, setShowContractInput] = useState(true);
 
   const messagesEndRef = useRef(null);
 
@@ -329,6 +91,7 @@ const AI = () => {
   };
 
   const handleContractSubmit = async () => {
+    setShowContractInput(false);
     if (!contractAddress.trim() || isAnalyzing) return;
 
     if (!isValidContractAddress(contractAddress)) {
@@ -359,6 +122,7 @@ const AI = () => {
       const analysis = await getTokenAnalysis(contractAddress);
       setAnalysisData(analysis);
 
+      // Example miniChart generation
       const miniChart = generateMiniChart({
         price: analysis.tokenData.price.current,
         previousPrice: analysis.tokenData.price.previous,
@@ -389,8 +153,6 @@ const AI = () => {
         },
       ]);
 
-      // Show the chart pop-up by default after analysis
-      setShowChart(true);
     } catch (error) {
       setMessages((prev) => [
         ...prev.slice(0, -1),
@@ -426,6 +188,7 @@ const AI = () => {
       const analysis = await getTokenAnalysis(contractAddress);
       const aiResponse = await analyzeUserQuestion(messageToSend, analysis.tokenData);
 
+      // Example miniChart generation
       const miniChart = generateMiniChart({
         price: analysis.tokenData.price.current,
         previousPrice: analysis.tokenData.price.previous,
@@ -475,57 +238,6 @@ const AI = () => {
     }
   };
 
-  // Inline Chart Example (below stats) if needed
-  const ChartComponent = ({ data }) => {
-    const chartRef = useRef(null);
-
-    useEffect(() => {
-      if (!data || !chartRef.current) return;
-
-      const chart = createChart(chartRef.current, {
-        width: chartRef.current.clientWidth,
-        height: 280,
-        layout: {
-          background: { color: 'transparent' },
-          textColor: '#333',
-        },
-        grid: {
-          vertLines: { color: 'rgba(0, 0, 0, 0.1)' },
-          horzLines: { color: 'rgba(0, 0, 0, 0.1)' },
-        },
-      });
-
-      const lineSeries = chart.addLineSeries({
-        color: 'rgb(255, 99, 132)',
-        lineWidth: 2,
-      });
-
-      lineSeries.setData(
-        data.map((point) => ({
-          time: point.time / 1000,
-          value: point.value,
-        }))
-      );
-
-      const handleResize = () => {
-        if (chartRef.current) {
-          chart.applyOptions({
-            width: chartRef.current.clientWidth,
-          });
-        }
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        chart.remove();
-      };
-    }, [data]);
-
-    return <div ref={chartRef} style={{ width: '100%', height: 280 }} />;
-  };
-
   return (
     <section
       className={`${
@@ -534,7 +246,7 @@ const AI = () => {
           : 'relative py-32 bg-gradient-to-b from-background via-surface to-background overflow-hidden'
       }`}
     >
-      {/* Background only if NOT in fullscreen */}
+      {/* Background animations when NOT in fullscreen */}
       {!isFullscreen && (
         <>
           <div
@@ -549,24 +261,27 @@ const AI = () => {
         </>
       )}
 
-      {/* Top-level container */}
       <div
         className={`${
           isFullscreen ? 'w-full h-screen' : 'container mx-auto px-6'
         } relative z-10`}
       >
-        {!isFullscreen ? (
+        {/* Heading and introduction shown only when NOT in fullscreen */}
+        {!isFullscreen && (
           <div className="text-center mb-12">
             <h2 className="font-heading text-5xl lg:text-6xl font-bold text-primary mb-6">
               Autistic Intelligence Analysis
               <span className={`ml-4 ${styles['animate-float']}`}>🧠</span>
             </h2>
             <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto mb-4">
-              When “slightly obsessed with charts” is actually a superpower!
+              When "slightly obsessed with charts" is actually a superpower!
               <br />
-              We’ll analyze every single detail.
+              We'll analyze every single detail.
             </p>
-            <PersonalitySelector currentPersonality={personality} onSelect={handlePersonalityChange} />
+            <PersonalitySelector
+              currentPersonality={personality}
+              onSelect={handlePersonalityChange}
+            />
             <button
               onClick={() => setIsFullscreen(true)}
               className={`${styles['chat-button']} mt-4`}
@@ -574,78 +289,87 @@ const AI = () => {
               Enter Fullscreen Mode 📊
             </button>
           </div>
-        ) : (
-          // Fullscreen top bar
-          <div className="flex justify-between items-center py-2 px-4 bg-white border-b border-primary/20">
-            <div className="flex items-center gap-4">
-              <span className={styles['animate-float']}>
-                {personalities[personality].emoji}
-              </span>
-              <h2 className="font-heading text-lg font-bold text-primary">
-                AI Analysis
-              </h2>
-              <PersonalitySelector
-                currentPersonality={personality}
-                onSelect={handlePersonalityChange}
-              />
-            </div>
-            <button
-              onClick={() => setIsFullscreen(false)}
-              className="text-primary hover:text-primary/80 transition-colors"
-            >
-              ✕
-            </button>
-          </div>
         )}
 
-        {/* Main chat container */}
-        <div className={`${isFullscreen ? 'w-full' : 'max-w-4xl mx-auto'}`}>
+        <div className={`${isFullscreen ? 'w-full h-full' : 'max-w-4xl mx-auto'}`}>
+          {/* Fullscreen top bar */}
+          {isFullscreen && (
+            <div className={styles['chat-fullscreen-header']}>
+              <div className="flex items-center gap-4">
+                <span className={styles['animate-float']}>
+                  {personalities[personality].emoji}
+                </span>
+                <h2 className="font-heading text-lg font-bold text-primary">
+                  AI Analysis
+                </h2>
+                <PersonalitySelector
+                  currentPersonality={personality}
+                  onSelect={handlePersonalityChange}
+                />
+              </div>
+              <button
+                onClick={() => setIsFullscreen(false)}
+                className={styles['chat-fullscreen-close']}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+
+          {/* Chat Container */}
           <div
             className={`${styles['chat-container']} ${
               isFullscreen ? styles['chat-fullscreen'] : 'p-6'
             } ${isFullscreen ? 'fullscreen' : ''}`}
+            style={isFullscreen ? { paddingTop: '40px' } : {}}
           >
-            {/* Contract Input */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Enter Contract Address
-              </label>
-              <div className={styles['input-group']}>
-                <input
-                  type="text"
-                  value={contractAddress}
-                  onChange={(e) => setContractAddress(e.target.value)}
-                  onKeyPress={(e) => handleKeyPress(e, 'contract')}
-                  placeholder="Enter token contract address (0x...)"
-                  className={styles['chat-input']}
-                  disabled={isAnalyzing}
-                />
-                <button
-                  onClick={handleContractSubmit}
-                  disabled={isAnalyzing}
-                  className={styles['chat-button']}
-                >
-                  {isAnalyzing
-                    ? personalities[personality].messageStyle.prefix
-                    : 'Analyze Patterns'}
-                </button>
-              </div>
-            </div>
-
-            {/* Token Stats */}
-            {analysisData && <TokenStats data={analysisData.tokenData} />}
-
-            {/* Inline Chart Example */}
-            {analysisData && (
+            {/* Contract input */}
+            {showContractInput && (
               <div className="mb-6">
-                <ChartComponent data={analysisData.tokenData.chart.prices} />
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Enter Contract Address
+                </label>
+                <div className={styles['input-group']}>
+                  <input
+                    type="text"
+                    value={contractAddress}
+                    onChange={(e) => setContractAddress(e.target.value)}
+                    onKeyPress={(e) => handleKeyPress(e, 'contract')}
+                    placeholder="Enter token contract address (0x...)"
+                    className={styles['chat-input']}
+                    disabled={isAnalyzing}
+                  />
+                  <button
+                    onClick={handleContractSubmit}
+                    disabled={isAnalyzing}
+                    className={styles['chat-button']}
+                  >
+                    {isAnalyzing
+                      ? personalities[personality].messageStyle.prefix
+                      : 'Analyze Patterns'}
+                  </button>
+                </div>
               </div>
             )}
+
+            {/* Token Stats */}
+            {analysisData && <TokenStats data={analysisData.tokenData} isFullscreen={isFullscreen} />}
+
+            {/* Chart Display
+                Hidden in fullscreen mode and on mobile (max-width: 768px). 
+            */}
+            {analysisData &&
+              !isFullscreen &&
+              !window.matchMedia('(max-width: 768px)').matches && (
+                <div className="mb-6">
+                  <ChartComponent data={analysisData.tokenData.chart.prices} />
+                </div>
+              )}
 
             {/* Messages */}
             <div
               className={`${styles['chat-messages']} ${
-                isFullscreen ? 'h-[calc(100vh-200px)]' : ''
+                isFullscreen ? 'h-[calc(100vh-160px)]' : ''
               }`}
             >
               <div className="space-y-4">
@@ -660,7 +384,7 @@ const AI = () => {
               </div>
             </div>
 
-            {/* Input Box */}
+            {/* Message Input */}
             <div className={styles['message-input-container']}>
               <input
                 type="text"
@@ -683,16 +407,16 @@ const AI = () => {
         </div>
       </div>
 
-      {/* Floating Chart Window */}
-      {showChart && analysisData && (
-        <ChartWindow
-          data={analysisData.tokenData.chart.prices}
-          onClose={() => setShowChart(false)}
-          onMinimize={() => setShowChart(false)}
-        />
-      )}
     </section>
   );
 };
 
 export default AI;
+
+/* 
+   NOTE:
+   1. You must have a valid `generateMiniChart()` function 
+      imported or declared somewhere to create `miniChart`.
+   2. This code references sub-components like PersonalitySelector, Message, etc. 
+      Make sure those are present in your codebase.
+*/

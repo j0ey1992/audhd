@@ -3,6 +3,8 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.css",
+    "!./src/**/*.module.css"
   ],
   theme: {
     extend: {
@@ -68,5 +70,20 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addBase, addComponents, addUtilities }) {
+      addBase({
+        ':root': {
+          '--primary': '26 26 26',
+          '--secondary': '64 64 64',
+          '--accent': '255 107 107',
+          '--background': '250 250 250',
+          '--surface': '255 255 255',
+          '--text': '26 26 26',
+          '--text-secondary': '112 112 112',
+          '--highlight': '255 215 0',
+        },
+      });
+    },
+  ],
 }
