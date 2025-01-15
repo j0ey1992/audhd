@@ -2,55 +2,61 @@ import React from 'react';
 
 const features = [
     {
-        title: 'Autistic Pattern Power! 🧩',
-        description: 'So last night at 3 AM, I noticed this INCREDIBLE pattern in the charts that nobody else saw! My brain just connects dots differently - like that time I found a correlation between DeFi protocols and pizza delivery times! (I have a 50-slide presentation about it!)',
-        emoji: '🔍',
+        title: 'The Builder! 🏗️',
+        description: 'I LOVE building things! Give me an idea and watch me disappear into my coding cave for days. I\'ll emerge with not just what you asked for, but also 17 other features I thought would be "absolutely essential" (and they usually are!).',
+        emoji: '👨‍💻',
         color: 'from-primary/20 to-accent/20'
     },
     {
-        title: 'ADHD Multitasking Magic! ⚡',
-        description: 'Who else can watch 12 charts, read 3 whitepapers, and spot a trend reversal ALL AT ONCE? Sure, I might forget where I put my coffee (found it 3 days later in the fridge), but I caught that price movement before anyone else!',
-        emoji: '👀',
+        title: 'Web3 Detective! 🔍',
+        description: 'Reading the blockchain is my superpower! I\'ve spent countless nights following transaction trails, connecting wallets, and uncovering patterns that others miss. It\'s like being a digital Sherlock Holmes, but with more coffee and less sleep!',
+        emoji: '🕵️',
         color: 'bg-accent/10'
     },
     {
-        title: 'Dyslexic Visual Mastery! 🎨',
-        description: 'Text-heavy analysis? Nah! I created this AMAZING visual trading system with colors, shapes, and patterns! Others might see chaos, but to me, it\'s like reading a beautiful story in charts! Want to see my rainbow-coded strategy map?',
-        emoji: '📊',
+        title: 'Hyperfocus Master! 🎯',
+        description: 'When something catches my interest, I become OBSESSED. I\'ll learn everything about it, create spreadsheets, write documentation, and then... suddenly find a new obsession! But hey, each hyperfocus phase leaves behind something amazing!',
+        emoji: '🧠',
         color: 'bg-secondary/10'
     },
     {
-        title: 'Hyperfocus Superpower! 🚀',
-        description: 'Once I start researching a project, I CANNOT STOP! Did you know I spent 16 hours straight analyzing token economics? Found 42 unique patterns! My family had to remind me to eat... but look at this BEAUTIFUL spreadsheet I made!',
-        emoji: '🤓',
+        title: 'Pattern Hunter! 🌐',
+        description: 'I see patterns EVERYWHERE in Web3! From trading patterns to smart contract similarities, my brain is constantly connecting dots that others don\'t even notice. Sometimes these connections lead to incredible discoveries!',
+        emoji: '🎯',
         color: 'bg-primary/10'
     }
 ];
 
 const hyperfixations = [
     {
-        title: 'Smart Contract Detective Mode! 🔍',
-        description: 'My autistic attention to detail is PERFECT for this! I read every single line of code 17 times (yes, exactly 17 - it\'s the perfect number for code review!). Found a tiny detail that everyone missed! Want to see my 200-page analysis? I color-coded EVERYTHING!',
+        title: 'Smart Contract Analyzer! 🔍',
+        description: 'Building the ULTIMATE smart contract analysis tool that thinks like an autistic brain! It reads code 17 times, color-codes EVERYTHING, and finds those tiny details everyone else misses. It\'s like having my pattern recognition powers, but automated!',
         emoji: '🤖',
         intensity: 'Maximum Hyperfocus'
     },
     {
-        title: 'ADHD Market Insights! 🎯',
-        description: 'You know that moment when your brain connects 15 different pieces of information at once? That\'s how I predicted the last trend! Everyone was like "How did you know?" and I\'m like "Well, let me explain my theory about how meme sentiment correlates with lunar cycles..."',
-        emoji: '👛',
-        intensity: 'Lightning Brain'
-    },
-    {
-        title: 'Dyslexic Pattern Recognition! 🌈',
-        description: 'Who needs traditional chart patterns when you can create your own visual system? I turned price action into a color-based pattern recognition tool! Others see random candles, I see a beautiful story unfolding in RAINBOW COLORS!',
-        emoji: '⚖️',
+        title: 'Portfolio AI Assistant! 📊',
+        description: 'Creating a portfolio manager that makes sense to OUR brains! It has 47 different visualization options, tracks patterns most people don\'t even know exist, and yes, it comes with rainbow charts! Because who said finance can\'t be colorful?',
+        emoji: '🎨',
         intensity: 'Visual Flow'
     },
     {
-        title: 'Special Interest Deep Dive! 📚',
-        description: 'Did you know I can name EVERY token launch from the past year? In chronological order? With their exact timestamps? I might have forgotten to eat dinner, but I created this AMAZING correlation matrix! Look at all these connections! No one\'s EVER noticed this before!',
-        emoji: '📊',
-        intensity: 'Full Obsession'
+        title: 'AI Chat Companions! 💬',
+        description: 'Deploying mini-mes across Discord and Telegram! These bots have memorized EVERY token launch since 2020, analyze sentiment patterns, and can info-dump about blockchain architecture at 3 AM. They\'re basically digital versions of my hyperfixation powers!',
+        emoji: '🤖',
+        intensity: 'Lightning Speed'
+    },
+    {
+        title: 'Meme Psychology Engine! 🎭',
+        description: 'Teaching AI to understand meme token psychology! It tracks wallet behaviors, predicts FOMO moments, and even understands why someone would put their life savings into a token with a dog on it. It\'s like having a PhD in memeconomics!',
+        emoji: '🧠',
+        intensity: 'Pattern Master'
+    },
+    {
+        title: 'Wallet Detective System! 🔎',
+        description: 'Building the most detailed wallet tagging system ever! It can tell if someone\'s a diamond-handed hodler or a paper-handed panic seller from their first transaction. Because I spent way too much time categorizing wallet behaviors, and now you get to benefit from my obsession!',
+        emoji: '🏷️',
+        intensity: 'Deep Analysis'
     }
 ];
 
@@ -77,20 +83,22 @@ function Features() {
                 </div>
 
                 {/* Features Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-20">
                     {features.map((feature) => (
                         <div
                             key={feature.title}
-                            className="group bg-surface/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-surface"
+                            className="group relative bg-surface/40 backdrop-blur-sm p-6 rounded-lg border-l-4 border-primary/20 hover:border-primary transition-all duration-300 hover:bg-surface/60"
                         >
-                            <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 flex items-center justify-center bg-primary/5 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                                    <span className="text-3xl">{feature.emoji}</span>
+                            <div className="flex items-start gap-4">
+                                <div className="w-10 h-10 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                                    <span className="text-2xl">{feature.emoji}</span>
                                 </div>
-                                <h3 className="text-xl font-heading font-bold text-primary">{feature.title}</h3>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className="text-lg font-heading font-bold text-primary mb-2 group-hover:text-accent transition-colors duration-300">{feature.title}</h3>
+                                    <p className="text-text-secondary text-sm leading-relaxed font-heading">{feature.description}</p>
+                                </div>
                             </div>
-                            <p className="text-text-secondary leading-relaxed font-heading">{feature.description}</p>
-                            <div className="h-1 w-0 group-hover:w-full bg-primary/10 transition-all duration-500 mt-6"></div>
+                            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 group-hover:via-primary/20 transition-all duration-300"></div>
                         </div>
                     ))}
                 </div>
@@ -107,40 +115,42 @@ function Features() {
                             <span className="text-sm">(Don't worry, we eventually remembered to eat... usually! 😅)</span>
                         </p>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                         {hyperfixations.map((fixation) => (
                             <div
                                 key={fixation.title}
-                                className="group bg-surface/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-surface relative overflow-hidden"
+                                className="group relative bg-surface/40 backdrop-blur-sm p-6 rounded-lg border-l-4 border-primary/20 hover:border-primary transition-all duration-300 hover:bg-surface/60"
                             >
-                                <div className="flex items-center gap-4 mb-6">
-                                    <div className="w-12 h-12 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
                                         <span className="text-2xl">{fixation.emoji}</span>
                                     </div>
-                                    <h4 className="text-xl font-heading font-bold text-primary">{fixation.title}</h4>
-                                </div>
-                                <p className="text-text-secondary font-heading mb-6">{fixation.description}</p>
-                                
-                                {/* Simplified Intensity Meter */}
-                                <div className="mt-auto">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-heading text-text-secondary">Focus Level:</span>
-                                        <span className="text-sm font-heading font-bold text-primary">{fixation.intensity}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-lg font-heading font-bold text-primary mb-2 group-hover:text-accent transition-colors duration-300">{fixation.title}</h4>
+                                        <p className="text-text-secondary text-sm leading-relaxed font-heading mb-4">{fixation.description}</p>
+                                        
+                                        {/* Intensity Meter */}
+                                        <div className="mt-2">
+                                            <div className="flex justify-between items-center mb-1.5">
+                                                <span className="text-xs font-heading text-text-secondary">Focus Level:</span>
+                                                <span className="text-xs font-heading font-bold text-accent">{fixation.intensity}</span>
+                                            </div>
+                                            <div className="h-1 w-full bg-primary/5 rounded-full overflow-hidden">
+                                                <div
+                                                    className="h-full bg-gradient-to-r from-primary/20 to-accent/20 transition-all duration-500"
+                                                    style={{
+                                                        width:
+                                                            fixation.intensity === 'Maximum Hyperfocus' ? '100%' :
+                                                            fixation.intensity === 'Lightning Brain' ? '85%' :
+                                                            fixation.intensity === 'Visual Mastery' ? '70%' :
+                                                            '40%'
+                                                    }}
+                                                ></div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">
-                                        <div
-                                            className="h-full bg-primary/20 transition-all duration-500"
-                                            style={{
-                                                width:
-                                                    fixation.intensity === 'Maximum' ? '100%' :
-                                                    fixation.intensity === 'Extreme' ? '85%' :
-                                                    fixation.intensity === 'Obsessive' ? '70%' :
-                                                    fixation.intensity === 'High' ? '55%' :
-                                                    '40%'
-                                            }}
-                                        ></div>
-                                    </div>
                                 </div>
+                                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 group-hover:via-primary/20 transition-all duration-300"></div>
                             </div>
                         ))}
                     </div>

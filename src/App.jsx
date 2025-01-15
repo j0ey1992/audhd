@@ -22,9 +22,7 @@ function HomePage({ showMemeTest, setShowMemeTest }) {
       <div className="full-width-container">
         <Hero />
       </div>
-      <div className="full-width-container">
-        <NeurodiversityAwareness />
-      </div>
+    
       <div className="container mx-auto px-4 grid grid-cols-1 gap-16 py-20">
         <Features />
         <Roadmap />
@@ -58,11 +56,12 @@ function App() {
         <div className="min-h-screen bg-background text-text transition-all duration-200">
           <div className="fixed inset-0 bg-background -z-10"></div>
         <Header />
-        <main className="container mx-auto px-4">
+        <main className="pt-20">
           <Routes>
             <Route path="/" element={<HomePage showMemeTest={showMemeTest} setShowMemeTest={setShowMemeTest} />} />
             <Route path="/whitepaper" element={<WhitePaper />} />
             <Route path="/ai" element={<AI />} />
+            <Route path="/neurodiversity" element={<NeurodiversityAwareness />} />
           </Routes>
         </main>
         <Footer />

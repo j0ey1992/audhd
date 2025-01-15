@@ -82,50 +82,50 @@ function Roadmap() {
                             </div>
 
                             {/* Phase Card */}
-                            <div className="relative bg-surface/95 backdrop-blur-sm rounded-3xl p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 shadow-lg group">
+                            <div className="relative bg-surface/40 backdrop-blur-sm p-6 rounded-lg border-l-4 border-primary/20 hover:border-primary transition-all duration-300 hover:bg-surface/60 group">
                                 {/* Progress Indicator */}
-                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface px-4 py-2 rounded-full border border-primary/20 text-sm font-medium text-primary">
+                                <div className="absolute -top-3 right-4 bg-surface/60 px-3 py-1 rounded-full text-xs font-medium text-primary border border-primary/10">
                                     {index === 0 && 'In Progress (42.7% complete - yes, exactly 42.7%!)'}
                                     {index > 0 && 'Coming Soon (SO excited to share more!)'}
                                 </div>
 
                                 {/* Phase Header */}
-                                <div className={`flex items-center gap-6 mb-6 ${
-                                    index % 2 === 0 ? 'flex-row-reverse' : ''
-                                }`}>
-                                    <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl border border-primary/20 group-hover:border-primary/40 transition-colors duration-300">
-                                        <span className="text-4xl animate-float">{phase.emoji}</span>
+                                <div className="flex items-start gap-4 mb-4">
+                                    <div className="w-10 h-10 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
+                                        <span className="text-2xl">{phase.emoji}</span>
                                     </div>
-                                    <div>
-                                        <h3 className="text-2xl font-bold text-primary mb-2">{phase.phase}</h3>
-                                        <h4 className="text-xl font-semibold text-primary/80">{phase.title}</h4>
+                                    <div className="flex-1 min-w-0">
+                                        <h3 className="text-lg font-heading font-bold text-primary mb-1 group-hover:text-accent transition-colors duration-300">{phase.phase}</h3>
+                                        <h4 className="text-sm font-heading text-primary/80">{phase.title}</h4>
                                     </div>
                                 </div>
 
                                 {/* Phase Items */}
-                                <ul className="space-y-3">
+                                <ul className="space-y-2 pl-14">
                                     {phase.items.map((item, itemIndex) => (
                                         <li
                                             key={itemIndex}
-                                            className="flex items-start gap-3 text-lg text-text-secondary hover:text-primary transition-colors duration-200"
+                                            className="flex items-start gap-2 text-sm text-text-secondary group-hover:text-text-primary transition-colors duration-200"
                                         >
-                                            <span className="w-6 h-6 flex items-center justify-center bg-surface border border-primary/20 rounded-full text-sm text-primary mt-1">
+                                            <span className="w-5 h-5 flex items-center justify-center bg-primary/5 rounded-full text-xs text-primary mt-0.5 flex-shrink-0">
                                                 {itemIndex + 1}
                                             </span>
-                                            {item}
+                                            <span className="flex-1">{item}</span>
                                         </li>
                                     ))}
                                 </ul>
 
                                 {/* Progress Bar */}
-                                <div className="mt-6">
-                                    <div className="h-2 bg-primary/10 rounded-full overflow-hidden">
+                                <div className="mt-4 pl-14">
+                                    <div className="h-1 bg-primary/5 rounded-full overflow-hidden">
                                         <div
-                                            className="h-full bg-gradient-to-r from-primary/50 to-secondary/50"
+                                            className="h-full bg-gradient-to-r from-primary/20 to-accent/20 transition-all duration-500"
                                             style={{ width: index === 0 ? '42.7%' : '0%' }}
                                         ></div>
                                     </div>
                                 </div>
+
+                                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 group-hover:via-primary/20 transition-all duration-300"></div>
                             </div>
                         </div>
                     ))}

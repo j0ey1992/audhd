@@ -21,7 +21,8 @@ function Header() {
   const navLinks = [
     { name: 'Home', to: '/', isPage: true },
     { name: 'Whitepaper', to: '/whitepaper', isPage: true },
-    { name: 'AI', to: '/ai', isPage: true }
+    { name: 'AI', to: '/ai', isPage: true },
+    { name: 'Neurodiversity', to: '/neurodiversity', isPage: true }
   ];
 
   return (
