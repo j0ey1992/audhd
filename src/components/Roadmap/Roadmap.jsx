@@ -2,48 +2,48 @@ import React from 'react';
 
 const phases = [
     {
-        phase: 'Phase 1: Initial Obsession',
-        title: 'Pattern Recognition Overload',
+        phase: 'Phase 1: Hyperfocus Launch! 🎯',
+        title: 'When Special Interests Meet Crypto',
         items: [
-            'Launch token on Cronos chain',
-            'Memorize every 1-minute candle since 2020',
-            'Create 500-page whitepaper about chart patterns',
-            'Develop advanced hyperfixation techniques'
+            'Launch $AI token (after checking the code exactly 42 times because that\'s the perfect number!)',
+            'Create THE MOST DETAILED documentation ever (with color-coding and animated diagrams!)',
+            'Build pattern recognition system that makes our ADHD-powered multi-chart analysis even better!',
+            'Develop AI that thinks as uniquely as we do (it\'s like having a neurodivergent digital friend!)'
         ],
-        emoji: '🔍'
+        emoji: '🚀'
     },
     {
-        phase: 'Phase 2: Deep Analysis',
-        title: 'Technical Analysis Mastery',
+        phase: 'Phase 2: Pattern Power! 🧩',
+        title: 'Unleashing Our Superpowers',
         items: [
-            'Launch AI-powered pattern scanner',
-            'Create 24/7 chart watching community',
-            'Implement social awkwardness training',
-            'Deploy advanced Fibonacci calculator'
+            'Deploy Discord Bot that shares our excitement about market patterns (prepare for DETAILED explanations!)',
+            'Create the most organized tracking system ever (with exactly 16 color categories!)',
+            'Build security features using our super-detailed pattern recognition abilities',
+            'Launch multi-chart analysis tools (perfect for our ADHD multi-tasking powers!)'
         ],
-        emoji: '📊'
+        emoji: '🤖'
     },
     {
-        phase: 'Phase 3: Peak Autism',
-        title: 'Maximum Pattern Recognition',
+        phase: 'Phase 3: Deep Dive Time! 🌊',
+        title: 'Maximum Analysis Mode',
         items: [
-            'Release proprietary indicator suite',
-            'Host weekly 12-hour chart analysis sessions',
-            'Launch pattern recognition competitions',
-            'Develop trading terminal for autists'
+            'Release our special contract analyzer (warning: may include VERY excited explanations about code patterns)',
+            'Create visual trading tools for our dyslexic traders (who needs numbers when you have colors?)',
+            'Build the most detailed portfolio tracker ever (I spent 3 days organizing the UI... it\'s perfect!)',
+            'Launch pattern-based risk assessment (with 27-point verification system!)'
         ],
         emoji: '🧠'
     },
     {
-        phase: 'Phase 4: Market Mastery',
-        title: 'Complete Trading Enlightenment',
+        phase: 'Phase 4: Community Expansion! 💫',
+        title: 'Building Our Neurodiverse Family',
         items: [
-            'Achieve 1000x leverage trading',
-            'Predict market moves with 0.001% accuracy',
-            'Create the ultimate trading algorithm',
-            'Finally touch grass (maybe)'
+            'Host hyper-focused coding sessions (with scheduled snack breaks because we forget to eat!)',
+            'Create the most inclusive trading platform ever (stim-friendly UI included!)',
+            'Launch educational content about trading with different brain wiring (prepare for DETAILED explanations)',
+            'Build sensory-friendly trading tools (with dark mode that\'s ACTUALLY dark!)'
         ],
-        emoji: '🚀'
+        emoji: '🌈'
     }
 ];
 
@@ -54,16 +54,17 @@ function Roadmap() {
                 {/* Header */}
                 <div className="text-center mb-16">
                     <h2 className="text-5xl font-bold text-primary mb-4 inline-flex items-center gap-4">
-                        Development Roadmap
-                        <span className="animate-bounce">📈</span>
+                        Our Master Plan! 
+                        <span className="animate-bounce">🎯</span>
                     </h2>
                     <p className="text-xl text-text-secondary">
-                        Our path to complete market obsession!
+                        Our perfectly organized roadmap (color-coded, triple-checked, and reorganized exactly 17 times!)
+                        <br/>
+                        <span className="text-lg">(Warning: Contains excessive enthusiasm and random fun facts about crypto patterns! 🤓)</span>
                     </p>
                 </div>
 
                 {/* Timeline */}
-                {/* Enhanced Timeline */}
                 <div className="relative max-w-6xl mx-auto">
                     {/* Animated Timeline Line */}
                     <div className="absolute left-1/2 w-1 h-full bg-gradient-to-b from-primary/10 via-primary/30 to-primary/10 animate-pulse-line"></div>
@@ -84,8 +85,8 @@ function Roadmap() {
                             <div className="relative bg-surface/95 rounded-3xl p-8 border border-primary/20 hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 shadow-lg group">
                                 {/* Progress Indicator */}
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-surface px-4 py-2 rounded-full border border-primary/20 text-sm font-medium text-primary">
-                                    {index === 0 && 'In Progress'}
-                                    {index > 0 && 'Upcoming'}
+                                    {index === 0 && 'In Progress (42.7% complete - yes, exactly 42.7%!)'}
+                                    {index > 0 && 'Coming Soon (SO excited to share more!)'}
                                 </div>
 
                                 {/* Phase Header */}
@@ -121,7 +122,7 @@ function Roadmap() {
                                     <div className="h-2 bg-primary/10 rounded-full overflow-hidden">
                                         <div
                                             className="h-full bg-gradient-to-r from-primary to-secondary"
-                                            style={{ width: `${(index + 1) * 25}%` }}
+                                            style={{ width: index === 0 ? '42.7%' : '0%' }}
                                         ></div>
                                     </div>
                                 </div>
@@ -129,12 +130,13 @@ function Roadmap() {
                         </div>
                     ))}
                 </div>
+
                 {/* Enhanced Progress Bar */}
                 <div className="max-w-4xl mx-auto mt-16 space-y-4">
                     {/* Progress Bar Container */}
                     <div className="h-4 bg-surface rounded-full overflow-hidden border border-primary/20 relative">
                         {/* Glowing Progress */}
-                        <div className="h-full bg-gradient-to-r from-lime-400 to-emerald-500 rounded-full relative overflow-hidden">
+                        <div className="h-full w-[42.7%] bg-gradient-to-r from-lime-400 to-emerald-500 rounded-full relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-r from-lime-400/50 to-emerald-500/50 animate-progress-glow"></div>
                             <div className="absolute inset-0 bg-gradient-to-r from-lime-400/20 to-emerald-500/20 animate-progress-pulse"></div>
                         </div>
@@ -142,7 +144,7 @@ function Roadmap() {
                         {/* Percentage Indicator */}
                         <div className="absolute inset-0 flex items-center justify-end pr-4">
                             <span className="text-xs font-bold text-surface bg-lime-400/90 px-2 py-1 rounded-full shadow-sm">
-                                <span className="animate-count-up" data-target="100">0</span>%
+                                42.7%
                             </span>
                         </div>
                     </div>
@@ -151,8 +153,10 @@ function Roadmap() {
                     <div className="flex justify-center">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface border border-primary/20">
                             <span className="w-2 h-2 bg-lime-400 rounded-full animate-pulse"></span>
-                            <span className="text-sm font-medium text-lime-400">Analyzing...</span>
-                            <span className="animate-spin">🌀</span>
+                            <span className="text-sm font-medium text-lime-400">
+                                Combining ADHD hyperfocus, autistic pattern recognition, and dyslexic visual thinking...
+                            </span>
+                            <span className="animate-spin">🧠</span>
                         </div>
                     </div>
                 </div>

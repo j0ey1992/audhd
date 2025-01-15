@@ -18,9 +18,13 @@ import AI from './components/AI/AI';
 function HomePage({ showMemeTest, setShowMemeTest }) {
   return (
     <>
-      <Hero />
-      <NeurodiversityAwareness />
-      <div className="grid grid-cols-1 gap-16 py-20">
+      <div className="full-width-container">
+        <Hero />
+      </div>
+      <div className="full-width-container">
+        <NeurodiversityAwareness />
+      </div>
+      <div className="container mx-auto px-4 grid grid-cols-1 gap-16 py-20">
         <Features />
         <Roadmap />
         <TradingCalculator />

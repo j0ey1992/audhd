@@ -84,6 +84,26 @@ export default {
           '--highlight': '255 215 0',
         },
       });
+
+      addComponents({
+        '.full-bleed': {
+          width: '100vw',
+          marginLeft: 'calc(50% - 50vw)',
+          marginRight: 'calc(50% - 50vw)',
+          position: 'relative',
+        },
+        '.full-width-container': {
+          width: '100vw',
+          maxWidth: 'none',
+          marginLeft: 'calc(-50vw + 50%)',
+          marginRight: 'calc(-50vw + 50%)',
+          position: 'relative',
+          '& > *': {
+            maxWidth: '100%',
+            margin: '0 auto',
+          }
+        }
+      });
     },
   ],
 }

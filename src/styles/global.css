@@ -1,230 +1,297 @@
+/* Imports */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
 
+/* Tailwind core */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Base layer for custom properties and root-level defaults */
 @layer base {
-    :root {
-        --primary: 26 26 26;
-        --secondary: 64 64 64;
-        --accent: 255 107 107;
-        --background: 250 250 250;
-        --surface: 255 255 255;
-        --text: 26 26 26;
-        --text-secondary: 112 112 112;
-        --highlight: 255 215 0;
-    }
+  :root {
+    --primary: 26 26 26;
+    --secondary: 64 64 64;
+    --accent: 255 107 107;
+    --background: 250 250 250;
+    --surface: 255 255 255;
+    --text: 26 26 26;
+    --text-secondary: 112 112 112;
+    --highlight: 255 215 0;
+  }
 
-    body {
-        @apply font-body bg-background text-text;
-    }
+  body {
+    @apply font-body bg-background text-text;
+  }
 
-    h1 {
-        @apply text-display font-heading;
-    }
+  h1 {
+    @apply text-display font-heading;
+  }
 
-    h2 {
-        @apply text-heading-1 font-heading;
-    }
+  h2 {
+    @apply text-heading-1 font-heading;
+  }
 
-    h3 {
-        @apply text-heading-2 font-heading;
-    }
+  h3 {
+    @apply text-heading-2 font-heading;
+  }
 
-    h4 {
-        @apply text-heading-3 font-heading;
-    }
+  h4 {
+    @apply text-heading-3 font-heading;
+  }
 
-    .degen {
-        @apply font-degen;
-    }
+  .degen {
+    @apply font-degen;
+  }
 }
 
 /* Component-specific styles */
 @layer components {
-    /* Hero component */
-    .hero-card {
-        @apply rounded-[2rem] border-2 border-primary/10 hover:border-primary/20;
-        @apply shadow-[0_4px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)];
-        @apply transition-all duration-300;
-    }
+  /* Hero component */
+  .hero-card {
+    @apply rounded-[2rem] border-2 border-primary/10 hover:border-primary/20;
+    @apply shadow-[0_4px_24px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)];
+    @apply transition-all duration-300;
+  }
 
-    .hero-button {
-        @apply rounded-[1.5rem] border-2 border-primary/20 hover:border-primary/40;
-        @apply px-8 py-3 font-medium transition-all duration-300;
-    }
+  .hero-button {
+    @apply rounded-[1.5rem] border-2 border-primary/20 hover:border-primary/40;
+    @apply px-8 py-3 font-medium transition-all duration-300;
+  }
 
-    /* Header component */  
-    .header-nav {
-        @apply rounded-xl border border-primary/10 hover:border-primary/20;
-        @apply shadow-sm hover:shadow-md;
-        @apply transition-all duration-300;
-    }
+  /* Header component */
+  .header-nav {
+    @apply rounded-xl border border-primary/10 hover:border-primary/20;
+    @apply shadow-sm hover:shadow-md;
+    @apply transition-all duration-300;
+  }
 
-    .header-button {
-        @apply rounded-lg border border-primary/20 hover:border-primary/40;
-        @apply px-6 py-2.5 font-medium transition-all duration-300;
-    }
+  .header-button {
+    @apply rounded-lg border border-primary/20 hover:border-primary/40;
+    @apply px-6 py-2.5 font-medium transition-all duration-300;
+  }
 
-    /* Features component */
-    .feature-card {
-        @apply rounded-[2.5rem] border-2 border-primary/10 hover:border-primary/30;
-        @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.15)];
-        @apply transition-all duration-300 hover:-translate-y-2;
-    }
+  /* Features component */
+  .feature-card {
+    @apply rounded-[2.5rem] border-2 border-primary/10 hover:border-primary/30;
+    @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_12px_48px_rgba(0,0,0,0.15)];
+    @apply transition-all duration-300 hover:-translate-y-2;
+  }
 
-    .feature-button {
-        @apply rounded-[1.75rem] border-2 border-primary/20 hover:border-primary/40;
-        @apply px-8 py-3 font-medium transition-all duration-300 hover:-translate-y-1;
-    }
+  .feature-button {
+    @apply rounded-[1.75rem] border-2 border-primary/20 hover:border-primary/40;
+    @apply px-8 py-3 font-medium transition-all duration-300 hover:-translate-y-1;
+  }
 
-    /* General component styles */
-    .component-card {
-        @apply bg-surface/95 backdrop-blur-md;
-        @apply border border-primary/10 hover:border-primary/20;
-        @apply transition-all duration-300;
-    }
+  /* General component styles */
+  .component-card {
+    @apply bg-surface/95 backdrop-blur-md;
+    @apply border border-primary/10 hover:border-primary/20;
+    @apply transition-all duration-300;
+  }
 
-    /* Chat component styles */
-    .chat-container {
-        @apply bg-white/95 backdrop-blur-md rounded-2xl;
-        @apply border border-primary/10 hover:border-primary/20;
-        @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.15)];
-        @apply transition-all duration-300;
-    }
+  /* Chat component styles */
+  .chat-container {
+    @apply bg-white/95 backdrop-blur-md rounded-2xl;
+    @apply border border-primary/10 hover:border-primary/20;
+    @apply shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:shadow-[0_16px_48px_rgba(0,0,0,0.15)];
+    @apply transition-all duration-300;
+  }
 
-    .chat-input {
-        @apply px-4 py-3 rounded-xl;
-        @apply border border-primary/10 hover:border-primary/20;
-        @apply focus:border-primary/30 focus:ring-4 focus:ring-primary/10;
-        @apply outline-none transition-all duration-300;
-        @apply disabled:opacity-50 disabled:cursor-not-allowed;
-    }
+  .chat-input {
+    @apply px-4 py-3 rounded-xl;
+    @apply border border-primary/10 hover:border-primary/20;
+    @apply focus:border-primary/30 focus:ring-4 focus:ring-primary/10;
+    @apply outline-none transition-all duration-300;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+  }
 
-    .chat-button {
-        @apply bg-gradient-to-r from-primary to-secondary text-white;
-        @apply rounded-xl font-bold;
-        @apply transition-all duration-300;
-        @apply hover:shadow-lg hover:-translate-y-1 hover:opacity-90;
-        @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none;
-    }
+  .chat-button {
+    @apply bg-gradient-to-r from-primary to-secondary text-white;
+    @apply rounded-xl font-bold;
+    @apply transition-all duration-300;
+    @apply hover:shadow-lg hover:-translate-y-1 hover:opacity-90;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none;
+  }
 
-    .chat-messages {
-        @apply h-[400px] overflow-y-auto;
-        @apply border border-primary/10 hover:border-primary/20;
-        @apply rounded-xl p-4;
-        @apply transition-all duration-300;
-        scrollbar-width: thin;
-        scrollbar-color: rgba(var(--primary), 0.2) rgba(var(--primary), 0.05);
-    }
+  .chat-messages {
+    @apply h-[400px] overflow-y-auto;
+    @apply border border-primary/10 hover:border-primary/20;
+    @apply rounded-xl p-4;
+    @apply transition-all duration-300;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--primary), 0.2) rgba(var(--primary), 0.05);
+  }
 
-    .chat-messages::-webkit-scrollbar {
-        @apply w-2;
-    }
-
-    .chat-messages::-webkit-scrollbar-track {
-        @apply bg-primary/5 rounded-full;
-    }
-
-    .chat-messages::-webkit-scrollbar-thumb {
-        @apply bg-primary/20 rounded-full;
-        @apply hover:bg-primary/30;
-        @apply transition-colors duration-300;
-    }
-}
-
-/* Grid background */
-body::before {
-    content: '';
-    @apply fixed inset-0 pointer-events-none -z-10;
-    background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-    background-size: 24px 24px;
-}
-
-/* Scrollbar styles */
-::-webkit-scrollbar {
+  .chat-messages::-webkit-scrollbar {
     @apply w-2;
+  }
+
+  .chat-messages::-webkit-scrollbar-track {
+    @apply bg-primary/5 rounded-full;
+  }
+
+  .chat-messages::-webkit-scrollbar-thumb {
+    @apply bg-primary/20 rounded-full;
+    @apply hover:bg-primary/30;
+    @apply transition-colors duration-300;
+  }
+}
+
+/* Grid background on <body>::before */
+body::before {
+  content: '';
+  @apply fixed inset-0 pointer-events-none -z-10;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Scrollbar styles for overall page */
+::-webkit-scrollbar {
+  @apply w-2;
 }
 
 ::-webkit-scrollbar-track {
-    @apply bg-background;
+  @apply bg-background;
 }
 
 ::-webkit-scrollbar-thumb {
-    @apply bg-secondary/50 rounded hover:bg-secondary/70;
+  @apply bg-secondary/50 rounded hover:bg-secondary/70;
 }
 
 /* Animations */
 @keyframes fade-in {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes subtle-float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 @keyframes pulse-accent {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 @keyframes grid-flow {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(24px); }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(24px); }
 }
 
 @keyframes pulse-slow {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 0.4; }
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.4; }
 }
 
 @keyframes pulse-slow-delay {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.2; }
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.2; }
 }
 
 @keyframes loading-dots {
-    0%, 100% { content: '.'; }
-    33% { content: '..'; }
-    66% { content: '...'; }
+  0%, 100% { content: '.'; }
+  33%      { content: '..'; }
+  66%      { content: '...'; }
 }
 
 /* Animation utility classes */
 .animate-grid-flow {
-    animation: grid-flow 20s linear infinite;
+  animation: grid-flow 20s linear infinite;
 }
 
 .animate-pulse-slow {
-    animation: pulse-slow 4s ease-in-out infinite;
+  animation: pulse-slow 4s ease-in-out infinite;
 }
 
 .animate-pulse-slow-delay {
-    animation: pulse-slow-delay 4s ease-in-out infinite;
-    animation-delay: 2s;
+  animation: pulse-slow-delay 4s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
 .loading-dots::after {
-    content: '';
-    animation: loading-dots 1.5s steps(1) infinite;
+  content: '';
+  animation: loading-dots 1.5s steps(1) infinite;
 }
 
 /* Utility classes */
 .wojak-border {
-    @apply border-2 border-primary/10 hover:border-primary/20 transition-colors duration-300;
+  @apply border-2 border-primary/10 hover:border-primary/20 transition-colors duration-300;
 }
 
 .wojak-shadow {
-    @apply shadow-sm hover:shadow-md transition-shadow duration-300;
+  @apply shadow-sm hover:shadow-md transition-shadow duration-300;
 }
 
 .wojak-hover {
-    @apply transition-all duration-300 hover:-translate-y-0.5;
+  @apply transition-all duration-300 hover:-translate-y-0.5;
+}
+
+/* Additional backgrounds, hovers, etc. */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.03) 1px,
+      transparent 1px
+    );
+  background-size: 32px 32px;
+  opacity: 0.7;
+}
+
+.bg-radial-highlight {
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.9),
+    transparent 80%
+  );
+}
+
+.card-hover-border {
+  @apply border border-white/10 hover:border-white/20;
+  @apply transition-all duration-300;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.scroll-reveal.reveal {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.content-spacing {
+  @apply py-16 md:py-24;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.text-heading {
+  @apply text-4xl md:text-5xl lg:text-6xl font-bold;
+}
+
+.text-subheading {
+  @apply text-base md:text-lg text-white/70;
+}
+
+.text-white-muted {
+  @apply text-white/70;
+}
+
+.text-white-contrast {
+  @apply text-white/50;
 }

@@ -2,69 +2,69 @@ import React, { useState } from 'react';
 
 const faqs = [
     {
-        question: "What makes your AI different?",
-        answer: "ACTUALLY *adjusts glasses nervously* our AI (Autistic Intelligence) is powered by pure, unfiltered autism! We just hook up an autistic person to a Red Bull IV drip and let them stare at charts for 16 hours straight. The pattern recognition is INCREDIBLE!",
+        question: "How do different brains = better trading?",
+        answer: "*excitedly sharing insights* Oh my gosh, let me tell you! My ADHD helps me monitor multiple charts at once, my autism spots patterns others miss, and my dyslexia means I've created this AMAZING visual trading system! It's like having different superpowers that work together! Want to see my 50-slide presentation about it? I color-coded EVERYTHING! 🎨",
         emoji: "🧠"
     },
     {
-        question: "How does your AI analyze tokens?",
-        answer: "*excited hand flapping* We have a room of highly focused autistic people who LOVE arranging data by color, pattern, and arbitrary categories they made up at 3 AM! Just don't ask why all the charts are organized by which Pokémon they look like.",
-        emoji: "🤖"
-    },
-    {
-        question: "Is your pattern detection accurate?",
-        answer: "*intense eye contact* Our analysts have memorized EXACTLY 7,429 chart patterns, including that one that looks like a cat wearing a hat! We see triangles EVERYWHERE. Sometimes they're even real! Did you know the ascending triangle was discovered by an autistic person staring at charts until their eyes dried out?",
-        emoji: "📊"
-    },
-    {
-        question: "Can your AI spot scams?",
-        answer: "Remember that time we spent 72 hours straight categorizing every rugpull by their geometric patterns? Our analysts have memorized EVERY suspicious contract ever deployed. They even color-coded them by trustworthiness (we use EXACTLY 16 shades of red flags)!",
-        emoji: "🔍"
-    },
-    {
-        question: "How fast is your analysis?",
-        answer: "*starts rapidly listing features* Depends on how many energy drinks the analyst has had! Our current record holder processed 42 technical indicators simultaneously after discovering coffee (42 is the perfect number, don't argue). We had to remind them to blink!",
-        emoji: "✨"
-    },
-    {
-        question: "What about information overload?",
-        answer: "*speaking extremely fast* Information overload? You mean NORMAL LOAD? Our analysts THRIVE on overwhelming amounts of data! Though we did have to stop one from creating a 47-page report on a single 5-minute candle... it was a VERY interesting candle though!",
-        emoji: "🎨"
-    },
-    {
-        question: "How do you handle multiple tokens?",
-        answer: "*intense enthusiasm* That's when our analysts are in their ELEMENT! While neurotypicals get overwhelmed, our team is happily analyzing 50 charts simultaneously while reciting their favorite blockchain whitepapers backwards! We had to install wider monitors to fit all their patterns.",
-        emoji: "🦋"
-    },
-    {
-        question: "What's your analysis process like?",
-        answer: "*infodumping intensifies* First, we ensure optimal analysis conditions: exactly 3 monitors (arranged symmetrically), precise room temperature of 21.3°C, and NO LOUD NOISES (except for excited squealing when we spot a perfect Wyckoff pattern). Then we... wait, where was I? Oh yes, PATTERNS!",
+        question: "What's it like trading with ADHD?",
+        answer: "*bouncing with energy* It's like having 17 browser tabs open in your brain - but in a GOOD way! I can track multiple markets simultaneously, and when hyperfocus kicks in? MAGIC HAPPENS! Though sometimes I forget where I put my coffee... but hey, I spotted that trend reversal while looking for it! 😅",
         emoji: "⚡"
     },
     {
-        question: "What happens when analysis fails?",
-        answer: "*adjusts collar uncomfortably* Well... sometimes our ADHD analysts get distracted by a shiny new token mid-analysis. Or they start a 6-hour research session on the history of candlestick patterns instead of finishing the current chart. But that's what the backup analysts are for!",
+        question: "How does autism help with analysis?",
+        answer: "*intense focus activated* The patterns... they're EVERYWHERE! I can spend hours analyzing the tiniest details of a chart, and I LOVE IT! Did you know I've categorized every single candlestick pattern by shape, size, AND potential energy? I have a special spreadsheet just for triangles! Want to see it?",
+        emoji: "🔍"
+    },
+    {
+        question: "Trading with dyslexia - how's that work?",
+        answer: "*enthusiastically explaining* Traditional charts too confusing? NO PROBLEM! I created this AMAZING system using colors and shapes instead of numbers! Each pattern has its own color palette, and guess what? It works BETTER than traditional analysis! Want to see my rainbow trading strategy?",
+        emoji: "🎨"
+    },
+    {
+        question: "What's your secret trading weapon?",
+        answer: "*excited hand flapping* Our different ways of thinking! Like, my ADHD notices EVERYTHING happening at once, my autistic pattern recognition is INCREDIBLE, and my dyslexic visual thinking helps me see the big picture in a unique way! It's like having a trading SUPERPOWER COMBO!",
+        emoji: "💫"
+    },
+    {
+        question: "How do you handle market chaos?",
+        answer: "*laughs in pattern recognition* Chaos? You mean OPPORTUNITY! While others see random price moves, we're connecting dots they didn't even know existed! Though sometimes we get SO excited about our theories that we forget to eat... but look at this BEAUTIFUL correlation we found!",
+        emoji: "🌪️"
+    },
+    {
+        question: "What's your analysis setup like?",
+        answer: "*enthusiastically sharing special interest* First, everything MUST be perfectly arranged - monitors at EXACTLY 27.3 degrees, 16 different colored highlighters (each with its specific purpose!), and my lucky stim toy for intense analysis sessions! Want to see my 23-page setup guide?",
+        emoji: "🖥️"
+    },
+    {
+        question: "How do you stay focused on trading?",
+        answer: "*excited rambling* That's the neat part - we don't! Sometimes I start analyzing a chart and end up creating a complete theory about how moon phases affect token prices! But you know what? Those random connections often lead to our best discoveries!",
         emoji: "🎯"
     },
     {
-        question: "Any notable analysis disasters?",
-        answer: "*nervous laughter* There was that ONE time we let a neurotypical intern organize our pattern database... They sorted it alphabetically instead of by geometric similarity and RGB color values! It took us THREE DAYS to restore order. We still have nightmares about it.",
-        emoji: "💥"
+        question: "What about sensory overload?",
+        answer: "*sharing coping strategies* Oh, we've got this AMAZING system! Noise-canceling headphones, special monitor filters, and this COOL fidget toy that helps during intense market analysis! Plus, our special interest in crypto makes it easier to filter the important stuff!",
+        emoji: "🎧"
     },
     {
-        question: "What about missed predictions?",
-        answer: "*defensive hand gestures* Listen, sometimes our analysts get TOO excited about patterns and see them everywhere. Like that time someone was CONVINCED the chart formed a perfect Pikachu face and went all in... turns out it was just a regular double top. We don't talk about that day.",
-        emoji: "😅"
+        question: "How do you handle trading mistakes?",
+        answer: "*enthusiastically explaining systems* We've created this INCREDIBLE checklist system with exactly 42 steps (because that's the perfect number)! Each step has its own color code and verification process. Sometimes we get distracted by making the checklist prettier... but hey, it works!",
+        emoji: "✅"
     },
     {
-        question: "How do you handle trading errors?",
-        answer: "*speaking rapidly* Usually it's because someone's ADHD kicked in and they accidentally bought when they meant to sell (or bought 50 times instead of once because the button was fun to click). Or that time an analyst got so excited about a perfect fractal they forgot to actually place the trade!",
-        emoji: "🫣"
+        question: "What's your biggest trading strength?",
+        answer: "*passionate infodump incoming* Our ability to hyperfocus on details while seeing unique patterns! Like yesterday, I spent 14 hours analyzing this ONE pattern and found something AMAZING! Want to see my 147-slide presentation about it? I added animations!",
+        emoji: "💪"
     },
     {
-        question: "What's your biggest challenge?",
-        answer: "*sighs deeply* Honestly? When neurotypicals try to 'help' by organizing things 'normally' or suggesting we 'take breaks'. Or when our ADHD makes us start 47 different analyses without finishing any... But hey, at least we have really cool spreadsheets color-coded by market cap!",
-        emoji: "😮‍💨"
+        question: "How do you explain your trades to others?",
+        answer: "*excited hand gestures* Well, sometimes people don't understand why we grouped trades by color psychology AND lunar phases... but that's okay! We've created this AWESOME visualization system that makes perfect sense (to us, at least!). Want to see our 3D chart model?",
+        emoji: "📈"
+    },
+    {
+        question: "Any unique trading strategies?",
+        answer: "*happy stimming* OH BOY, do we! We've combined traditional analysis with our special interests to create something TOTALLY unique! Like our Pokemon-inspired pattern system (that double-bottom really DOES look like a sleeping Snorlax!). It works surprisingly well!",
+        emoji: "🎮"
     }
 ];
 
@@ -95,11 +95,13 @@ function FAQ() {
                 {/* Header */}
                 <div className="text-center mb-16">
                     <h2 className="text-5xl font-bold text-primary mb-4 inline-flex items-center gap-4">
-                        Frequently Asked Questions
-                        <span className="animate-bounce">❓</span>
+                        Questions We Get A Lot! 
+                        <span className="animate-bounce">🤔</span>
                     </h2>
                     <p className="text-xl text-text-secondary">
-                        Everything you need to know about our autistic approach to trading!
+                        Everything you wanted to know about our neurodivergent trading superpowers!
+                        <br/>
+                        <span className="text-lg">(And yes, we might get a bit excited explaining things! 🎯)</span>
                     </p>
                 </div>
 
@@ -140,13 +142,16 @@ function FAQ() {
 
                 {/* Disclaimer */}
                 <div className="max-w-3xl mx-auto mt-16">
-                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border-2 border-dashed border-meme/20 flex items-center gap-4 shadow-lg shadow-primary/5">
-                        <span className="text-2xl animate-shake">⚠️</span>
-                        <p className="text-lg text-text-secondary italic">
-                            Warning: Side effects may include excessive pattern recognition,
-                            chart obsession, and the inability to stop talking about technical analysis!
-                        </p>
-                    </div>
+                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border-2 border-dashed border-meme/20 flex items-center gap-4 shadow-lg shadow-primary/5">
+                    <span className="text-2xl animate-shake">⚠️</span>
+                    <p className="text-lg text-text-secondary italic">
+                        Warning: Side effects may include excessive pattern recognition, 
+                        ADHD-powered multi-chart analysis, dyslexic visual trading strategies, 
+                        autistic deep-dives into token mechanics, and the unstoppable urge to 
+                        explain why THIS pattern is DEFINITELY different from the last 17 we found! 
+                        (But that's what makes us awesome! 🚀)
+                    </p>
+                </div>
                 </div>
             </div>
         </section>

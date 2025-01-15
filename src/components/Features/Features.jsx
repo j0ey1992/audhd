@@ -2,26 +2,26 @@ import React from 'react';
 
 const features = [
     {
-        title: 'Pattern Recognition',
-        description: 'See patterns that don\'t exist! Our AI token combines autism-level pattern recognition with actual AI technology.',
+        title: 'Autistic Pattern Power! 🧩',
+        description: 'So last night at 3 AM, I noticed this INCREDIBLE pattern in the charts that nobody else saw! My brain just connects dots differently - like that time I found a correlation between DeFi protocols and pizza delivery times! (I have a 50-slide presentation about it!)',
         emoji: '🔍',
         color: 'from-primary/20 to-accent/20'
     },
     {
-        title: 'Hyperfixation Mode',
-        description: 'Stare at charts for 16 hours straight without blinking! Time flies when you\'re analyzing the 1-second chart.',
+        title: 'ADHD Multitasking Magic! ⚡',
+        description: 'Who else can watch 12 charts, read 3 whitepapers, and spot a trend reversal ALL AT ONCE? Sure, I might forget where I put my coffee (found it 3 days later in the fridge), but I caught that price movement before anyone else!',
         emoji: '👀',
         color: 'bg-accent/10'
     },
     {
-        title: 'Info Dumping',
-        description: 'Share detailed technical analysis that nobody asked for! Including every indicator known to mankind.',
+        title: 'Dyslexic Visual Mastery! 🎨',
+        description: 'Text-heavy analysis? Nah! I created this AMAZING visual trading system with colors, shapes, and patterns! Others might see chaos, but to me, it\'s like reading a beautiful story in charts! Want to see my rainbow-coded strategy map?',
         emoji: '📊',
         color: 'bg-secondary/10'
     },
     {
-        title: 'Social Awkwardness',
-        description: 'Miss every social cue in the trading chat, but catch every hidden bullish divergence!',
+        title: 'Hyperfocus Superpower! 🚀',
+        description: 'Once I start researching a project, I CANNOT STOP! Did you know I spent 16 hours straight analyzing token economics? Found 42 unique patterns! My family had to remind me to eat... but look at this BEAUTIFUL spreadsheet I made!',
         emoji: '🤓',
         color: 'bg-primary/10'
     }
@@ -29,28 +29,28 @@ const features = [
 
 const hyperfixations = [
     {
-        title: 'AI Smart Contract Analyzer',
-        description: 'Building advanced AI systems to detect vulnerabilities and optimize smart contract code.',
+        title: 'Smart Contract Detective Mode! 🔍',
+        description: 'My autistic attention to detail is PERFECT for this! I read every single line of code 17 times (yes, exactly 17 - it\'s the perfect number for code review!). Found a tiny detail that everyone missed! Want to see my 200-page analysis? I color-coded EVERYTHING!',
         emoji: '🤖',
-        intensity: 'Maximum'
+        intensity: 'Maximum Hyperfocus'
     },
     {
-        title: 'AI Wallet Analysis',
-        description: 'Using machine learning to analyze wallet behaviors and predict market movements.',
+        title: 'ADHD Market Insights! 🎯',
+        description: 'You know that moment when your brain connects 15 different pieces of information at once? That\'s how I predicted the last trend! Everyone was like "How did you know?" and I\'m like "Well, let me explain my theory about how meme sentiment correlates with lunar cycles..."',
         emoji: '👛',
-        intensity: 'Extreme'
+        intensity: 'Lightning Brain'
     },
     {
-        title: 'Risk-Reward AI',
-        description: 'Developing AI models to calculate optimal risk-reward ratios for trading positions.',
+        title: 'Dyslexic Pattern Recognition! 🌈',
+        description: 'Who needs traditional chart patterns when you can create your own visual system? I turned price action into a color-based pattern recognition tool! Others see random candles, I see a beautiful story unfolding in RAINBOW COLORS!',
         emoji: '⚖️',
-        intensity: 'Obsessive'
+        intensity: 'Visual Flow'
     },
     {
-        title: 'AI Chart Analysis',
-        description: 'Training neural networks to identify complex patterns in crypto price charts.',
+        title: 'Special Interest Deep Dive! 📚',
+        description: 'Did you know I can name EVERY token launch from the past year? In chronological order? With their exact timestamps? I might have forgotten to eat dinner, but I created this AMAZING correlation matrix! Look at all these connections! No one\'s EVER noticed this before!',
         emoji: '📊',
-        intensity: 'Extreme'
+        intensity: 'Full Obsession'
     }
 ];
 
@@ -67,11 +67,12 @@ function Features() {
                 {/* Header */}
                 <div className="text-center mb-20">
                     <h2 className="font-heading text-5xl lg:text-6xl font-bold text-primary mb-6">
-                        Why Choose Autistic Intelligence?
-                        <span className="ml-4">🧠</span>
+                        Neurodivergent Trading Powers!
+                        <span className="ml-4">🧠✨</span>
                     </h2>
                     <p className="text-xl text-gray-600 font-heading max-w-2xl mx-auto">
-                        Because nobody analyzes charts like we do!
+                        When your brain works differently, you see opportunities others miss! 
+                        (And yes, I've categorized these opportunities into 7 different spreadsheets!)
                     </p>
                 </div>
 
@@ -94,16 +95,16 @@ function Features() {
                     ))}
                 </div>
 
-                {/* Pattern Analysis */}
-                {/* Current Hyperfocuses */}
                 {/* Current Hyperfocuses */}
                 <div className="mt-32">
                     <div className="text-center mb-16">
                         <h3 className="font-heading text-4xl lg:text-5xl font-bold text-primary mb-4">
-                            🧠 Current Hyperfocuses
+                            Current Hyperfixations! 🎯
                         </h3>
                         <p className="text-xl text-gray-600 font-heading">
-                            What we're obsessing over right now!
+                            When we say "deep dive," we mean "forgot to sleep for 3 days because THIS IS SO INTERESTING!"
+                            <br/>
+                            <span className="text-sm">(Don't worry, we eventually remembered to eat... usually! 😅)</span>
                         </p>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -112,7 +113,6 @@ function Features() {
                                 key={fixation.title}
                                 className="group bg-white/90 backdrop-blur-sm p-8 rounded-xl border border-primary/10 hover:border-primary/20 transition-all duration-300 hover:bg-white relative overflow-hidden"
                             >
-
                                 <div className="flex items-center gap-4 mb-6">
                                     <div className="w-12 h-12 flex items-center justify-center bg-primary/5 rounded-lg group-hover:scale-110 transition-transform duration-300">
                                         <span className="text-2xl">{fixation.emoji}</span>
@@ -124,7 +124,7 @@ function Features() {
                                 {/* Simplified Intensity Meter */}
                                 <div className="mt-auto">
                                     <div className="flex justify-between items-center mb-2">
-                                        <span className="text-sm font-heading text-gray-600">Intensity:</span>
+                                        <span className="text-sm font-heading text-gray-600">Focus Level:</span>
                                         <span className="text-sm font-heading font-bold text-primary">{fixation.intensity}</span>
                                     </div>
                                     <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">
