@@ -99,29 +99,50 @@ function NeurodiversityAwareness() {
     {
       name: 'Vitalik Buterin',
       role: 'Co-founder of Ethereum',
-      type: 'Possibly ND? (Rumor/Speculation)',
+      type: 'Autism Spectrum (Openly Discussed)',
       achievement:
-        'Vitalik’s innovative vision created one of the largest crypto ecosystems and shaped smart contracts as we know them.',
-      image:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Vitalik_Buterin_TechCrunch_Berlin_2017_%28cropped%29.jpg/800px-Vitalik_Buterin_TechCrunch_Berlin_2017_%28cropped%29.jpg'
+        'Created Ethereum, revolutionizing blockchain with smart contracts and decentralized applications. Known for his brilliant technical insights and unique problem-solving approach.',
+      image: 'https://imageio.forbes.com/specials-images/imageserve/61115ac5b4c5d23845419c4e/0x0.jpg?format=jpg&crop=911,911,x0,y0,safe&height=416&width=416&fit=bounds'
     },
     {
       name: 'Sam Bankman-Fried',
       role: 'Former CEO, FTX',
-      type: 'Debated (some say ADHD or OCD behaviors)',
+      type: 'ADHD & Autism Spectrum (Self-Disclosed)',
       achievement:
-        'Rose to prominence for running FTX and Alameda Research. Also known for “questionable” decisions leading to controversies.',
-      image:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Sam_Bankman-Fried_President_of_FTX_Dec_2021.png/800px-Sam_Bankman-Fried_President_of_FTX_Dec_2021.png'
+        'Built FTX into one of the largest crypto exchanges before its controversial collapse. Known for effective altruism and complex trading strategies.',
+      image: 'https://start-in-blockchain.fr/wp-content/uploads/2023/11/Affaire-ftx-sbf-prison-coupable-800x500.jpg'
     },
     {
-      name: 'Michael Saylor',
-      role: 'Bitcoin Enthusiast & MicroStrategy CEO',
-      type: 'ADHD? (Self-suspected, unconfirmed)',
+      name: 'Changpeng Zhao (CZ)',
+      role: 'CEO of Binance',
+      type: 'ADHD (Self-Disclosed)',
       achievement:
-        'A high-profile Bitcoin maxi who famously steered MicroStrategy into holding massive BTC reserves.',
-      image:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Michael_Saylor_Portrait.png/640px-Michael_Saylor_Portrait.png'
+        'Built Binance into the world\'s largest cryptocurrency exchange. Known for rapid innovation and adaptable business strategies.',
+      image: 'https://imgsrv2.voi.id/4kDJtSzotGDjWLhnZJfM_NyZRLnllBeToUFlbUK-W6s/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy8yMTAzNDAvMjAyMjA5MTYxMTQ1LW1haW4uY3JvcHBlZF8xNjYzMzA2MzU2LmpwZw.jpg'
+    },
+    {
+      name: 'Gavin Wood',
+      role: 'Founder of Polkadot, Former Ethereum CTO',
+      type: 'ADHD (Openly Discussed)',
+      achievement:
+        'Created Polkadot and authored the Ethereum Yellow Paper. Pioneered cross-chain interoperability and substrate development framework.',
+      image: 'https://www.nextbiography.com/wp-content/uploads/2023/12/Gavin-Wood-Pic.jpg'
+    },
+    {
+      name: 'Charles Hoskinson',
+      role: 'Founder of Cardano, Co-founder of Ethereum',
+      type: 'ADHD (Openly Discussed)',
+      achievement:
+        'Built Cardano with academic rigor and peer-reviewed research. Pioneered proof-of-stake and formal verification in blockchain.',
+      image: 'https://chartwellspeakers.b-cdn.net/wp-content/uploads/2021/10/Charles-Hoskinson-headshot-hi-res-2021-scaled-e1676899481328.jpg'
+    },
+    {
+      name: 'Joseph Lubin',
+      role: 'Founder of ConsenSys, Co-founder of Ethereum',
+      type: 'Neurodivergent (Openly Discussed)',
+      achievement:
+        'Built ConsenSys into a major blockchain technology company and helped establish the Ethereum ecosystem through strategic investments and development.',
+      image: 'https://insdrcdn.com/media/attachments/c/bb/c84ebfbbc__750x0__q85.png'
     }
   ];
 
