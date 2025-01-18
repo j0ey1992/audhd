@@ -7,6 +7,7 @@ import { rateLimiter } from './api/middleware/rateLimit.js';
 import aiRoutes from './api/routes/aiRoutes.js';
 import dataRoutes from './api/routes/dataRoutes.js';
 import userRoutes from './api/routes/userRoutes.js';
+import moralisRoutes from './api/routes/moralisRoutes.js';
 import { config } from './config.js';
 
 // ES module support
@@ -36,6 +37,7 @@ app.use(rateLimiter);
 app.use('/api/v1/ai', aiRoutes);
 app.use('/api/v1/data', dataRoutes);
 app.use('/api/v1/user', userRoutes);
+app.use('/api/moralis', moralisRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {
@@ -46,7 +48,8 @@ app.get('/health', (req, res) => {
         services: {
             ai: '✅',
             data: '✅',
-            user: '✅'
+            user: '✅',
+            moralis: '✅'
         }
     });
 });
@@ -74,6 +77,12 @@ app.get('/api/docs', (req, res) => {
                 'GET /api/v1/user/notifications': 'Get user notifications',
                 'PUT /api/v1/user/notifications/:id/read': 'Mark notification as read',
                 'PUT /api/v1/user/notifications/settings': 'Update notification settings'
+            },
+            moralis: {
+                'GET /api/moralis/token/:address/balances': 'Get token balances',
+                'GET /api/moralis/token/:address/price': 'Get token price',
+                'GET /api/moralis/token/:address/stats': 'Get token stats',
+                'GET /api/moralis/token/:address/transfers': 'Get token transfers'
             }
         }
     });

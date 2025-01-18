@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(config.geminiApiKey);
 const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
 
 // Personality definitions
-const PERSONALITIES = {
+export const PERSONALITIES = {
     AUTISM: {
         name: 'Autism',
         emoji: '🧠',

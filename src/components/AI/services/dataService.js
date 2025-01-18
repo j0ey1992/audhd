@@ -1,6 +1,7 @@
 import { getTokenAnalysis as getDexTokenAnalysis } from './dexService';
 import { analyzeChartPatterns, analyzeMarketSentiment, getSpecificInsights } from './gemini';
 import { detectQuestionType } from './contextManager';
+import { getTokenPrice, getTokenStats, getTokenTransfers } from './moralisService';
 
 // Cache implementation with shorter duration and proper cleanup
 const cache = new Map();
@@ -59,31 +60,47 @@ export const getTokenAnalysis = async (contractAddress) => {
         }
         cache.delete(cacheKey);
     }
+try {
+    // Fetch data from both DexScreener and Moralis
+    const [tokenData, moralisPrice, moralisStats, moralisTransfers] = await Promise.all([
+        getDexTokenAnalysis(contractAddress),
+        getTokenPrice(contractAddress).catch(err => null),
+        getTokenStats(contractAddress).catch(err => null),
+        getTokenTransfers(contractAddress).catch(err => null)
+    ]);
+    
+    if (!tokenData || !tokenData.tokenData) {
+        throw new Error('Invalid token data received');
+    }
 
-    try {
-        // Fetch data from DexScreener
-        const tokenData = await getDexTokenAnalysis(contractAddress);
-        
-        if (!tokenData || !tokenData.tokenData) {
-            throw new Error('Invalid token data received');
+    // Enhance token data with Moralis information
+    const enhancedTokenData = {
+        ...tokenData.tokenData,
+        moralis: {
+            price: moralisPrice,
+            stats: moralisStats,
+            recentTransfers: moralisTransfers?.result?.slice(0, 10) || []
         }
+    };
 
-        // Get AI analysis from Gemini
-        const [chartAnalysis, sentimentAnalysis] = await Promise.all([
-            analyzeChartPatterns({
-                price: tokenData.tokenData.price,
-                market: tokenData.tokenData.market,
-                metadata: tokenData.tokenData.metadata,
-                chart: tokenData.tokenData.chart
-            }, contractAddress),
-            analyzeMarketSentiment(contractAddress, {
-                price_data: tokenData.tokenData.price,
-                market_data: tokenData.tokenData.market
-            })
-        ]);
+    // Get AI analysis from Gemini with enhanced data
+    const [chartAnalysis, sentimentAnalysis] = await Promise.all([
+        analyzeChartPatterns({
+            price: enhancedTokenData.price,
+            market: enhancedTokenData.market,
+            metadata: enhancedTokenData.metadata,
+            chart: enhancedTokenData.chart,
+            moralis: enhancedTokenData.moralis
+        }, contractAddress),
+        analyzeMarketSentiment(contractAddress, {
+            price_data: enhancedTokenData.price,
+            market_data: enhancedTokenData.market,
+            moralis_data: enhancedTokenData.moralis
+        })
+    ]);
 
-        const result = {
-            tokenData: tokenData.tokenData,
+    const result = {
+        tokenData: enhancedTokenData,
             chartAnalysis,
             sentimentAnalysis,
             timestamp: Date.now()
@@ -128,6 +145,11 @@ export const getTokenAnalysis = async (contractAddress) => {
                     })),
                     support: 0.95,
                     resistance: 1.05
+                },
+                moralis: {
+                    price: null,
+                    stats: null,
+                    recentTransfers: []
                 }
             },
             chartAnalysis: "I've detected some interesting patterns in the price action. The market structure shows potential support and resistance levels...",

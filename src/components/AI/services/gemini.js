@@ -169,7 +169,27 @@ Market Data:
 - 24h Volume: $${data.market.volume_24h}
 - Supply: ${data.market.circulating_supply}
 
-Provide a detailed technical analysis focusing on chart patterns and price action.`;
+Moralis Data:
+${data.moralis ? `
+Price Data:
+${data.moralis.price ? `- Additional Price Info: ${JSON.stringify(data.moralis.price, null, 2)}` : '- No additional price data available'}
+
+Token Stats:
+${data.moralis.stats ? `- Token Statistics: ${JSON.stringify(data.moralis.stats, null, 2)}` : '- No token stats available'}
+
+Recent Transfers:
+${data.moralis.recentTransfers?.length > 0 ? 
+  `- Last ${data.moralis.recentTransfers.length} transfers:\n${data.moralis.recentTransfers.map(t => 
+    `  • From: ${t.from_address.slice(0,6)}...${t.from_address.slice(-4)}\n    To: ${t.to_address.slice(0,6)}...${t.to_address.slice(-4)}\n    Amount: ${t.value}`
+  ).join('\n')}` 
+  : '- No recent transfers available'}
+` : '- No Moralis data available'}
+
+Provide a detailed technical analysis focusing on:
+1. Chart patterns and price action
+2. On-chain metrics from Moralis (transfers, holder behavior)
+3. Market sentiment based on combined data
+4. Risk assessment considering both price and on-chain data`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -222,7 +242,28 @@ Market Cap: $${data.market_data.market_cap}
 Volume: $${data.market_data.volume_24h}
 Supply: ${data.market_data.circulating_supply}
 
-Analyze the current market sentiment and compare with previous sentiment if available.`;
+On-Chain Data from Moralis:
+${data.moralis_data ? `
+Token Stats:
+${data.moralis_data.stats ? `${JSON.stringify(data.moralis_data.stats, null, 2)}` : '- No token stats available'}
+
+Recent Transfer Activity:
+${data.moralis_data.recentTransfers?.length > 0 ? 
+  `- Last ${data.moralis_data.recentTransfers.length} transfers analyzed
+- Transfer volume: ${data.moralis_data.recentTransfers.reduce((acc, t) => acc + parseFloat(t.value || 0), 0)}
+- Unique addresses involved: ${new Set([
+    ...data.moralis_data.recentTransfers.map(t => t.from_address),
+    ...data.moralis_data.recentTransfers.map(t => t.to_address)
+  ]).size}`
+  : '- No recent transfers available'}
+` : '- No Moralis data available'}
+
+Analyze:
+1. Current market sentiment based on price and volume
+2. On-chain sentiment indicators from transfer patterns
+3. Holder behavior and distribution
+4. Compare with previous sentiment if available
+5. Overall market confidence score`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -262,25 +303,56 @@ export const getSpecificInsights = async (aspect, data, tokenId) => {
         ).join('\n\n');
 
         let prompt = `${basePrompt}\n\nPrevious Context:\n${conversationContext}\n\n`;
-        
+
         if (data) {
+            prompt += `Token Information:\n`;
             if (data.metadata) {
-                prompt += `Token Information:\n`;
                 prompt += `Name: ${data.metadata.name}\n`;
                 prompt += `Symbol: ${data.metadata.symbol}\n`;
                 prompt += `Network: ${data.metadata.chain}\n\n`;
             }
-            
-            prompt += `Market Data:\n${JSON.stringify(data, null, 2)}\n\n`;
+
+            prompt += `Market Analysis:\n`;
+            if (data.price_data) {
+                prompt += `Price: $${data.price_data.current}\n`;
+                prompt += `24h Change: ${data.price_data.change_24h}%\n`;
+            }
+            if (data.market_data) {
+                prompt += `Market Cap: $${data.market_data.market_cap}\n`;
+                prompt += `Volume: $${data.market_data.volume_24h}\n\n`;
+            }
+
+            if (data.moralis_data) {
+                prompt += `On-Chain Analysis:\n`;
+                
+                if (data.moralis_data.stats) {
+                    prompt += `Token Statistics:\n${JSON.stringify(data.moralis_data.stats, null, 2)}\n\n`;
+                }
+
+                if (data.moralis_data.recentTransfers?.length > 0) {
+                    const transfers = data.moralis_data.recentTransfers;
+                    const totalVolume = transfers.reduce((acc, t) => acc + parseFloat(t.value || 0), 0);
+                    const uniqueAddresses = new Set([
+                        ...transfers.map(t => t.from_address),
+                        ...transfers.map(t => t.to_address)
+                    ]);
+
+                    prompt += `Recent Transfer Activity:\n`;
+                    prompt += `- Total Transfers: ${transfers.length}\n`;
+                    prompt += `- Transfer Volume: ${totalVolume}\n`;
+                    prompt += `- Unique Addresses: ${uniqueAddresses.size}\n`;
+                    prompt += `- Average Transfer Size: ${totalVolume / transfers.length}\n\n`;
+                }
+            }
         }
 
         prompt += `Current Request: ${aspect}\n\n`;
-        
-        if (context.format.sections) {
-            prompt += `Provide an analysis covering the specified sections, incorporating previous context when relevant.`;
-        } else {
-            prompt += `Provide a natural response that addresses the question, incorporating available data when relevant.`;
-        }
+        prompt += `Analyze the following aspects:\n`;
+        prompt += `1. Specific insights related to the user's question\n`;
+        prompt += `2. Relevant on-chain metrics and their implications\n`;
+        prompt += `3. Market context and sentiment\n`;
+        prompt += `4. Risk factors and opportunities\n`;
+        prompt += `5. Actionable insights based on all available data\n`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;

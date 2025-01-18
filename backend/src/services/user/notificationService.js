@@ -2,7 +2,7 @@ import { COLLECTIONS, addDocument, getDocument, updateDocument } from '../../uti
 import { getUserPreferences } from './preferencesService.js';
 
 // Notification types
-const NOTIFICATION_TYPES = {
+export const NOTIFICATION_TYPES = {
     PRICE_ALERT: 'price_alert',
     VOLUME_ALERT: 'volume_alert',
     LIQUIDITY_ALERT: 'liquidity_alert',
@@ -11,7 +11,7 @@ const NOTIFICATION_TYPES = {
 };
 
 // Notification priorities
-const PRIORITIES = {
+export const PRIORITIES = {
     LOW: 'low',
     MEDIUM: 'medium',
     HIGH: 'high',
