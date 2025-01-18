@@ -1,7 +1,7 @@
 import { getTokenAnalysis as getDexTokenAnalysis } from './dexService';
 import { analyzeChartPatterns, analyzeMarketSentiment, getSpecificInsights } from './gemini';
 import { detectQuestionType } from './contextManager';
-import { getTokenPrice, getTokenStats, getTokenTransfers } from './moralisService';
+import { getTokenPrice, getTokenStats, getTokenTransfers, hasError } from './moralisService';
 
 // Cache implementation with shorter duration and proper cleanup
 const cache = new Map();
@@ -48,6 +48,23 @@ export const analyzeUserQuestion = async (question, data, contractAddress) => {
     }
 };
 
+// Function to determine chain from contract address
+const determineChain = (contractAddress, dexData) => {
+    if (!dexData || !dexData.tokenData || !dexData.tokenData.metadata) {
+        return 'eth'; // Default to ETH if no DEX data
+    }
+    
+    const chainMap = {
+        'cronos': 'cronos',
+        'ethereum': 'eth',
+        'bsc': 'bsc',
+        'polygon': 'polygon'
+    };
+
+    const chain = dexData.tokenData.metadata.chain.toLowerCase();
+    return chainMap[chain] || chain;
+};
+
 // Function to get token analysis with fallback
 export const getTokenAnalysis = async (contractAddress) => {
     cleanCache(); // Clean expired entries first
@@ -60,47 +77,65 @@ export const getTokenAnalysis = async (contractAddress) => {
         }
         cache.delete(cacheKey);
     }
-try {
-    // Fetch data from both DexScreener and Moralis
-    const [tokenData, moralisPrice, moralisStats, moralisTransfers] = await Promise.all([
-        getDexTokenAnalysis(contractAddress),
-        getTokenPrice(contractAddress).catch(err => null),
-        getTokenStats(contractAddress).catch(err => null),
-        getTokenTransfers(contractAddress).catch(err => null)
-    ]);
-    
-    if (!tokenData || !tokenData.tokenData) {
-        throw new Error('Invalid token data received');
-    }
 
-    // Enhance token data with Moralis information
-    const enhancedTokenData = {
-        ...tokenData.tokenData,
-        moralis: {
-            price: moralisPrice,
-            stats: moralisStats,
-            recentTransfers: moralisTransfers?.result?.slice(0, 10) || []
+    try {
+        // First get DEX data to determine the chain
+        const tokenData = await getDexTokenAnalysis(contractAddress);
+        if (!tokenData || !tokenData.tokenData) {
+            throw new Error('Invalid token data received');
         }
-    };
 
-    // Get AI analysis from Gemini with enhanced data
-    const [chartAnalysis, sentimentAnalysis] = await Promise.all([
-        analyzeChartPatterns({
-            price: enhancedTokenData.price,
-            market: enhancedTokenData.market,
-            metadata: enhancedTokenData.metadata,
-            chart: enhancedTokenData.chart,
-            moralis: enhancedTokenData.moralis
-        }, contractAddress),
-        analyzeMarketSentiment(contractAddress, {
-            price_data: enhancedTokenData.price,
-            market_data: enhancedTokenData.market,
-            moralis_data: enhancedTokenData.moralis
-        })
-    ]);
+        // Determine the chain from DEX data
+        const chain = determineChain(contractAddress, tokenData);
+        console.log(`Determined chain for ${contractAddress}: ${chain}`);
 
-    const result = {
-        tokenData: enhancedTokenData,
+        // Fetch Moralis data with the determined chain
+        const [moralisPrice, moralisStats, moralisTransfers] = await Promise.all([
+            getTokenPrice(contractAddress, chain),
+            getTokenStats(contractAddress, chain),
+            getTokenTransfers(contractAddress, chain)
+        ]);
+
+        // Check for Moralis errors
+        if (hasError(moralisPrice)) {
+            console.warn('Moralis price error:', moralisPrice.error);
+        }
+        if (hasError(moralisStats)) {
+            console.warn('Moralis stats error:', moralisStats.error);
+        }
+        if (hasError(moralisTransfers)) {
+            console.warn('Moralis transfers error:', moralisTransfers.error);
+        }
+
+        // Enhance token data with Moralis information
+        const enhancedTokenData = {
+            ...tokenData.tokenData,
+            moralis: {
+                price: hasError(moralisPrice) ? null : moralisPrice,
+                stats: hasError(moralisStats) ? null : moralisStats,
+                recentTransfers: hasError(moralisTransfers) ? [] : 
+                    moralisTransfers.result?.slice(0, 10) || []
+            }
+        };
+
+        // Get AI analysis from Gemini with enhanced data
+        const [chartAnalysis, sentimentAnalysis] = await Promise.all([
+            analyzeChartPatterns({
+                price: enhancedTokenData.price,
+                market: enhancedTokenData.market,
+                metadata: enhancedTokenData.metadata,
+                chart: enhancedTokenData.chart,
+                moralis: enhancedTokenData.moralis
+            }, contractAddress),
+            analyzeMarketSentiment(contractAddress, {
+                price_data: enhancedTokenData.price,
+                market_data: enhancedTokenData.market,
+                moralis_data: enhancedTokenData.moralis
+            })
+        ]);
+
+        const result = {
+            tokenData: enhancedTokenData,
             chartAnalysis,
             sentimentAnalysis,
             timestamp: Date.now()

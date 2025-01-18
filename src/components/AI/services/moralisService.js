@@ -6,53 +6,76 @@ const moralisClient = axios.create({
     baseURL: API_BASE_URL
 });
 
+// Helper function to handle errors
+const handleError = (error, operation) => {
+    const errorDetails = {
+        message: error.response?.data?.details || error.message,
+        chain: error.response?.data?.chain,
+        address: error.response?.data?.address,
+        status: error.response?.status
+    };
+    console.error(`Moralis ${operation} error:`, errorDetails);
+    return { error: errorDetails };
+};
+
 // Token Balances and Metadata
-export const getTokenBalances = async (address) => {
+export const getTokenBalances = async (address, chain = 'eth') => {
     try {
-        const response = await moralisClient.get(`/token/${address}/balances`);
+        const response = await moralisClient.get(`/token/${address}/balances`, {
+            params: { chain }
+        });
         return response.data;
     } catch (error) {
-        console.error('Moralis getTokenBalances error:', error);
-        return null;
+        return handleError(error, 'getTokenBalances');
     }
 };
 
 // Token Price and Market Data
-export const getTokenPrice = async (tokenAddress) => {
+export const getTokenPrice = async (tokenAddress, chain = 'eth') => {
     try {
-        const response = await moralisClient.get(`/token/${tokenAddress}/price`);
+        console.log(`Requesting token price for address: ${tokenAddress} on chain: ${chain}`);
+        const response = await moralisClient.get(`/token/${tokenAddress}/price`, {
+            params: { chain }
+        });
         return response.data;
     } catch (error) {
-        console.error('Moralis getTokenPrice error:', error);
-        return null;
+        return handleError(error, 'getTokenPrice');
     }
 };
 
 // Token Stats
-export const getTokenStats = async (tokenAddress) => {
+export const getTokenStats = async (tokenAddress, chain = 'eth') => {
     try {
-        const response = await moralisClient.get(`/token/${tokenAddress}/stats`);
+        const response = await moralisClient.get(`/token/${tokenAddress}/stats`, {
+            params: { chain }
+        });
         return response.data;
     } catch (error) {
-        console.error('Moralis getTokenStats error:', error);
-        return null;
+        return handleError(error, 'getTokenStats');
     }
 };
 
 // Token Transfers
-export const getTokenTransfers = async (address) => {
+export const getTokenTransfers = async (address, chain = 'eth') => {
     try {
-        const response = await moralisClient.get(`/token/${address}/transfers`);
+        const response = await moralisClient.get(`/token/${address}/transfers`, {
+            params: { chain }
+        });
         return response.data;
     } catch (error) {
-        console.error('Moralis getTokenTransfers error:', error);
-        return null;
+        return handleError(error, 'getTokenTransfers');
     }
+};
+
+// Helper function to check if response contains an error
+export const hasError = (response) => {
+    return response && response.error;
 };
 
 export default {
     getTokenBalances,
     getTokenPrice,
     getTokenStats,
-    getTokenTransfers
+    getTokenTransfers,
+    hasError
 };
