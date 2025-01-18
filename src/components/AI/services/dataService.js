@@ -1,7 +1,16 @@
 import { getTokenAnalysis as getDexTokenAnalysis } from './dexService';
 import { analyzeChartPatterns, analyzeMarketSentiment, getSpecificInsights } from './gemini';
 import { detectQuestionType } from './contextManager';
-import { getTokenPrice, getTokenStats, getTokenTransfers, hasError } from './moralisService';
+import { 
+    getTokenPrice, 
+    getTokenStats, 
+    getTokenTransfers, 
+    getTokenOwners,
+    getDefiPositionsSummary,
+    getTopERC20TokensByMarketCap,
+    getAggregatedTokenPairStats,
+    hasError 
+} from './moralisService';
 
 // Cache implementation with shorter duration and proper cleanup
 const cache = new Map();
@@ -85,36 +94,98 @@ export const getTokenAnalysis = async (contractAddress) => {
             throw new Error('Invalid token data received');
         }
 
-        // Determine the chain from DEX data
-        const chain = determineChain(contractAddress, tokenData);
-        console.log(`Determined chain for ${contractAddress}: ${chain}`);
+        // Determine chain and supported features
+        const chainType = determineChain(contractAddress, tokenData);
+        const isSupportedChain = ['eth', 'bsc', 'polygon'].includes(chainType.toLowerCase());
+        console.log(`Determined chain for ${contractAddress}: ${chainType} (Supported: ${isSupportedChain})`);
 
-        // Fetch Moralis data with the determined chain
-        const [moralisPrice, moralisStats, moralisTransfers] = await Promise.all([
-            getTokenPrice(contractAddress, chain),
-            getTokenStats(contractAddress, chain),
-            getTokenTransfers(contractAddress, chain)
-        ]);
+        // Basic endpoints that work on all chains
+        const basicPromises = [
+            getTokenPrice(contractAddress, chainType),
+            getTokenStats(contractAddress, chainType),
+            getTokenTransfers(contractAddress, chainType)
+        ];
 
-        // Check for Moralis errors
-        if (hasError(moralisPrice)) {
-            console.warn('Moralis price error:', moralisPrice.error);
-        }
-        if (hasError(moralisStats)) {
-            console.warn('Moralis stats error:', moralisStats.error);
-        }
-        if (hasError(moralisTransfers)) {
-            console.warn('Moralis transfers error:', moralisTransfers.error);
-        }
+        // Advanced endpoints only for supported chains
+        const advancedPromises = isSupportedChain ? [
+            getTokenOwners(contractAddress, chainType),
+            getDefiPositionsSummary(contractAddress, chainType),
+            getTopERC20TokensByMarketCap(chainType),
+            getAggregatedTokenPairStats(contractAddress, chainType)
+        ] : [
+            Promise.resolve({ result: [] }), // tokenOwners fallback
+            Promise.resolve({ positions: [] }), // defiPositions fallback
+            Promise.resolve({ tokens: [] }), // topTokens fallback
+            Promise.resolve(null) // pairStats fallback
+        ];
 
-        // Enhance token data with Moralis information
+        // Fetch all Moralis data in parallel
+        const [
+            moralisPrice,
+            moralisStats,
+            moralisTransfers,
+            tokenOwners,
+            defiPositions,
+            topTokens,
+            pairStats
+        ] = await Promise.all([...basicPromises, ...advancedPromises]);
+
+        // Process token owners data safely
+        const processTokenOwners = (data) => {
+            if (hasError(data) || !data.result) return {
+                holders: [],
+                distribution: {
+                    totalHolders: 0,
+                    topHoldersPercentage: 0
+                }
+            };
+
+            const holders = data.result || [];
+            const totalBalance = holders.reduce((acc, holder) => acc + (parseFloat(holder.balance) || 0), 0);
+            const topHoldersBalance = holders.slice(0, 10).reduce((acc, holder) => acc + (parseFloat(holder.balance) || 0), 0);
+
+            return {
+                holders: holders,
+                distribution: {
+                    totalHolders: data.total || holders.length,
+                    topHoldersPercentage: totalBalance > 0 ? (topHoldersBalance / totalBalance) * 100 : 0
+                }
+            };
+        };
+
+        // Process DeFi positions safely
+        const processDefiPositions = (data) => {
+            if (hasError(data) || !data.positions) return {
+                positions: [],
+                totalValueLocked: 0
+            };
+
+            return {
+                positions: data.positions || [],
+                totalValueLocked: data.positions.reduce((acc, pos) => acc + (parseFloat(pos.value) || 0), 0)
+            };
+        };
+
+        // Process market data safely
+        const processMarketData = (topTokensData, pairStatsData, tokenAddress) => {
+            return {
+                topTokens: hasError(topTokensData) ? [] : (topTokensData.tokens?.slice(0, 10) || []),
+                marketRank: hasError(topTokensData) ? null : 
+                    (topTokensData.tokens?.findIndex(t => t.address.toLowerCase() === tokenAddress.toLowerCase()) + 1 || null),
+                pairStats: hasError(pairStatsData) ? null : pairStatsData
+            };
+        };
+
         const enhancedTokenData = {
             ...tokenData.tokenData,
             moralis: {
                 price: hasError(moralisPrice) ? null : moralisPrice,
                 stats: hasError(moralisStats) ? null : moralisStats,
                 recentTransfers: hasError(moralisTransfers) ? [] : 
-                    moralisTransfers.result?.slice(0, 10) || []
+                    moralisTransfers.result?.slice(0, 10) || [],
+                ownership: processTokenOwners(tokenOwners),
+                defi: processDefiPositions(defiPositions),
+                market: processMarketData(topTokens, pairStats, contractAddress)
             }
         };
 
@@ -184,7 +255,23 @@ export const getTokenAnalysis = async (contractAddress) => {
                 moralis: {
                     price: null,
                     stats: null,
-                    recentTransfers: []
+                    recentTransfers: [],
+                    ownership: {
+                        holders: [],
+                        distribution: {
+                            totalHolders: 0,
+                            topHoldersPercentage: 0
+                        }
+                    },
+                    defi: {
+                        positions: [],
+                        totalValueLocked: 0
+                    },
+                    market: {
+                        topTokens: [],
+                        marketRank: null,
+                        pairStats: null
+                    }
                 }
             },
             chartAnalysis: "I've detected some interesting patterns in the price action. The market structure shows potential support and resistance levels...",
