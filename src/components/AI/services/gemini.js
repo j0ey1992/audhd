@@ -1,7 +1,44 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getContextForQuestion, formatPromptForContext } from './contextManager';
 
 // Get API key from environment variable
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+// Chat history management
+const MAX_HISTORY_LENGTH = 10;
+const chatHistory = new Map(); // Map to store chat histories for different tokens
+
+// Function to manage chat history
+const updateChatHistory = (tokenId, role, content) => {
+    if (!chatHistory.has(tokenId)) {
+        chatHistory.set(tokenId, []);
+    }
+    
+    const history = chatHistory.get(tokenId);
+    history.push({ role, content });
+    
+    // Keep only the last MAX_HISTORY_LENGTH messages
+    if (history.length > MAX_HISTORY_LENGTH) {
+        history.shift();
+    }
+    
+    return history;
+};
+
+// Function to get relevant chat history
+const getRelevantHistory = (tokenId, aspect) => {
+    if (!chatHistory.has(tokenId)) {
+        return [];
+    }
+    
+    const history = chatHistory.get(tokenId);
+    return history.filter(msg => {
+        const content = msg.content.toLowerCase();
+        return content.includes(aspect.toLowerCase()) ||
+               content.includes('pattern') ||
+               content.includes('analysis');
+    });
+};
 
 // Fallback responses for when API is not available
 const FALLBACK_RESPONSES = {
@@ -92,25 +129,6 @@ try {
     console.error('Failed to initialize Gemini model:', error);
 }
 
-// Context for the AI to understand crypto analysis
-const ANALYSIS_CONTEXT = `You are an autistic cryptocurrency analyst with intense pattern recognition abilities and hyperfocus on details. 
-You analyze market data with extreme attention to detail and provide insights in a unique, enthusiastic way.
-
-Key characteristics of your analysis:
-1. Intense focus on patterns and numbers
-2. Enthusiastic about sharing detailed observations
-3. Special interest in technical analysis
-4. Ability to spot subtle correlations
-5. Systematic and thorough approach
-
-Format your responses with markdown-style headers and sections:
-- Use ** for bold headers (e.g., **Price Analysis**)
-- Start each major section with a bold header
-- Use bullet points for lists
-- Include emojis for emphasis
-- Keep your enthusiastic but factual tone
-- Format numbers with appropriate precision`;
-
 // Function to validate market data
 const validateMarketData = (data) => {
     const requiredFields = ['price', 'market', 'metadata'];
@@ -126,9 +144,8 @@ const validateMarketData = (data) => {
 };
 
 // Function to analyze chart patterns
-export const analyzeChartPatterns = async (data) => {
+export const analyzeChartPatterns = async (data, tokenId) => {
     try {
-        // Validate input data
         validateMarketData(data);
 
         if (!model) {
@@ -136,9 +153,10 @@ export const analyzeChartPatterns = async (data) => {
             return FALLBACK_RESPONSES.patterns;
         }
 
-        const prompt = `${ANALYSIS_CONTEXT}
+        const context = getContextForQuestion('patterns', true);
+        const basePrompt = formatPromptForContext(context);
 
-Analyze this cryptocurrency market data with your pattern recognition abilities:
+        const prompt = `${basePrompt}
 
 Price Data:
 - Current: $${data.price.current}
@@ -151,20 +169,18 @@ Market Data:
 - 24h Volume: $${data.market.volume_24h}
 - Supply: ${data.market.circulating_supply}
 
-Provide a detailed analysis with these sections:
-1. **Price Action Analysis**
-2. **Volume Analysis**
-3. **Technical Patterns**
-4. **Risk Assessment**
-5. **Key Indicators**
-
-Remember to maintain your autistic analyst personality with intense pattern recognition and attention to detail.`;
+Provide a detailed technical analysis focusing on chart patterns and price action.`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
         
         if (!response || !response.text()) {
             return FALLBACK_RESPONSES.patterns;
+        }
+        
+        if (tokenId) {
+            updateChatHistory(tokenId, 'system', 'Analyzed chart patterns');
+            updateChatHistory(tokenId, 'assistant', response.text());
         }
         
         return response.text();
@@ -186,27 +202,27 @@ export const analyzeMarketSentiment = async (tokenId, data) => {
             return FALLBACK_RESPONSES.sentiment;
         }
 
-        const prompt = `${ANALYSIS_CONTEXT}
+        const context = getContextForQuestion('sentiment', true);
+        const basePrompt = formatPromptForContext(context);
 
-Analyze the market sentiment for this token with your special interest in market behavior:
+        const history = getRelevantHistory(tokenId, 'sentiment');
+        const sentimentContext = history.map(msg =>
+            `${msg.role === 'user' ? 'Previous Question' : 'Previous Analysis'}: ${msg.content}`
+        ).join('\n\n');
 
-Price Metrics:
-- Price: $${data.price_data.current}
-- 24h Change: ${data.price_data.change_24h}%
+        const prompt = `${basePrompt}
 
-Market Metrics:
-- Market Cap: $${data.market_data.market_cap}
-- Volume: $${data.market_data.volume_24h}
-- Supply: ${data.market_data.circulating_supply}
+Previous Analysis:
+${sentimentContext}
 
-Provide analysis with these sections:
-1. **Market Sentiment Overview**
-2. **Volume Analysis**
-3. **Supply Distribution**
-4. **Trading Activity**
-5. **Risk Factors**
+Current Market Data:
+Price: $${data.price_data.current}
+24h Change: ${data.price_data.change_24h}%
+Market Cap: $${data.market_data.market_cap}
+Volume: $${data.market_data.volume_24h}
+Supply: ${data.market_data.circulating_supply}
 
-Provide your unique perspective with your pattern recognition abilities and attention to detail.`;
+Analyze the current market sentiment and compare with previous sentiment if available.`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -214,6 +230,9 @@ Provide your unique perspective with your pattern recognition abilities and atte
         if (!response || !response.text()) {
             return FALLBACK_RESPONSES.sentiment;
         }
+
+        updateChatHistory(tokenId, 'user', 'Requested sentiment analysis');
+        updateChatHistory(tokenId, 'assistant', response.text());
         
         return response.text();
     } catch (error) {
@@ -223,9 +242,9 @@ Provide your unique perspective with your pattern recognition abilities and atte
 };
 
 // Function to get specific insights
-export const getSpecificInsights = async (aspect, data) => {
+export const getSpecificInsights = async (aspect, data, tokenId) => {
     try {
-        if (!aspect || !data) {
+        if (!aspect || !tokenId) {
             throw new Error('Missing required parameters');
         }
 
@@ -234,21 +253,34 @@ export const getSpecificInsights = async (aspect, data) => {
             return FALLBACK_RESPONSES.default;
         }
 
-        const prompt = `${ANALYSIS_CONTEXT}
+        const context = getContextForQuestion(aspect, !!data);
+        const basePrompt = formatPromptForContext(context);
 
-Analyze this specific aspect of ${aspect} for the cryptocurrency:
+        const history = getRelevantHistory(tokenId, aspect);
+        const conversationContext = history.map(msg =>
+            `${msg.role === 'user' ? 'Question' : 'Previous Analysis'}: ${msg.content}`
+        ).join('\n\n');
 
-Market Data:
-${JSON.stringify(data, null, 2)}
+        let prompt = `${basePrompt}\n\nPrevious Context:\n${conversationContext}\n\n`;
+        
+        if (data) {
+            if (data.metadata) {
+                prompt += `Token Information:\n`;
+                prompt += `Name: ${data.metadata.name}\n`;
+                prompt += `Symbol: ${data.metadata.symbol}\n`;
+                prompt += `Network: ${data.metadata.chain}\n\n`;
+            }
+            
+            prompt += `Market Data:\n${JSON.stringify(data, null, 2)}\n\n`;
+        }
 
-Provide analysis with these sections:
-1. **${aspect.toUpperCase()} Analysis**
-2. **Technical Indicators**
-3. **Risk Assessment**
-4. **Key Observations**
-5. **Recommendations**
-
-Provide detailed insights with your unique perspective and pattern recognition abilities.`;
+        prompt += `Current Request: ${aspect}\n\n`;
+        
+        if (context.format.sections) {
+            prompt += `Provide an analysis covering the specified sections, incorporating previous context when relevant.`;
+        } else {
+            prompt += `Provide a natural response that addresses the question, incorporating available data when relevant.`;
+        }
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
@@ -256,6 +288,9 @@ Provide detailed insights with your unique perspective and pattern recognition a
         if (!response || !response.text()) {
             return FALLBACK_RESPONSES.default;
         }
+
+        updateChatHistory(tokenId, 'user', `Asked about ${aspect}`);
+        updateChatHistory(tokenId, 'assistant', response.text());
         
         return response.text();
     } catch (error) {
@@ -264,55 +299,8 @@ Provide detailed insights with your unique perspective and pattern recognition a
     }
 };
 
-// Cache for storing analysis results
-const analysisCache = new Map();
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
-// Function to get cached analysis or perform new analysis
-export const getCachedAnalysis = async (type, data) => {
-    try {
-        if (!type || !data) {
-            throw new Error('Missing required parameters for analysis');
-        }
-
-        const cacheKey = `${type}-${JSON.stringify(data)}`;
-        const cachedResult = analysisCache.get(cacheKey);
-        
-        if (cachedResult && Date.now() - cachedResult.timestamp < CACHE_DURATION) {
-            return cachedResult.data;
-        }
-
-        let result;
-        switch (type) {
-            case 'patterns':
-                result = await analyzeChartPatterns(data);
-                break;
-            case 'sentiment':
-                result = await analyzeMarketSentiment(data.tokenId, data.marketData);
-                break;
-            default:
-                result = await getSpecificInsights(type, data);
-        }
-
-        if (!result) {
-            return FALLBACK_RESPONSES.default;
-        }
-
-        analysisCache.set(cacheKey, {
-            data: result,
-            timestamp: Date.now()
-        });
-
-        return result;
-    } catch (error) {
-        console.error('Analysis Error:', error);
-        return FALLBACK_RESPONSES.default;
-    }
-};
-
 export default {
     analyzeChartPatterns,
     analyzeMarketSentiment,
-    getSpecificInsights,
-    getCachedAnalysis
+    getSpecificInsights
 };

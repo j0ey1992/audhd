@@ -5,6 +5,7 @@ import {
     isValidContractAddress,
     analyzeUserQuestion,
 } from './services/dataService';
+import { detectQuestionType } from './services/contextManager';
 import { getTokenByContract } from './services/dexService';
 import { personalities, getPersonalityResponse } from './services/personalities';
 import { analyzeMarketData } from './services/analysis';
@@ -18,13 +19,13 @@ import ChartComponent from './components/ChartComponent';
 const AI = () => {
     const [contractAddress, setContractAddress] = useState('');
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [personality, setPersonality] = useState('AUTISM');
+    const [personality, setPersonality] = useState('KAI');
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [messages, setMessages] = useState([
         {
             type: 'bot',
-            content: getPersonalityResponse('AUTISM', 'greeting'),
-            personality: 'AUTISM',
+            content: getPersonalityResponse('KAI', 'greeting'),
+            personality: 'KAI',
         },
     ]);
     const [currentMessage, setCurrentMessage] = useState('');
@@ -188,7 +189,14 @@ const AI = () => {
 
     const handleMessageSubmit = async (customMessage = null) => {
         const messageToSend = customMessage || currentMessage;
-        if (!messageToSend.trim() || isAnalyzing || !contractAddress) return;
+        if (!messageToSend.trim() || isAnalyzing) return;
+
+        // Check if this is a general knowledge question
+        const questionType = detectQuestionType(messageToSend, false);
+        const isCryptoQuestion = questionType !== 'GENERAL_KNOWLEDGE';
+
+        // For crypto questions, require contract address
+        if (isCryptoQuestion && !contractAddress) return;
 
         setIsAnalyzing(true);
         setMessages((prev) => [
@@ -196,7 +204,7 @@ const AI = () => {
             { type: 'user', content: messageToSend },
             {
                 type: 'bot',
-                content: `${personalities[personality].messageStyle.prefix} Analyzing your question...`,
+                content: `${personalities[personality].messageStyle.prefix} ${isCryptoQuestion ? 'Analyzing your question...' : 'Let me help you with that...'}`,
                 personality,
                 loading: true,
             },
@@ -204,19 +212,27 @@ const AI = () => {
         setCurrentMessage('');
 
         try {
-            const analysis = await getTokenAnalysis(contractAddress);
-            if (!analysis || !analysis.tokenData) {
-                throw new Error('Invalid analysis data');
-            }
+            let aiResponse;
+            let marketAnalysis = null;
+            let tokenData = null;
 
-            const marketAnalysis = analyzeMarketData(analysis.tokenData, selectedTimeframe);
-            const aiResponse = await analyzeUserQuestion(messageToSend, analysis.tokenData);
+            if (isCryptoQuestion) {
+                const analysis = await getTokenAnalysis(contractAddress);
+                if (!analysis || !analysis.tokenData) {
+                    throw new Error('Invalid analysis data');
+                }
+                marketAnalysis = analyzeMarketData(analysis.tokenData, selectedTimeframe);
+                tokenData = analysis.tokenData;
+                aiResponse = await analyzeUserQuestion(messageToSend, tokenData, contractAddress);
+            } else {
+                aiResponse = await analyzeUserQuestion(messageToSend, null, null);
+            }
 
             const randomPhrase = personalities[personality].messageStyle.commonPhrases[
                 Math.floor(Math.random() * personalities[personality].messageStyle.commonPhrases.length)
             ];
 
-            const formattedResponse = `${personalities[personality].messageStyle.prefix}\n\n${randomPhrase}\n\n${aiResponse}`;
+            const formattedResponse = `${personalities[personality].messageStyle.prefix}\n\n${isCryptoQuestion ? randomPhrase + '\n\n' : ''}${aiResponse}`;
 
             setMessages((prev) => [
                 ...prev.slice(0, -1),
@@ -224,10 +240,12 @@ const AI = () => {
                     type: 'bot',
                     content: formattedResponse,
                     personality,
-                    miniChart: analysis.tokenData.chart,
-                    indicators: marketAnalysis.indicators,
-                    pattern: marketAnalysis.patterns[0],
-                    timeframe: selectedTimeframe
+                    ...(isCryptoQuestion && tokenData ? {
+                        miniChart: tokenData.chart,
+                        indicators: marketAnalysis.indicators,
+                        pattern: marketAnalysis.patterns[0],
+                        timeframe: selectedTimeframe
+                    } : {})
                 },
             ]);
         } catch (error) {

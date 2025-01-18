@@ -12,17 +12,23 @@ const ChartComponent = ({ data }) => {
       height: 280,
       layout: {
         background: { color: 'transparent' },
-        textColor: getComputedStyle(document.documentElement).getPropertyValue('--text').trim(),
+        textColor: '#ffffff',
       },
       grid: {
-        vertLines: { color: `rgb(var(--text)/0.1)` },
-        horzLines: { color: `rgb(var(--text)/0.1)` },
+        vertLines: { color: 'rgba(255, 255, 255, 0.1)' },
+        horzLines: { color: 'rgba(255, 255, 255, 0.1)' },
+      },
+      timeScale: {
+        borderColor: 'rgba(255, 255, 255, 0.1)',
       },
     });
 
     const lineSeries = chart.addLineSeries({
-      color: `rgb(var(--primary))`,
+      color: '#3772FF',
       lineWidth: 2,
+      crosshairMarkerVisible: true,
+      crosshairMarkerRadius: 4,
+      priceLineVisible: false,
     });
 
     lineSeries.setData(

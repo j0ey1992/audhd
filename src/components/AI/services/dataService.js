@@ -1,5 +1,6 @@
 import { getTokenAnalysis as getDexTokenAnalysis } from './dexService';
 import { analyzeChartPatterns, analyzeMarketSentiment, getSpecificInsights } from './gemini';
+import { detectQuestionType } from './contextManager';
 
 // Cache implementation with shorter duration and proper cleanup
 const cache = new Map();
@@ -15,35 +16,33 @@ const cleanCache = () => {
     }
 };
 
-// Function to analyze user questions
-export const analyzeUserQuestion = async (question, data) => {
+// Function to analyze user questions with context
+export const analyzeUserQuestion = async (question, data, contractAddress) => {
     try {
-        // Determine the type of analysis needed
-        const questionLower = question.toLowerCase();
-        let analysisType = 'general';
+        // First detect if this is a crypto-related question
+        const questionType = detectQuestionType(question, !!data);
         
-        if (questionLower.includes('price')) {
-            analysisType = 'price';
-        } else if (questionLower.includes('volume')) {
-            analysisType = 'volume';
-        } else if (questionLower.includes('liquidity')) {
-            analysisType = 'liquidity';
-        } else if (questionLower.includes('pattern')) {
-            analysisType = 'pattern';
+        // For non-crypto questions, bypass the crypto data
+        if (questionType === 'GENERAL_KNOWLEDGE') {
+            const aiResponse = await getSpecificInsights(question, null, 'general');
+            return aiResponse;
         }
 
-        // Get AI analysis based on the question type
-        const aiResponse = await getSpecificInsights(analysisType, {
+        // For crypto questions, include the relevant data
+        const aiResponse = await getSpecificInsights(question, {
             question: question,
             price_data: data.price,
             market_data: data.market,
             metadata: data.metadata,
             chart_data: data.chart
-        });
+        }, contractAddress);
 
         return aiResponse;
     } catch (error) {
         console.error('Question Analysis Error:', error);
+        if (questionType === 'GENERAL_KNOWLEDGE') {
+            return 'I apologize, but I encountered an error while processing your question. Could you please try asking again?';
+        }
         return 'I notice some interesting patterns in the recent price action. The market structure suggests potential movement, with key levels to watch...';
     }
 };
@@ -76,7 +75,7 @@ export const getTokenAnalysis = async (contractAddress) => {
                 market: tokenData.tokenData.market,
                 metadata: tokenData.tokenData.metadata,
                 chart: tokenData.tokenData.chart
-            }),
+            }, contractAddress),
             analyzeMarketSentiment(contractAddress, {
                 price_data: tokenData.tokenData.price,
                 market_data: tokenData.tokenData.market

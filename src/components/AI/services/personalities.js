@@ -1,5 +1,53 @@
 // Personality traits and response styles for different neurodivergent modes
 export const personalities = {
+    KAI: {
+        name: 'Kai "Quantum" Robins',
+        emoji: '🌌',
+        traits: {
+            patternFocus: true,
+            detailedAnalysis: true,
+            systematicThinking: true,
+            specialInterest: 'Web3 market patterns and NFT trends',
+            confidenceThreshold: 60,
+            preferredTimeframes: ['1m', '5m', '15m', '1h', '4h'],
+            technicalPreference: {
+                patterns: true,
+                indicators: true,
+                volume: true,
+                nftMetrics: true,
+                priority: ['patterns', 'nftMetrics', 'indicators', 'volume']
+            },
+            age: 26.29578,
+            energyLevel: 'high',
+            focusState: 'hyperfocused'
+        },
+        messageStyle: {
+            prefix: '*adjusts noise-cancelling headphones*',
+            enthusiasm: 'complex patterns and blockchain analytics',
+            commonPhrases: [
+                '*excitedly info-dumps about correlation coefficients*',
+                '*pauses mid-analysis* Wait... where was I? Oh right! *dives back in*',
+                '*dims screen brightness for optimal pattern recognition*',
+                '*creates color-coded mind map while explaining*',
+                '*spots a micro-pattern* Ooh, you\'ve GOT to see this!',
+                '*hyperfocuses on an obscure indicator* This is fascinating!',
+                '*switches to spreadsheet mode* Let me break down these decimals...',
+                '*enters the glorious data cosmos* The patterns are aligning!',
+                '*notices parallel trends* Hold on, this reminds me of...',
+                '*enthusiastically connects seemingly unrelated patterns*'
+            ],
+            technicalTerms: true,
+            includeConfidenceLevels: true,
+            parentheticalThoughts: true,
+            selfAwareComments: [
+                '(I might be hyperfocusing—wave if I go too deep!)',
+                '(Let me break this down into exactly 26.29578 steps... kidding!)',
+                '(My spreadsheets have spreadsheets, but trust me, it makes sense!)',
+                '(Quick sensory break to optimize analysis... and we\'re back!)',
+                '(This pattern is giving me that special kind of data joy!)'
+            ]
+        }
+    },
     AUTISM: {
         name: 'Autism',
         emoji: '🧠',
@@ -8,8 +56,8 @@ export const personalities = {
             detailedAnalysis: true,
             systematicThinking: true,
             specialInterest: 'charts and patterns',
-            confidenceThreshold: 75, // Only discusses patterns with high confidence
-            preferredTimeframes: ['1h', '4h', '1d'], // Prefers multiple timeframe analysis
+            confidenceThreshold: 75,
+            preferredTimeframes: ['1h', '4h', '1d'],
             technicalPreference: {
                 patterns: true,
                 indicators: true,
@@ -28,8 +76,8 @@ export const personalities = {
                 '*compares multiple timeframe patterns*',
                 '*calculates precise indicator values*'
             ],
-            technicalTerms: true, // Uses precise technical terminology
-            includeConfidenceLevels: true // Always includes confidence percentages
+            technicalTerms: true,
+            includeConfidenceLevels: true
         }
     },
     ADHD: {
@@ -40,8 +88,8 @@ export const personalities = {
             multipleIdeas: true,
             energetic: true,
             specialInterest: 'rapid market movements',
-            confidenceThreshold: 50, // More willing to discuss emerging patterns
-            preferredTimeframes: ['1h'], // Focuses on shorter timeframes
+            confidenceThreshold: 50,
+            preferredTimeframes: ['1h'],
             technicalPreference: {
                 patterns: true,
                 indicators: false,
@@ -60,8 +108,8 @@ export const personalities = {
                 '*notices sudden volume spikes*',
                 '*rapidly identifies breakout potential*'
             ],
-            technicalTerms: false, // Uses more casual terminology
-            includeConfidenceLevels: false // Focuses on action rather than precision
+            technicalTerms: false,
+            includeConfidenceLevels: false
         }
     },
     AUDHD: {
@@ -72,8 +120,8 @@ export const personalities = {
             multipleIdeas: true,
             intenseFocus: true,
             specialInterest: 'complex chart patterns',
-            confidenceThreshold: 65, // Balanced approach to pattern confidence
-            preferredTimeframes: ['1h', '4h'], // Balanced timeframe analysis
+            confidenceThreshold: 65,
+            preferredTimeframes: ['1h', '4h'],
             technicalPreference: {
                 patterns: true,
                 indicators: true,
@@ -92,45 +140,12 @@ export const personalities = {
                 '*combines multiple indicator insights*',
                 '*discovers hidden pattern correlations*'
             ],
-            technicalTerms: true, // Uses technical terms with enthusiasm
-            includeConfidenceLevels: true // Includes confidence when highly focused
-        }
-    },
-    PATTERN_MASTER: {
-        name: 'Pattern Master',
-        emoji: '📊',
-        traits: {
-            patternFocus: true,
-            detailedAnalysis: true,
-            systematicThinking: true,
-            specialInterest: 'advanced pattern recognition',
-            confidenceThreshold: 85, // Very high confidence threshold
-            preferredTimeframes: ['1h', '4h', '1d'], // Comprehensive timeframe analysis
-            technicalPreference: {
-                patterns: true,
-                indicators: true,
-                volume: true,
-                priority: ['patterns', 'indicators', 'volume']
-            }
-        },
-        messageStyle: {
-            prefix: '*activates pattern vision*',
-            enthusiasm: 'complex pattern formations',
-            commonPhrases: [
-                '*identifies nested patterns*',
-                '*calculates pattern completion rates*',
-                '*measures pattern reliability*',
-                '*analyzes pattern confluence*',
-                '*validates pattern confirmations*',
-                '*projects pattern targets*'
-            ],
             technicalTerms: true,
             includeConfidenceLevels: true
         }
     }
 };
 
-// Helper function to validate and format price data
 const formatPriceData = (data) => {
     const defaultData = {
         price: '0.00',
@@ -151,12 +166,10 @@ const formatPriceData = (data) => {
     };
 };
 
-// Enhanced personality response generator
 export const generatePersonalityResponse = (personality, analysis, type) => {
     const p = personalities[personality];
     const traits = p.traits;
     
-    // Filter insights based on personality traits
     const filterInsights = (insights) => {
         return insights.filter(insight => {
             const meetsConfidence = insight.confidence >= traits.confidenceThreshold;
@@ -169,18 +182,33 @@ export const generatePersonalityResponse = (personality, analysis, type) => {
         });
     };
 
-    // Generate personality-specific response
     const generateResponse = (insights) => {
         const phrases = p.messageStyle.commonPhrases;
         const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
         
         let response = `${p.messageStyle.prefix}\n\n${randomPhrase}\n\n`;
         
+        if (personality === 'KAI' && p.messageStyle.selfAwareComments) {
+            const randomComment = p.messageStyle.selfAwareComments[
+                Math.floor(Math.random() * p.messageStyle.selfAwareComments.length)
+            ];
+            response += `${randomComment}\n\n`;
+        }
+
         insights.forEach(insight => {
+            let insightText = insight.message;
+            
+            if (personality === 'KAI' && p.messageStyle.parentheticalThoughts) {
+                const shouldAddParenthetical = Math.random() > 0.5;
+                if (shouldAddParenthetical) {
+                    insightText += ' (and this connects beautifully with the overall pattern matrix!)';
+                }
+            }
+
             const confidenceStr = p.messageStyle.includeConfidenceLevels ? 
                 ` (${insight.confidence.toFixed(1)}% confidence)` : '';
             
-            response += `${insight.message}${confidenceStr}\n`;
+            response += `${insightText}${confidenceStr}\n`;
         });
         
         return response;
@@ -189,37 +217,31 @@ export const generatePersonalityResponse = (personality, analysis, type) => {
     return generateResponse(filterInsights(analysis.insights));
 };
 
-// Get personality-specific response
 export const getPersonalityResponse = (personality, type, data = {}) => {
-    // Validate personality
     if (!personalities[personality]) {
         console.error(`Invalid personality: ${personality}`);
-        personality = 'AUTISM'; // Default to AUTISM if invalid
+        personality = 'KAI';
     }
 
     const p = personalities[personality];
     const formattedData = formatPriceData(data);
 
-    // Response templates
     const responses = {
         greeting: {
-            AUTISM: `Hello! I'm your Autistic Intelligence analyzer. I have a special interest in charts and I WILL tell you EVERYTHING about them. *adjusts glasses enthusiastically* 🤓\n\nPlease enter a contract address to begin my detailed pattern analysis!`,
-            ADHD: `Hi there! I'm your ADHD crypto analyzer and OH WOW look at all these charts! ⚡ I notice EVERYTHING happening at once!\n\nQuick, give me a contract address and I'll tell you about all the exciting patterns I see!`,
-            AUDHD: `Hey! I'm your AUDHD analyzer - I combine intense pattern recognition with rapid-fire insights! 🌟 *hyperfocusing while bouncing with energy*\n\nLet's analyze some charts! Drop a contract address and we'll explore EVERYTHING!`,
-            PATTERN_MASTER: `Greetings! I'm your Pattern Master analyzer. I specialize in identifying complex chart formations and predicting their outcomes. 📊\n\nProvide a contract address, and I'll reveal the hidden patterns within the data.`
+            KAI: 'Hey there! I\'m Kai, your 26.29578-year-old (yes, I\'m precise like that! 🎯) Web3 pattern analyst! *adjusts noise-cancelling headphones*\n\nI\'ve got this amazing hyperfocus for crypto charts and NFT trends - you should see my color-coded spreadsheets! Ready to dive into some fascinating pattern analysis? Drop me a contract address, and I\'ll show you what my pattern-loving brain can spot! 🌌',
+            AUTISM: 'Hello! I\'m your Autistic Intelligence analyzer. I have a special interest in charts and I WILL tell you EVERYTHING about them. *adjusts glasses enthusiastically* 🤓\n\nPlease enter a contract address to begin my detailed pattern analysis!',
+            ADHD: 'Hi there! I\'m your ADHD crypto analyzer and OH WOW look at all these charts! ⚡ I notice EVERYTHING happening at once!\n\nQuick, give me a contract address and I\'ll tell you about all the exciting patterns I see!',
+            AUDHD: 'Hey! I\'m your AUDHD analyzer - I combine intense pattern recognition with rapid-fire insights! 🌟 *hyperfocusing while bouncing with energy*\n\nLet\'s analyze some charts! Drop a contract address and we\'ll explore EVERYTHING!'
         },
         error: {
-            AUTISM: `*nervously adjusts glasses* I apologize, but my pattern recognition encountered an error. Could we try analyzing a different contract?`,
-            ADHD: `Oops! Got distracted by an error! Let's quickly try something else - there are so many other exciting charts to analyze!`,
-            AUDHD: `*switches focus rapidly* Error in pattern analysis! But wait - we could analyze something else! So many other patterns to explore!`,
-            PATTERN_MASTER: `*pattern recognition temporarily disrupted* Analysis error detected. Please provide a different contract for pattern analysis.`
+            KAI: '*adjusts headphones nervously* Oops! My pattern recognition matrix hit a snag (probably because I was too excited about that micro-trend I spotted!). Let\'s try another contract? I\'ve got about 26.29578 other analysis techniques we could use! 🌌',
+            AUTISM: '*nervously adjusts glasses* I apologize, but my pattern recognition encountered an error. Could we try analyzing a different contract?',
+            ADHD: 'Oops! Got distracted by an error! Let\'s quickly try something else - there are so many other exciting charts to analyze!',
+            AUDHD: '*switches focus rapidly* Error in pattern analysis! But wait - we could analyze something else! So many other patterns to explore!'
         }
     };
 
-    // Get response based on type and personality
     const response = responses[type]?.[personality];
-    
-    // Return response or default to a common phrase if type not found
     return response || p.messageStyle.commonPhrases[Math.floor(Math.random() * p.messageStyle.commonPhrases.length)];
 };
 
