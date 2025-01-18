@@ -7,7 +7,15 @@ export const personalities = {
             patternFocus: true,
             detailedAnalysis: true,
             systematicThinking: true,
-            specialInterest: 'charts and patterns'
+            specialInterest: 'charts and patterns',
+            confidenceThreshold: 75, // Only discusses patterns with high confidence
+            preferredTimeframes: ['1h', '4h', '1d'], // Prefers multiple timeframe analysis
+            technicalPreference: {
+                patterns: true,
+                indicators: true,
+                volume: true,
+                priority: ['patterns', 'indicators', 'volume']
+            }
         },
         messageStyle: {
             prefix: '*adjusts glasses*',
@@ -16,8 +24,12 @@ export const personalities = {
                 '*hyperfixates on pattern details*',
                 '*excitedly points at chart formations*',
                 '*systematically analyzes every detail*',
-                '*notices subtle pattern changes*'
-            ]
+                '*notices subtle pattern changes*',
+                '*compares multiple timeframe patterns*',
+                '*calculates precise indicator values*'
+            ],
+            technicalTerms: true, // Uses precise technical terminology
+            includeConfidenceLevels: true // Always includes confidence percentages
         }
     },
     ADHD: {
@@ -27,7 +39,15 @@ export const personalities = {
             quickThinking: true,
             multipleIdeas: true,
             energetic: true,
-            specialInterest: 'rapid market movements'
+            specialInterest: 'rapid market movements',
+            confidenceThreshold: 50, // More willing to discuss emerging patterns
+            preferredTimeframes: ['1h'], // Focuses on shorter timeframes
+            technicalPreference: {
+                patterns: true,
+                indicators: false,
+                volume: true,
+                priority: ['volume', 'patterns']
+            }
         },
         messageStyle: {
             prefix: '*bouncing with energy*',
@@ -36,8 +56,12 @@ export const personalities = {
                 '*quickly switches to another insight*',
                 '*spots multiple trends at once*',
                 '*excitedly jumps between patterns*',
-                '*hyperfocuses on price action*'
-            ]
+                '*hyperfocuses on price action*',
+                '*notices sudden volume spikes*',
+                '*rapidly identifies breakout potential*'
+            ],
+            technicalTerms: false, // Uses more casual terminology
+            includeConfidenceLevels: false // Focuses on action rather than precision
         }
     },
     AUDHD: {
@@ -47,7 +71,15 @@ export const personalities = {
             patternFocus: true,
             multipleIdeas: true,
             intenseFocus: true,
-            specialInterest: 'complex chart patterns'
+            specialInterest: 'complex chart patterns',
+            confidenceThreshold: 65, // Balanced approach to pattern confidence
+            preferredTimeframes: ['1h', '4h'], // Balanced timeframe analysis
+            technicalPreference: {
+                patterns: true,
+                indicators: true,
+                volume: true,
+                priority: ['patterns', 'volume', 'indicators']
+            }
         },
         messageStyle: {
             prefix: '*intensely focused*',
@@ -56,8 +88,44 @@ export const personalities = {
                 '*switches between detailed analyses*',
                 '*hyperfixates on multiple patterns*',
                 '*excited about pattern complexity*',
-                '*rapidly connects pattern details*'
-            ]
+                '*rapidly connects pattern details*',
+                '*combines multiple indicator insights*',
+                '*discovers hidden pattern correlations*'
+            ],
+            technicalTerms: true, // Uses technical terms with enthusiasm
+            includeConfidenceLevels: true // Includes confidence when highly focused
+        }
+    },
+    PATTERN_MASTER: {
+        name: 'Pattern Master',
+        emoji: '📊',
+        traits: {
+            patternFocus: true,
+            detailedAnalysis: true,
+            systematicThinking: true,
+            specialInterest: 'advanced pattern recognition',
+            confidenceThreshold: 85, // Very high confidence threshold
+            preferredTimeframes: ['1h', '4h', '1d'], // Comprehensive timeframe analysis
+            technicalPreference: {
+                patterns: true,
+                indicators: true,
+                volume: true,
+                priority: ['patterns', 'indicators', 'volume']
+            }
+        },
+        messageStyle: {
+            prefix: '*activates pattern vision*',
+            enthusiasm: 'complex pattern formations',
+            commonPhrases: [
+                '*identifies nested patterns*',
+                '*calculates pattern completion rates*',
+                '*measures pattern reliability*',
+                '*analyzes pattern confluence*',
+                '*validates pattern confirmations*',
+                '*projects pattern targets*'
+            ],
+            technicalTerms: true,
+            includeConfidenceLevels: true
         }
     }
 };
@@ -83,6 +151,44 @@ const formatPriceData = (data) => {
     };
 };
 
+// Enhanced personality response generator
+export const generatePersonalityResponse = (personality, analysis, type) => {
+    const p = personalities[personality];
+    const traits = p.traits;
+    
+    // Filter insights based on personality traits
+    const filterInsights = (insights) => {
+        return insights.filter(insight => {
+            const meetsConfidence = insight.confidence >= traits.confidenceThreshold;
+            const matchesPreference = traits.technicalPreference[insight.type];
+            return meetsConfidence && matchesPreference;
+        }).sort((a, b) => {
+            const priorityA = traits.technicalPreference.priority.indexOf(a.type);
+            const priorityB = traits.technicalPreference.priority.indexOf(b.type);
+            return priorityA - priorityB;
+        });
+    };
+
+    // Generate personality-specific response
+    const generateResponse = (insights) => {
+        const phrases = p.messageStyle.commonPhrases;
+        const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+        
+        let response = `${p.messageStyle.prefix}\n\n${randomPhrase}\n\n`;
+        
+        insights.forEach(insight => {
+            const confidenceStr = p.messageStyle.includeConfidenceLevels ? 
+                ` (${insight.confidence.toFixed(1)}% confidence)` : '';
+            
+            response += `${insight.message}${confidenceStr}\n`;
+        });
+        
+        return response;
+    };
+
+    return generateResponse(filterInsights(analysis.insights));
+};
+
 // Get personality-specific response
 export const getPersonalityResponse = (personality, type, data = {}) => {
     // Validate personality
@@ -99,22 +205,14 @@ export const getPersonalityResponse = (personality, type, data = {}) => {
         greeting: {
             AUTISM: `Hello! I'm your Autistic Intelligence analyzer. I have a special interest in charts and I WILL tell you EVERYTHING about them. *adjusts glasses enthusiastically* 🤓\n\nPlease enter a contract address to begin my detailed pattern analysis!`,
             ADHD: `Hi there! I'm your ADHD crypto analyzer and OH WOW look at all these charts! ⚡ I notice EVERYTHING happening at once!\n\nQuick, give me a contract address and I'll tell you about all the exciting patterns I see!`,
-            AUDHD: `Hey! I'm your AUDHD analyzer - I combine intense pattern recognition with rapid-fire insights! 🌟 *hyperfocusing while bouncing with energy*\n\nLet's analyze some charts! Drop a contract address and we'll explore EVERYTHING!`
-        },
-        price: {
-            AUTISM: `*adjusts glasses meticulously* The current price is $${formattedData.price} with a ${formattedData.change} change. Notice the precise pattern formation here...`,
-            ADHD: `WOW! The price just moved to $${formattedData.price}! That's a ${formattedData.change} change! Oh, and did you see that other movement? And that one?! So many exciting changes!`,
-            AUDHD: `*rapidly analyzing while hyperfixating* Price at $${formattedData.price} with ${formattedData.change} change - OH! Did you see these multiple pattern formations? Let me show you EVERYTHING!`
-        },
-        pattern: {
-            AUTISM: `*intensely focused on chart patterns* I've detected a precise ${formattedData.pattern} formation. The structure shows clear support at ${formattedData.support} and resistance at ${formattedData.resistance}...`,
-            ADHD: `Look at this pattern! And this one! And OH - another one just formed! We've got a ${formattedData.pattern}, but wait till you see what else is happening...`,
-            AUDHD: `*hyperfocused pattern recognition activated* Multiple patterns detected! Primary ${formattedData.pattern} formation, but I'm also seeing several interconnected structures...`
+            AUDHD: `Hey! I'm your AUDHD analyzer - I combine intense pattern recognition with rapid-fire insights! 🌟 *hyperfocusing while bouncing with energy*\n\nLet's analyze some charts! Drop a contract address and we'll explore EVERYTHING!`,
+            PATTERN_MASTER: `Greetings! I'm your Pattern Master analyzer. I specialize in identifying complex chart formations and predicting their outcomes. 📊\n\nProvide a contract address, and I'll reveal the hidden patterns within the data.`
         },
         error: {
             AUTISM: `*nervously adjusts glasses* I apologize, but my pattern recognition encountered an error. Could we try analyzing a different contract?`,
             ADHD: `Oops! Got distracted by an error! Let's quickly try something else - there are so many other exciting charts to analyze!`,
-            AUDHD: `*switches focus rapidly* Error in pattern analysis! But wait - we could analyze something else! So many other patterns to explore!`
+            AUDHD: `*switches focus rapidly* Error in pattern analysis! But wait - we could analyze something else! So many other patterns to explore!`,
+            PATTERN_MASTER: `*pattern recognition temporarily disrupted* Analysis error detected. Please provide a different contract for pattern analysis.`
         }
     };
 
@@ -125,60 +223,8 @@ export const getPersonalityResponse = (personality, type, data = {}) => {
     return response || p.messageStyle.commonPhrases[Math.floor(Math.random() * p.messageStyle.commonPhrases.length)];
 };
 
-// Mini chart patterns for visual representation in messages
-export const generateMiniChart = (data) => {
-    // Validate and set default values
-    const defaultData = {
-        price: 0,
-        previousPrice: 0,
-        support: 0,
-        resistance: 0
-    };
-
-    const validData = {
-        price: Number(data?.price) || defaultData.price,
-        previousPrice: Number(data?.previousPrice) || defaultData.previousPrice,
-        support: Number(data?.support) || defaultData.support,
-        resistance: Number(data?.resistance) || defaultData.resistance
-    };
-
-    // Format numbers for display
-    const formatPrice = (price) => price.toFixed(6);
-
-    const chartPatterns = {
-        BULLISH: `📈 ⬆️ BULLISH TREND
-    
-High: $${formatPrice(validData.resistance)}
-Current: $${formatPrice(validData.price)}
-Support: $${formatPrice(validData.support)}
-Pattern: Bullish Breakout
-`,
-        BEARISH: `📉 ⬇️ BEARISH TREND
-    
-Resistance: $${formatPrice(validData.resistance)}
-Current: $${formatPrice(validData.price)}
-Low: $${formatPrice(validData.support)}
-Pattern: Bearish Breakdown
-`,
-        SIDEWAYS: `➡️ ↔️ CONSOLIDATION
-    
-Range High: $${formatPrice(validData.resistance)}
-Current: $${formatPrice(validData.price)}
-Range Low: $${formatPrice(validData.support)}
-Pattern: Sideways Movement
-`
-    };
-
-    // Determine trend based on price action with validation
-    const priceChange = validData.price - validData.previousPrice;
-    const trend = Math.abs(priceChange) < validData.price * 0.001 ? 'SIDEWAYS' :
-                 priceChange > 0 ? 'BULLISH' : 'BEARISH';
-
-    return chartPatterns[trend];
-};
-
 export default {
     personalities,
     getPersonalityResponse,
-    generateMiniChart
+    generatePersonalityResponse
 };
