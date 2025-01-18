@@ -33,6 +33,7 @@ const AI = () => {
   const [contractAddress, setContractAddress] = useState('');
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [personality, setPersonality] = useState('AUTISM');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       type: 'bot',
@@ -278,10 +279,30 @@ const AI = () => {
               <br />
               We'll analyze every single detail.
             </p>
-            <PersonalitySelector
-              currentPersonality={personality}
-              onSelect={handlePersonalityChange}
-            />
+            <div className="hidden md:block">
+              <PersonalitySelector
+                currentPersonality={personality}
+                onSelect={handlePersonalityChange}
+              />
+            </div>
+            <div className="md:hidden">
+              <button
+                className={styles['hamburger-button']}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <span>Select Personality</span> ☰
+              </button>
+              {isMenuOpen && (
+                <PersonalitySelector
+                  currentPersonality={personality}
+                  onSelect={(p) => {
+                    handlePersonalityChange(p);
+                    setIsMenuOpen(false);
+                  }}
+                  className={styles['hamburger-menu']}
+                />
+              )}
+            </div>
             <button
               onClick={() => setIsFullscreen(true)}
               className={`${styles['chat-button']} mt-4`}
@@ -302,10 +323,30 @@ const AI = () => {
                 <h2 className="font-heading text-lg font-bold text-primary">
                   AI Analysis
                 </h2>
-                <PersonalitySelector
-                  currentPersonality={personality}
-                  onSelect={handlePersonalityChange}
-                />
+                <div className="hidden md:block">
+                  <PersonalitySelector
+                    currentPersonality={personality}
+                    onSelect={handlePersonalityChange}
+                  />
+                </div>
+                <div className="md:hidden">
+                  <button
+                    className={styles['hamburger-button']}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  >
+                    <span>Menu</span> ☰
+                  </button>
+                  {isMenuOpen && (
+                    <PersonalitySelector
+                      currentPersonality={personality}
+                      onSelect={(p) => {
+                        handlePersonalityChange(p);
+                        setIsMenuOpen(false);
+                      }}
+                      className={styles['hamburger-menu']}
+                    />
+                  )}
+                </div>
               </div>
               <button
                 onClick={() => setIsFullscreen(false)}

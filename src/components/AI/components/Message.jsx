@@ -20,7 +20,7 @@ const formatMessage = (text) => {
 const Message = ({ message, onActionClick }) => (
   <div className={`flex gap-4 ${styles['animate-fade-in']}`}>
     <div className="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center flex-shrink-0">
-      {message.type === 'bot' ? personalities[message.personality].emoji : '👤'}
+      {message.type === 'bot' ? '📊' : '👤'}
     </div>
     <div
       className={`flex-1 ${
