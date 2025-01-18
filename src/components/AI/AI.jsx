@@ -9,6 +9,13 @@ import { detectQuestionType } from './services/contextManager';
 import { getTokenByContract } from './services/dexService';
 import { personalities, getPersonalityResponse } from './services/personalities';
 import { analyzeMarketData } from './services/analysis';
+import {
+    getTokenPairs,
+    getTokenSwaps,
+    getTopTokenTraders,
+    getTokenTransfers,
+    hasError
+} from './services/moralisService';
 
 // Import modular components
 import PersonalitySelector from './components/PersonalitySelector';
@@ -59,14 +66,99 @@ const AI = () => {
         ]);
     };
 
-    const handleQuickAction = async (actionType, value) => {
+    const handleMoralisAction = async (actionType, params) => {
+        const { tokenAddress, chain } = params;
+        if (!tokenAddress || isAnalyzing) return;
+
+        setIsAnalyzing(true);
+        let actionFunction;
+        let actionDescription;
+
+        switch (actionType) {
+            case 'pairs':
+                actionFunction = getTokenPairs;
+                actionDescription = 'Analyzing trading pairs';
+                break;
+            case 'swaps':
+                actionFunction = getTokenSwaps;
+                actionDescription = 'Fetching recent swaps';
+                break;
+            case 'traders':
+                actionFunction = getTopTokenTraders;
+                actionDescription = 'Finding top traders';
+                break;
+            case 'transfers':
+                actionFunction = getTokenTransfers;
+                actionDescription = 'Analyzing transfers';
+                break;
+            default:
+                return;
+        }
+
+        setMessages((prev) => [
+            ...prev,
+            {
+                type: 'bot',
+                content: `${personalities[personality].messageStyle.prefix} ${actionDescription}...`,
+                personality,
+                loading: true,
+            },
+        ]);
+
+        try {
+            const data = await actionFunction(tokenAddress, chain);
+            if (hasError(data)) {
+                throw new Error(data.error.message);
+            }
+
+            setMessages((prev) => [
+                ...prev.slice(0, -1),
+                {
+                    type: 'bot',
+                    content: `${personalities[personality].messageStyle.prefix}\n\nHere's what I found:`,
+                    personality,
+                    moralisData: {
+                        type: actionType,
+                        data: data
+                    },
+                    metadata: { tokenAddress, chain }
+                },
+            ]);
+        } catch (error) {
+            console.error(`Moralis ${actionType} Error:`, error);
+            setMessages((prev) => [
+                ...prev.slice(0, -1),
+                {
+                    type: 'bot',
+                    content: `${personalities[personality].messageStyle.prefix}\n\nI couldn't fetch that data at the moment. Let me analyze something else for you!`,
+                    personality,
+                },
+            ]);
+        } finally {
+            setIsAnalyzing(false);
+        }
+    };
+
+    const handleQuickAction = async (actionType, params = {}) => {
         if (!contractAddress || isAnalyzing) return;
 
         if (actionType === 'timeframe') {
-            setSelectedTimeframe(value);
+            setSelectedTimeframe(params);
             return;
         }
 
+        // Handle Moralis actions
+        if (['pairs', 'swaps', 'traders', 'transfers'].includes(actionType)) {
+            // If params doesn't include tokenAddress or chain, use current contract
+            const moralisParams = {
+                tokenAddress: params.tokenAddress || contractAddress,
+                chain: params.chain || (analysisData?.tokenData?.metadata?.chain?.toLowerCase() || 'eth')
+            };
+            await handleMoralisAction(actionType, moralisParams);
+            return;
+        }
+
+        // Handle standard analysis actions
         let question = '';
         switch (actionType) {
             case 'price':
@@ -142,7 +234,11 @@ const AI = () => {
                     miniChart: analysis.tokenData.chart,
                     indicators: marketAnalysis.indicators,
                     pattern: marketAnalysis.patterns[0],
-                    timeframe: selectedTimeframe
+                    timeframe: selectedTimeframe,
+                    metadata: {
+                        tokenAddress: contractAddress,
+                        chain: analysis.tokenData.metadata.chain.toLowerCase()
+                    }
                 },
             ]);
 
@@ -244,7 +340,11 @@ const AI = () => {
                         miniChart: tokenData.chart,
                         indicators: marketAnalysis.indicators,
                         pattern: marketAnalysis.patterns[0],
-                        timeframe: selectedTimeframe
+                        timeframe: selectedTimeframe,
+                        metadata: {
+                            tokenAddress: contractAddress,
+                            chain: tokenData.metadata.chain.toLowerCase()
+                        }
                     } : {})
                 },
             ]);

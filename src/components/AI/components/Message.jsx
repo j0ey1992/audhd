@@ -161,9 +161,81 @@ const PatternConfidence = ({ pattern }) => {
     );
 };
 
+const formatMoralisData = (type, data) => {
+    if (!data) return 'No data available';
+
+    try {
+        switch (type) {
+            case 'pairs':
+                if (!Array.isArray(data) || data.length === 0) return 'No trading pairs found';
+                return (
+                    <div className="space-y-1">
+                        <div>Found {data.length} trading pairs:</div>
+                        {data.slice(0, 5).map((pair, index) => (
+                            <div key={index} className="text-text-secondary">
+                                • {pair.token0?.symbol || 'Unknown'}/{pair.token1?.symbol || 'Unknown'} on {pair.dexName || 'Unknown DEX'}
+                            </div>
+                        ))}
+                    </div>
+                );
+            
+            case 'swaps':
+                if (!Array.isArray(data) || data.length === 0) return 'No recent swaps found';
+                return (
+                    <div className="space-y-1">
+                        <div>Recent swaps:</div>
+                        {data.slice(0, 5).map((swap, index) => {
+                            const inAmount = swap.amount0In || swap.amount1In || '0';
+                            const outAmount = swap.amount0Out || swap.amount1Out || '0';
+                            return (
+                                <div key={index} className="text-text-secondary">
+                                    • {inAmount} → {outAmount}
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            
+            case 'traders':
+                if (!Array.isArray(data) || data.length === 0) return 'No top traders found';
+                return (
+                    <div className="space-y-1">
+                        <div>Top traders:</div>
+                        {data.slice(0, 5).map((trader, index) => (
+                            <div key={index} className="text-text-secondary">
+                                • {(trader.address || 'Unknown').slice(0, 8)}... (Profit: ${(trader.totalProfit || 0).toFixed(2)})
+                            </div>
+                        ))}
+                    </div>
+                );
+            
+            case 'transfers':
+                if (!data.result || !Array.isArray(data.result) || data.result.length === 0) 
+                    return 'No recent transfers found';
+                return (
+                    <div className="space-y-1">
+                        <div>Recent transfers:</div>
+                        {data.result.slice(0, 5).map((transfer, index) => (
+                            <div key={index} className="text-text-secondary">
+                                • {(transfer.from_address || 'Unknown').slice(0, 8)}... → {(transfer.to_address || 'Unknown').slice(0, 8)}...
+                            </div>
+                        ))}
+                    </div>
+                );
+            
+            default:
+                return <pre className="text-sm">{JSON.stringify(data, null, 2)}</pre>;
+        }
+    } catch (error) {
+        console.error('Error formatting Moralis data:', error);
+        return 'Error formatting data';
+    }
+};
+
 const Message = ({ message, onActionClick }) => {
     const isBot = message.type === 'bot';
     const personality = isBot ? personalities[message.personality] : null;
+    const { metadata = {} } = message;
 
     return (
         <div className={`flex gap-4 ${styles['animate-fade-in']}`}>
@@ -205,6 +277,8 @@ const Message = ({ message, onActionClick }) => {
                         showVolumeAction={message.content.toLowerCase().includes('volume')}
                         showLiquidityAction={message.content.toLowerCase().includes('liquidity')}
                         showPatternAction={message.content.toLowerCase().includes('pattern')}
+                        tokenAddress={metadata.tokenAddress}
+                        chain={metadata.chain}
                         personality={message.personality}
                     />
                 )}
@@ -213,6 +287,16 @@ const Message = ({ message, onActionClick }) => {
                 {message.timeframe && (
                     <div className="mt-2 text-xs text-text-secondary">
                         Analysis timeframe: {message.timeframe}
+                    </div>
+                )}
+
+                {/* Moralis Data Display */}
+                {message.moralisData && (
+                    <div className="mt-2 p-2 bg-surface/10 rounded-lg">
+                        <h4 className="font-bold text-primary mb-1">Additional Data</h4>
+                        <div className="text-sm overflow-x-auto">
+                            {formatMoralisData(message.moralisData.type, message.moralisData.data)}
+                        </div>
                     </div>
                 )}
             </div>
